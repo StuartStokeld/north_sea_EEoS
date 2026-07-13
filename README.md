@@ -1,6 +1,6 @@
 # North Sea EEoS (`north_sea_EEoS`)
 
-PhD project: Hypothesis 1 — EEoS haul-level biomass (NS-IBTS Q1, 1985–2015).
+Masters project, Ecological Equation of State analysis in North Sea demersal fish communities.
 
 Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at this level. Data, outputs, Python venv, and renv live here; code is organised in subfolders below.
 
@@ -23,7 +23,8 @@ Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at thi
 
 ---
 
-## For supervisors (H1 results)
+## Results (to add to as I go)
+(H1 results)
 
 Open the pre-knitted report:
 
