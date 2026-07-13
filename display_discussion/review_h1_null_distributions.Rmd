@@ -1,0 +1,221 @@
+---
+title: "H1 Null Model — Distribution Review & Sampling Decision"
+subtitle: "North Sea EEoS haul-level biomass (NS-IBTS Q1)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 5)
+workspace_root <- if (file.exists("FishGlob_data")) {
+  normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+} else if (file.exists("../FishGlob_data")) {
+  normalizePath("..", winslash = "/", mustWork = TRUE)
+} else {
+  inp <- knitr::current_input(dir = TRUE)
+  normalizePath(file.path(inp, ".."), winslash = "/", mustWork = TRUE)
+}
+r_dir <- file.path(workspace_root, "pipeline", "R")
+source(file.path(r_dir, "h1_common.R"))
+source(file.path(r_dir, "h1_null_helpers.R"))
+project_root <- workspace_root
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+```
+
+## Purpose
+
+Before running the H1 null model, inspect the shape of haul-level parameters — especially **`log(B_obs)`** — to decide how to randomise observed biomass without breaking EEoS constraints on **S**, **N**, and **E**.
+
+Supervisor guidance: independently shuffling S/N/E is invalid (breaks `E > N`, `N >> S`, etc.). The null randomises **`B_obs`** while **`B_pred`** (from observed S, N, E) stays fixed.
+
+## Load predictions
+
+```{r load}
+path_preds <- file.path(project_root, "outputs", "haul_eeos_predictions.rds")
+stopifnot(file.exists(path_preds))
+haul <- readRDS(path_preds)
+logB <- log(haul$B_obs)
+logBp <- log(haul$B_pred)
+```
+
+**`r nrow(haul)`** hauls with successful EEoS predictions.
+
+## Distribution shape — decision inputs
+
+```{r assess}
+decision <- assess_b_null_sampling(haul$B_obs)
+knitr::kable(decision$metrics, digits = 3, caption = "log(B_obs) shape metrics")
+```
+
+**Decision:** **`r decision$primary_method`** (primary); **`r decision$robustness_method`** (robustness check).
+
+> **`r decision$rationale`**
+
+### Criteria (automated)
+
+| Criterion | Threshold | This data |
+|-----------|-----------|-----------|
+| IQR / range on log scale | `< 0.25` → peaked | **`r round(decision$metrics$iqr_range_ratio, 3)`** |
+| Histogram peak / uniform | `> 2.5` → peaked | **`r round(decision$metrics$hist_peak_ratio, 2)`** |
+| Excess kurtosis | `> 0.75` → peaked | **`r round(decision$metrics$excess_kurtosis, 2)`** |
+
+If **any** criterion flags peaked → primary null = **uniform on central 95% of log(B_obs)**; otherwise primary = **B shuffle** (permute observed biomass across hauls).
+
+## Histograms
+
+```{r fig-log-b, fig.cap="log(B_obs) — primary null target"}
+ggplot(data.frame(logB = logB), aes(x = logB)) +
+  geom_histogram(bins = 40, fill = "steelblue", colour = "white", alpha = 0.85) +
+  geom_vline(xintercept = decision$log_bounds_95, linetype = 2, colour = "red") +
+  labs(
+    x = expression(log(B[obs]) ~ "(g)"),
+    y = "Haul count",
+    title = "Observed haul biomass (log scale)",
+    subtitle = "Red dashed lines = 2.5th and 97.5th percentiles (uniform-null bounds if peaked)"
+  )
+```
+
+```{r fig-obs-vs-pred, fig.cap="Observed vs EEoS predicted biomass (log-log)"}
+ggplot(haul, aes(x = log(B_obs), y = log(B_pred))) +
+  geom_point(alpha = 0.15, size = 0.8) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey40") +
+  geom_smooth(method = "lm", se = FALSE, colour = "red") +
+  labs(
+    x = expression(log(B[obs])),
+    y = expression(log(B[pred])),
+    title = "EEoS underprediction at haul level"
+  )
+```
+
+```{r fig-constraints, fig.cap="Why S/N/E cannot be shuffled independently"}
+par(mfrow = c(1, 2))
+hist(log(haul$N / haul$S), breaks = 40, main = "log(N/S)", xlab = "", col = "grey80")
+hist(log(haul$E / haul$N), breaks = 40, main = "log(E/N)", xlab = "", col = "grey80")
+par(mfrow = c(1, 1))
+```
+
+## Null model results
+
+Run `Rscript run_h1_null_model.R` to generate permutations. Results below load saved output if present.
+
+```{r null-results}
+path_summary <- file.path(project_root, "outputs", "null_summary.rds")
+
+if (!file.exists(path_summary)) {
+  cat("Run `Rscript run_h1_null_model.R` to populate null_summary.rds\n")
+} else {
+  null_sum <- readRDS(path_summary)
+
+  observed_tbl <- tibble(
+    Statistic = c(
+      "R² (log B_obs vs log B_pred)",
+      "Median |residual| (log scale)"
+    ),
+    Observed = c(
+      sprintf("%.3f", null_sum$T_obs),
+      sprintf("%.3f", null_sum$median_abs_residual_obs)
+    )
+  )
+
+  null_label <- function(method) {
+    if (grepl("uniform", method, fixed = TRUE)) {
+      "Primary — uniform on central 95% of log(B_obs)"
+    } else if (grepl("shuffle", method, fixed = TRUE)) {
+      "Robustness — B shuffle across hauls"
+    } else {
+      method
+    }
+  }
+
+  null_tbl <- bind_rows(
+    Primary = null_sum$primary,
+    Robustness = null_sum$robustness,
+    .id = "Role"
+  ) |>
+    transmute(
+      Role,
+      `Null scheme` = vapply(method, null_label, character(1)),
+      `Null R² median` = sprintf("%.3f", null_median),
+      `Null R² 95% interval` = sprintf(
+        "[%.3f, %.3f]",
+        null_q025,
+        null_q975
+      ),
+      `p (one-sided)` = vapply(
+        p_value_one_sided,
+        function(p) format.pval(p, digits = 3, eps = 0.001),
+        character(1)
+      ),
+      `p (two-sided)` = vapply(
+        p_value_two_sided,
+        function(p) format.pval(p, digits = 3, eps = 0.001),
+        character(1)
+      ),
+      `Median |residual| (null)` = sprintf("%.3f", median_abs_residual_null)
+    )
+
+  cat("**Observed EEoS performance** (n = 999 permutations for null comparisons)\n\n")
+
+  kable(
+    observed_tbl,
+    col.names = c("Statistic", "Observed value"),
+    align = c("l", "r"),
+    caption = "Observed haul-level fit"
+  ) |>
+    kable_styling(full_width = FALSE, position = "left") |>
+    print()
+
+  cat("\n\n**Null comparisons** — B_obs randomised; B_pred fixed from observed S, N, E\n\n")
+  cat(
+    "One-sided p = P(null R² ≥ observed R²). ",
+    "Higher R² (less negative) favours the observed pairing.\n\n"
+  )
+
+  kable(
+    null_tbl,
+    col.names = c(
+      "Role",
+      "Null scheme",
+      "Null R² median",
+      "Null R² 95% interval",
+      "p (one-sided)",
+      "p (two-sided)",
+      "Median |residual| (null)"
+    ),
+    align = c("l", "l", rep("r", 5)),
+    caption = "Null-model R² on log scale (999 permutations per scheme)"
+  ) |>
+    kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) |>
+    column_spec(1, bold = TRUE) |>
+    print()
+}
+```
+
+## Checklist
+
+```{r checklist}
+checks <- data.frame(
+  check = c(
+    "log(B_obs) distribution assessed",
+    "Primary null method chosen from shape criteria",
+    "S/N/E not shuffled (B-only null)",
+    "Null permutations computed (999)",
+    "Observed R² compared to null distribution"
+  ),
+  status = c(
+    "PASS",
+    paste0("PASS (", decision$primary_method, ")"),
+    "PASS",
+    if (file.exists(path_summary)) "PASS" else "PENDING — run run_h1_null_model.R",
+    if (file.exists(path_summary)) "PASS" else "PENDING"
+  ),
+  action_needed = c("—", "—", "—", "—", "—")
+)
+knitr::kable(checks)
+```

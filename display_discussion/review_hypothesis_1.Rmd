@@ -1,0 +1,315 @@
+---
+title: "Hypothesis 1 — EEoS haul-level biomass review"
+subtitle: "NS-IBTS Q1 (1985–2015) · North Sea EEoS project"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 5)
+workspace_root <- if (file.exists("FishGlob_data")) {
+  normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+} else if (file.exists("../FishGlob_data")) {
+  normalizePath("..", winslash = "/", mustWork = TRUE)
+} else {
+  inp <- knitr::current_input(dir = TRUE)
+  normalizePath(file.path(inp, ".."), winslash = "/", mustWork = TRUE)
+}
+r_dir <- file.path(workspace_root, "pipeline", "R")
+source(file.path(r_dir, "h1_common.R"))
+source(file.path(r_dir, "h1_lne_helpers.R"))
+source(file.path(r_dir, "h1_null_helpers.R"))
+project_root <- workspace_root
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+```
+
+## Overview
+
+**H1:** Does EEoS predict haul-level community biomass from state variables S, N, E?
+
+**Pipeline** (see [`pipeline/README.md`](../pipeline/README.md)):
+
+1. `Rscript pipeline/build_datras_state_variables.R`
+2. `Rscript pipeline/build_eeos_predictions.R`
+3. `Rscript pipeline/run_h1_lne_reference.R`
+4. `Rscript pipeline/run_h1_null_model.R`
+
+State variables **S, N, E** come from DATRAS HL (same filtered rows); **B_obs** from FishGlob.
+
+Knit this report after steps 1–4 complete.
+
+---
+
+## Load results
+
+```{r paths}
+path_preds <- file.path(project_root, "outputs", "haul_eeos_predictions.rds")
+path_benchmarks <- file.path(project_root, "outputs", "haul_h1_benchmarks.rds")
+path_compare <- file.path(project_root, "outputs", "h1_model_comparison.rds")
+path_null <- file.path(project_root, "outputs", "null_summary.rds")
+
+stopifnot(file.exists(path_preds))
+haul <- if (file.exists(path_benchmarks)) readRDS(path_benchmarks) else readRDS(path_preds)
+compare <- if (file.exists(path_compare)) readRDS(path_compare) else NULL
+null_sum <- if (file.exists(path_null)) readRDS(path_null) else NULL
+decision <- assess_b_null_sampling(haul$B_obs)
+```
+
+**`r nrow(haul)`** hauls in analysis.
+
+---
+
+## 1. EEoS predictions
+
+State variables **S, N, E** are assembled from DATRAS HL (+ FishBase LW); **B_obs** from FishGlob. Only **B_pred** is EEoS model output.
+
+Primary residual: **`residual = log(B_obs) − log(B_pred)`** (both in grams).
+
+```{r eeos-summary}
+log_B <- log(haul$B_obs)
+log_B_eeos <- log(haul$B_pred)
+eeos_tbl <- tibble(
+  Statistic = c(
+    "R² (log B_obs vs log B_pred)",
+    "Median |residual|",
+    "Median B_pred / B_obs"
+  ),
+  Value = c(
+    sprintf("%.3f", log_r2(log_B, log_B_eeos)),
+    sprintf("%.3f", median(haul$abs_residual, na.rm = TRUE)),
+    sprintf("%.3f", median(haul$B_pred / haul$B_obs, na.rm = TRUE))
+  )
+)
+kable(eeos_tbl, col.names = c("Statistic", "Value"), caption = "EEoS haul-level fit") |>
+  kable_styling(full_width = FALSE, position = "left")
+```
+
+```{r fig-eeos, fig.cap="Observed vs EEoS predicted biomass (log-log)"}
+ggplot(haul, aes(x = log(B_obs), y = log(B_pred))) +
+  geom_point(alpha = 0.12, size = 0.7) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey45") +
+  geom_smooth(method = "lm", se = FALSE, colour = "firebrick") +
+  labs(
+    x = expression(log(B[obs] ~ "(g)")),
+    y = expression(log(B[pred] ~ "(g)")),
+    title = "EEoS: systematic underprediction at haul level"
+  )
+```
+
+---
+
+## 2. ln(E) reference (Harte et al. 2022)
+
+Single-predictor benchmark: **`lm(log(B_obs) ~ log(E))`** using the same normalised **E** passed to EEoS.
+
+```{r lne-section}
+if (is.null(compare)) {
+  cat("Run `Rscript run_h1_lne_reference.R` to populate comparison outputs.\n")
+} else {
+  coef_tbl <- compare$coefficients
+  coef_tbl$Estimate <- sprintf("%.4f", coef_tbl$Estimate)
+  coef_tbl$`Std. Error` <- sprintf("%.4f", coef_tbl$`Std. Error`)
+  coef_tbl$`t value` <- sprintf("%.2f", as.numeric(coef_tbl$`t value`))
+  coef_tbl$`Pr(>|t|)` <- vapply(coef_tbl$`Pr(>|t|)`, function(p) format.pval(as.numeric(p), digits = 3, eps = 0.001), character(1))
+
+  kable(
+    coef_tbl,
+    caption = "ln(E) reference regression coefficients"
+  ) |>
+    kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+}
+```
+
+```{r fig-lne, fig.cap="ln(E) reference: log(B_obs) vs log(E)"}
+ggplot(haul, aes(x = log(E), y = log(B_obs))) +
+  geom_point(alpha = 0.12, size = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, colour = "darkgreen") +
+  labs(
+    x = expression(log(E) ~ "(normalised)"),
+    y = expression(log(B[obs] ~ "(g)")),
+    title = "ln(E) reference model"
+  )
+```
+
+---
+
+## 3. EEoS vs ln(E) comparison
+
+Harte et al. (2022) criterion: EEoS unexplained variance should be **less than half** that of the second-best predictor (here, ln(E)).
+
+```{r model-compare}
+if (!is.null(compare)) {
+  cmp <- compare$comparison |>
+    mutate(
+      `R² (log)` = sprintf("%.3f", log_r2),
+      `SS_res (log)` = format(round(ss_res_log), big.mark = ","),
+      `Median |residual|` = sprintf("%.3f", median_abs_log_resid),
+      `SS ratio vs EEoS` = sprintf("%.2f×", ss_ratio_vs_eeos),
+      `Harte vs ln(E)?` = ifelse(
+        is.na(harte_criterion_vs_lne),
+        "—",
+        ifelse(harte_criterion_vs_lne, "Yes", "No")
+      )
+    ) |>
+    select(
+      Model = model,
+      Tier = tier,
+      `R² (log)`,
+      `SS_res (log)`,
+      `Median |residual|`,
+      `SS ratio vs EEoS`,
+      `Harte vs ln(E)?`
+    )
+
+  kable(cmp, caption = "Unified model comparison on log scale (same hauls)") |>
+    kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) |>
+    column_spec(1, bold = TRUE)
+
+  cat(
+    "\n\n**Overall SS_res ratio (EEoS / ln(E) OLS):**",
+    sprintf("%.2f×", compare$ss_ratio_eeos_over_lne),
+    " — values > 1 mean ln(E) explains log biomass better than EEoS.\n"
+  )
+}
+```
+
+```{r fig-residuals-eeos, fig.cap="EEoS residual distribution (log scale)"}
+ggplot(haul, aes(x = residual)) +
+  geom_histogram(bins = 50, fill = "firebrick", alpha = 0.5) +
+  labs(x = "EEoS residual", y = "Count") +
+  theme_minimal()
+```
+
+```{r fig-residuals-lne, fig.cap="ln(E) reference residual distribution (log scale)", eval="residual_lnE" %in% names(haul)}
+ggplot(haul, aes(x = residual_lnE)) +
+  geom_histogram(bins = 50, fill = "darkgreen", alpha = 0.5) +
+  labs(x = "ln(E) residual", y = "Count") +
+  theme_minimal()
+```
+
+---
+
+## 4. B-only null model
+
+S/N/E are **not** shuffled (breaks EEoS constraints). **`B_obs`** is randomised while **`B_pred`** stays fixed.
+
+Null scheme chosen from **`log(B_obs)`** shape (see [`run_h1_null_model.R`](run_h1_null_model.R)):
+
+> **`r decision$rationale`**
+
+```{r null-results}
+if (is.null(null_sum)) {
+  cat("Run `Rscript run_h1_null_model.R` to populate null outputs.\n")
+} else {
+  observed_tbl <- tibble(
+    Statistic = c(
+      "R² (log B_obs vs log B_pred)",
+      "Median |residual| (log scale)"
+    ),
+    Observed = c(
+      sprintf("%.3f", null_sum$T_obs),
+      sprintf("%.3f", null_sum$median_abs_residual_obs)
+    )
+  )
+
+  null_label <- function(method) {
+    if (grepl("uniform", method, fixed = TRUE)) {
+      "Primary — uniform on central 95% of log(B_obs)"
+    } else if (grepl("shuffle", method, fixed = TRUE)) {
+      "Robustness — B shuffle across hauls"
+    } else {
+      method
+    }
+  }
+
+  null_tbl <- bind_rows(
+    Primary = null_sum$primary,
+    Robustness = null_sum$robustness,
+    .id = "Role"
+  ) |>
+    transmute(
+      Role,
+      `Null scheme` = vapply(method, null_label, character(1)),
+      `Null R² median` = sprintf("%.3f", null_median),
+      `Null R² 95% interval` = sprintf("[%.3f, %.3f]", null_q025, null_q975),
+      `p (one-sided)` = vapply(p_value_one_sided, function(p) format.pval(p, digits = 3, eps = 0.001), character(1)),
+      `Median |residual| (null)` = sprintf("%.3f", median_abs_residual_null)
+    )
+
+  kable(observed_tbl, col.names = c("Statistic", "Observed value"),
+        caption = "Observed EEoS performance") |>
+    kable_styling(full_width = FALSE, position = "left")
+
+  cat("\n\n")
+  kable(null_tbl, caption = "Null-model R² (999 permutations per scheme)") |>
+    kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) |>
+    column_spec(1, bold = TRUE)
+}
+```
+
+```{r fig-null-primary, fig.cap="Primary null: R² under randomised B_obs (999 permutations)", eval=!is.null(null_sum) && length(null_sum$figures) >= 1}
+knitr::include_graphics(null_sum$figures[1])
+```
+
+```{r fig-null-robust, fig.cap="Robustness null: R² under B shuffle across hauls", eval=!is.null(null_sum) && length(null_sum$figures) >= 2}
+knitr::include_graphics(null_sum$figures[2])
+```
+
+---
+
+## 5. Summary checklist
+
+```{r checklist}
+checks <- tibble(
+  Check = c(
+    "DATRAS state variables built (build_datras_state_variables.R)",
+    "EEoS predictions built (build_eeos_predictions.R)",
+    "ln(E) reference fitted (run_h1_lne_reference.R)",
+    "EEoS vs ln(E) compared",
+    "S == n_species_with_lw (DATRAS consistency)",
+    "B-null scheme chosen from log(B) shape",
+    "Null permutations complete (999)",
+    "Primary residual = log(B_obs) - log(B_pred)"
+  ),
+  Status = c(
+    if (file.exists(file.path(project_root, "outputs", "datras_haul_state.rds"))) "PASS" else "PENDING",
+    if (file.exists(path_preds)) "PASS" else "PENDING",
+    if (file.exists(path_compare)) "PASS" else "PENDING",
+    if (file.exists(path_compare)) "PASS" else "PENDING",
+    if (all(haul$n_species_with_lw == haul$S, na.rm = TRUE)) "PASS" else "FAIL",
+    "PASS",
+    if (!is.null(null_sum)) "PASS" else "PENDING",
+    "PASS"
+  )
+)
+kable(checks) |> kable_styling(full_width = FALSE)
+```
+
+---
+
+## 6. Interpretation (supervisor discussion)
+
+```{r interpretation, results='asis'}
+if (!is.null(compare) && !is.null(null_sum)) {
+  r2_eeos <- compare$comparison$log_r2[compare$comparison$model_id == "eeos_biomass"]
+  r2_lne <- compare$comparison$log_r2[compare$comparison$model_id == "ln_e_ols"]
+  ratio <- compare$ss_ratio_eeos_over_lne
+
+  cat("1. **Absolute EEoS performance:** log-scale R² =", sprintf("%.2f", r2_eeos),
+      "with median |residual| =", sprintf("%.2f", null_sum$median_abs_residual_obs),
+      "and ~4× median underprediction (B_pred/B_obs).\n\n")
+  cat("2. **vs ln(E) benchmark (Harte et al. 2022):** ln(E) alone achieves R² =",
+      sprintf("%.2f", r2_lne), "vs EEoS R² =", sprintf("%.2f", r2_eeos),
+      ". Unexplained SS is", sprintf("%.1f×", ratio),
+      "higher for EEoS. Harte criterion **not met** — S and N do not improve on metabolic rate alone at haul scale.\n\n")
+  cat("3. **vs B-null:** Observed EEoS pairing beats random biomass labels (primary uniform null p ≈",
+      sprintf("%.3f", null_sum$primary$p_value_one_sided), ") but both models have poor absolute R².\n")
+}
+```

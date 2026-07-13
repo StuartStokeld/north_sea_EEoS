@@ -1,0 +1,638 @@
+---
+title: "H1 — Does the Ecological Equation of State predict haul-level community biomass?"
+subtitle: "NS-IBTS Q1 · 1985–2015 · 12,069 hauls"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+    fig_caption: true
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.width = 12, fig.height = 5)
+
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+library(patchwork)
+
+# Paths: <root>/display_discussion/this_file.Rmd and <root>/outputs/
+# Works for repo root and H1_results/ layouts.
+input_file <- knitr::current_input()
+if (is.null(input_file) || !nzchar(input_file)) {
+  stop("Knit via rmarkdown::render() or RStudio Knit so knitr knows the input file.")
+}
+input_dir <- dirname(normalizePath(input_file, mustWork = TRUE))
+base_dir <- normalizePath(file.path(input_dir, ".."), mustWork = TRUE)
+out_dir <- file.path(base_dir, "outputs")
+
+find_up <- function(start, test_fn, max_steps = 8L) {
+  dir <- start
+  for (i in seq_len(max_steps)) {
+    if (test_fn(dir)) return(normalizePath(dir, mustWork = TRUE))
+    parent <- dirname(dir)
+    if (identical(parent, dir)) break
+    dir <- parent
+  }
+  stop("Could not resolve path walking up from: ", start)
+}
+
+repo_root <- find_up(
+  base_dir,
+  function(d) dir.exists(file.path(d, "pipeline", "R"))
+)
+r_dir <- file.path(repo_root, "pipeline", "R")
+h1_common <- file.path(r_dir, "h1_common.R")
+if (!file.exists(h1_common)) {
+  stop("Missing ", h1_common)
+}
+source(h1_common)
+
+haul      <- readRDS(file.path(out_dir, "haul_h1_benchmarks.rds"))
+compare   <- readRDS(file.path(out_dir, "h1_model_comparison.rds"))
+lne_coef  <- read.csv(file.path(out_dir, "h1_lne_coefficients.csv"))
+cmp       <- compare$comparison
+
+row_eeos  <- cmp[cmp$model_id == "eeos_biomass", , drop = FALSE]
+row_prod1 <- cmp[cmp$model_id == "productivity_1to1", , drop = FALSE]
+row_ratio <- cmp[cmp$model_id == "productivity_ratio", , drop = FALSE]
+row_lne   <- cmp[cmp$model_id == "ln_e_ols", , drop = FALSE]
+
+n_hauls   <- nrow(haul)
+r2_eeos   <- round(row_eeos$log_r2, 3)
+cor2_eeos <- round(row_eeos$cor2, 3)
+rmse_eeos <- round(row_eeos$log_rmse, 3)
+med_ratio <- round(row_eeos$median_ratio, 1)
+med_ratio_prod1 <- round(row_prod1$median_ratio, 2)
+
+r2_prod1   <- round(row_prod1$log_r2, 3)
+cor2_prod1 <- round(row_prod1$cor2, 3)
+rmse_prod1 <- round(row_prod1$log_rmse, 3)
+
+r2_ratio_pearson_all <- round(row_ratio$fig2_r2_pearson_all, 3)
+if (is.na(r2_ratio_pearson_all)) {
+  r2_ratio_pearson_all <- round(row_ratio$fig2_r2_pearson, 3)
+}
+r2_ratio_pearson_trim <- round(row_ratio$fig2_r2_pearson_trimmed, 3)
+n_fig2_excl <- as.integer(row_ratio$fig2_r2_pearson_n_excluded)
+if (is.na(n_fig2_excl)) n_fig2_excl <- 2L
+r2_fig2_cod_ext  <- round(row_ratio$fig2_r2_cod_extended, 3)
+harte_fig2_ref   <- 0.600
+# Backward-compatible alias: do not use alone in write-up
+r2_ratio_pearson <- r2_ratio_pearson_all
+
+path_fig2_lev <- file.path(out_dir, "h1_fig2_leverage_hauls.csv")
+fig2_excl <- if (file.exists(path_fig2_lev)) {
+  read.csv(path_fig2_lev, stringsAsFactors = FALSE)
+} else {
+  data.frame()
+}
+
+r2_lne    <- round(row_lne$log_r2, 3)
+cor2_lne  <- round(row_lne$cor2, 3)
+rmse_lne  <- round(row_lne$log_rmse, 3)
+ss_ratio_lne   <- round(compare$ss_ratio_eeos_over_lne, 2)
+ss_ratio_prod1 <- round(compare$ss_ratio_eeos_over_productivity_1to1, 2)
+med_abs_log_eeos <- round(row_eeos$median_abs_log_resid, 3)
+med_signed_resid <- round(median(haul$residual, na.rm = TRUE), 3)
+mean_abs_resid   <- round(mean(haul$abs_residual, na.rm = TRUE), 3)
+haul_plot <- haul |> mutate(ln_S = log(S))
+
+# Fig 2 display only: sqrt axes + tight zoom around bulk (~99th pct ≈ 50).
+# Limits are in raw ratio units (coord_cartesian); stats unchanged.
+fig2_xlim <- c(0, 60)
+fig2_ylim <- c(0, 60)
+fig2_full_max <- max(
+  c(haul$fig2_predicted_ratio, haul$fig2_observed_ratio),
+  na.rm = TRUE, finite = TRUE
+) * 1.05
+fig2_full_lim <- c(0, fig2_full_max)
+n_fig2_offframe <- sum(
+  haul$fig2_predicted_ratio > fig2_xlim[2] |
+    haul$fig2_observed_ratio > fig2_ylim[2],
+  na.rm = TRUE
+)
+
+lne_intercept <- round(lne_coef$Estimate[lne_coef$term == "(Intercept)"], 2)
+lne_slope     <- round(lne_coef$Estimate[lne_coef$term == "log_E"], 3)
+
+ss_res_raw <- sum((haul$B_obs - haul$B_pred)^2, na.rm = TRUE)
+ss_tot_raw <- sum((haul$B_obs - mean(haul$B_obs, na.rm = TRUE))^2, na.rm = TRUE)
+r2_raw     <- round(1 - ss_res_raw / ss_tot_raw, 3)
+raw_rmse_eeos <- round(row_eeos$raw_rmse, 0)
+
+style_kable <- function(x) {
+  if (knitr::is_html_output()) {
+    kable_styling(x, full_width = FALSE, bootstrap_options = c("striped", "hover"))
+  } else {
+    kable_styling(x, full_width = FALSE, latex_options = c("striped", "hold_position"))
+  }
+}
+```
+
+---
+
+## H1: Does EEoS predict haul-level community biomass?
+
+Hypothesis 1 asks whether the Ecological Equation of State (EEoS) predicts community biomass at individual trawl-haul level from three state variables — species richness (S), abundance (N), and normalised metabolic rate (E) — in the NS-IBTS Q1 survey (1985–2015). After joining DATRAS length data to FishGlob catch biomass and applying standard filters, **`r format(n_hauls, big.mark = ",")` hauls** entered the analysis. For each haul, EEoS returns a parameter-free prediction B_pred from (S, N, E) via the full METE partition function (Eq. 1); this is compared to observed catch biomass B_obs with no post-hoc calibration.
+
+H1 is tested through **two direct reproductions of Harte et al. (2022)'s own validation figures**, using their exact unfitted, parameter-free method, **before** any fitted alternative is considered. Both reproductions were checked against the published source code (`micbru/equation_of_state`, `make_plots.py`), not only the paper's figure captions:
+
+- **Test 1 — Harte Fig 1:** predicted vs observed biomass on a 1:1 line (no fitting).
+- **Test 2 — Harte Fig 2:** predicted vs observed metabolic-rate:biomass ratio, E/B^(3/4).
+
+This ordering is deliberate. Prior EEoS validation claims — that "predicted biomass is equivalent to productivity" — are claims about a parameter-free theoretical map landing near observed values *directly*, not about whether a regression *fitted to this dataset* can recover it. A fitted model answers a different, easier question and cannot be compared to the unfitted prior results. The fitted ln(E) OLS regression is therefore reported only as an **extended comparison**, after the two reproductions.
+
+Pipeline integrity checks (null-E join, year-level dropout) are documented in [`H1_dropout_diagnosis.md`](H1_dropout_diagnosis.md). Catchability scaling was explored but **not** applied — see [`H1_catchability_scaling_exploration.md`](H1_catchability_scaling_exploration.md).
+
+---
+
+## Test 1 — Harte Fig 1: biomass prediction against 1:1
+
+**Comparison.** log(B_pred) vs log(B_obs), evaluated directly against an unfitted 1:1 line — no slope or intercept is fitted. The identical test is run for a baseline model, **productivity 1:1**: log(E × m_min) vs log(B_obs) on the same 1:1 line. Here E is the same normalised metabolic rate passed into `biomass()`, and m_min is the same independently-derived smallest-individual mass used to convert B_pred_norm → B_pred (grams). Neither side is fit to B_obs. (The former E_raw-based map is retained only as a diagnostic, `productivity_1to1_uncalibrated`, and is not the headline baseline.)
+
+**Primary statistic.** log_r2 = 1 − SS_res/SS_tot on the log scale, computed independently for each model. This is the only metric that penalises absolute scale error: a systematic multiplicative bias can produce a high correlation while still failing badly on log_r2, so correlation alone would hide the failure mode.
+
+**Result.** EEoS **fails**: log_r2 = **`r r2_eeos`**, worse than predicting the mean log biomass for every haul. Productivity 1:1 **succeeds**: log_r2 = **`r r2_prod1`**. EEoS leaves **`r ss_ratio_prod1`×** more unexplained variance than the productivity baseline, so the Harte criterion (EEoS SS_res < 0.5 × reference SS_res) is **not met**. The EEoS prediction cloud sits systematically *above* the 1:1 line (median B_pred/B_obs = **`r med_ratio`×**).
+
+```{r fig1-test1, fig.width=13, fig.height=4.6}
+p_eeos <- ggplot(haul, aes(x = ln_B_obs, y = ln_B_pred, colour = log(S))) +
+  geom_point(alpha = 0.10, size = 0.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey30", linewidth = 0.9) +
+  scale_colour_viridis_c(option = "viridis", name = "ln(S)") +
+  annotate("label", x = -Inf, y = Inf, hjust = -0.08, vjust = 1.4, size = 3.0,
+    label = sprintf("log_r2 = %.3f\ncor² = %.3f", r2_eeos, cor2_eeos),
+    fill = "white", alpha = 0.9, label.size = 0) +
+  labs(x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+       title = "(a) EEoS — Harte Fig 1",
+       subtitle = "log(B_pred) vs log(B_obs), unfitted 1:1") +
+  theme_minimal(base_size = 10) + theme(legend.position = "none")
+
+p_prod1 <- ggplot(haul, aes(x = ln_B_obs, y = ln_E_calibrated, colour = log(S))) +
+  geom_point(alpha = 0.10, size = 0.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey30", linewidth = 0.9) +
+  scale_colour_viridis_c(option = "viridis", name = "ln(S)") +
+  annotate("label", x = -Inf, y = Inf, hjust = -0.08, vjust = 1.4, size = 3.0,
+    label = sprintf("log_r2 = %.3f\ncor² = %.3f", r2_prod1, cor2_prod1),
+    fill = "white", alpha = 0.9, label.size = 0) +
+  labs(x = "log(B_obs) [g]", y = expression(log(E %*% m[min])),
+       title = "(b) Productivity 1:1 baseline",
+       subtitle = "log(E × m_min) vs log(B_obs), unfitted 1:1") +
+  theme_minimal(base_size = 10)
+
+r2_df <- data.frame(
+  model  = factor(c("EEoS (S, N, E)", "Productivity 1:1"),
+                  levels = c("Productivity 1:1", "EEoS (S, N, E)")),
+  r2     = c(r2_eeos, r2_prod1),
+  colour = c("below", "above")
+)
+
+p_bar <- ggplot(r2_df, aes(x = model, y = r2, fill = colour)) +
+  geom_col(width = 0.55, show.legend = FALSE) +
+  geom_hline(yintercept = 0, linewidth = 0.8, colour = "grey30") +
+  geom_text(aes(label = sprintf("%.3f", r2),
+                vjust = ifelse(r2 < 0, 1.5, -0.5)),
+            size = 3.5, fontface = "bold") +
+  scale_fill_manual(values = c("below" = "#d6604d", "above" = "#4393c3")) +
+  annotate("text", x = 1.5, y = max(r2_df$r2) * 0.85, size = 3.0, colour = "grey40",
+           label = sprintf("SS ratio = %.1f×\nHarte: NOT met", ss_ratio_prod1)) +
+  coord_flip() +
+  labs(x = NULL, y = "log_r2",
+       title = "(c) Predictive R²",
+       subtitle = "Zero = no better than the mean") +
+  theme_minimal(base_size = 10)
+
+p_eeos + p_prod1 + p_bar + plot_layout(widths = c(1, 1, 0.9))
+```
+
+**Figure 1.** Reproduction of Harte et al. (2022) Fig 1 (unfitted, parameter-free). *(a)* EEoS log(B_pred) vs log(B_obs), coloured by ln(S) in Harte's convention. *(b)* Productivity 1:1 baseline, same axes and 1:1 line. *(c)* log_r2 for both. EEoS sits above the 1:1 line throughout (median `r med_ratio`× overprediction); the unfitted productivity map tracks observed biomass more closely.
+
+```{r test1-table}
+tibble(
+  Model = c("EEoS (S, N, E)", "Productivity 1:1 (unfitted)"),
+  Fitted = c("No", "No"),
+  `log_r2` = c(r2_eeos, r2_prod1),
+  `cor²` = c(cor2_eeos, cor2_prod1),
+  `log RMSE` = c(rmse_eeos, rmse_prod1),
+  `Median pred/obs` = c(sprintf("%.1f×", med_ratio), sprintf("%.2f×", med_ratio_prod1)),
+  `SS_res ratio vs prod1` = c(sprintf("%.1f×", ss_ratio_prod1), "—")
+) |>
+  kable(caption = "Test 1: unfitted EEoS vs unfitted productivity 1:1 (same hauls).") |>
+  style_kable()
+```
+
+**Interpretation.** Prior EEoS validations report predicted biomass *equivalent to productivity* under a direct 1:1 comparison. On NS-IBTS Q1 hauls that equivalence does not hold: the unfitted productivity map alone (log_r2 = `r r2_prod1`) outperforms EEoS (`r r2_eeos`), even though EEoS uses all three state variables through the full partition function. The equation of state adds structure that **worsens** absolute haul-level prediction here relative to treating E × m_min as a direct proxy. This is the first direct evidence that the marine trawl data behaves differently from the terrestrial and arthropod datasets in Harte et al. (2022) — established on the same metric footing as prior work, before any fitted alternative.
+
+---
+
+## Test 2 — Harte Fig 2: E/B^(3/4) ratio
+
+**Comparison.** Observed ratio (E/B_obs^0.75) vs predicted ratio (E/B_pred^0.75), using the **same B_pred as Test 1** and **normalised E** (the same E passed into the B_pred calculation, not E_raw). Following `make_plots.py` exactly, an unweighted linear regression is fitted on the raw (unlogged) ratio values and the **Pearson R²** is reported — the statistic Harte et al. annotate on their Fig 2 (their value: **`r sprintf("%.3f", harte_fig2_ref)`**).
+
+**Why this test.** Test 1 could in principle be explained by an approximate constancy of E:B^(3/4) across hauls, in which case S and N would carry no real explanatory weight. Reproducing Fig 2 in exactly Harte's way checks whether the ratio pattern holds and whether the diversity/abundance combination gives explanatory power comparable to Harte's original plots.
+
+**Leverage diagnostic (required before reporting).** Harte's original ratios span a narrow range (~1–9 across 42 plots); NS-IBTS ratios span two to three orders of magnitude with heavy right skew. Pearson R² on raw ratios is highly sensitive to a handful of extreme hauls. High-leverage points are ranked by `predicted_ratio × observed_ratio` magnitude; Pearson R² is recomputed with the top **`r n_fig2_excl`** excluded. These hauls are **not** dropped from the H1 dataset or from Test 1 / null / catchability work — this diagnostic is scoped to the Test 2 ratio-space regression only.
+
+**Result.** R² = **`r r2_ratio_pearson_all`** across all hauls, driven substantially by `r n_fig2_excl` high-leverage hauls; R² = **`r r2_ratio_pearson_trim`** with these excluded (Harte et al. 2022: `r sprintf("%.3f", harte_fig2_ref)`). The on-plot annotation uses the trimmed value as primary — least distorted by extreme hauls and closer in spirit to Harte's narrow-range 0.600. Do **not** report `r r2_ratio_pearson_all` alone.
+
+```{r fig2-test2, fig.width=7.2, fig.height=6.8}
+fig2_base <- ggplot(
+  haul_plot,
+  aes(x = fig2_predicted_ratio, y = fig2_observed_ratio, colour = ln_S)
+) +
+  geom_point(alpha = 0.14, size = 0.55) +
+  geom_abline(slope = 1, intercept = 0, colour = "grey35", linewidth = 0.9) +
+  scale_x_sqrt() +
+  scale_y_sqrt() +
+  scale_colour_viridis_c(option = "viridis", name = "ln(S)") +
+  theme_minimal(base_size = 11)
+
+p_fig2_main <- fig2_base +
+  coord_cartesian(xlim = fig2_xlim, ylim = fig2_ylim) +
+  annotate(
+    "text",
+    x = fig2_xlim[1] + diff(fig2_xlim) * 0.04,
+    y = fig2_ylim[2] - diff(fig2_ylim) * 0.05,
+    label = sprintf(
+      "R² = %.3f (trimmed, N=%d)\nR² = %.3f (all hauls)",
+      r2_ratio_pearson_trim, n_fig2_excl, r2_ratio_pearson_all
+    ),
+    size = 3.5, hjust = 0, vjust = 1
+  ) +
+  annotate(
+    "label",
+    x = fig2_xlim[2] - diff(fig2_xlim) * 0.02,
+    y = fig2_ylim[1] + diff(fig2_ylim) * 0.04,
+    hjust = 1, vjust = 0, size = 2.7,
+    label = sprintf(
+      "%d haul(s) outside panel\n(see inset: full range)",
+      n_fig2_offframe
+    ),
+    fill = "white", alpha = 0.85
+  ) +
+  labs(
+    x = expression(Predicted ~ ratio ~ E/B^{3/4} ~ (sqrt ~ scale)),
+    y = expression(Observed ~ ratio ~ E/B^{3/4} ~ (sqrt ~ scale)),
+    title = "Test 2 — Harte Fig 2 reproduction",
+    subtitle = "Sqrt axes (visual only); R² still on raw ratios"
+  ) +
+  theme(legend.position = "right")
+
+haul_lev <- if (nrow(fig2_excl) > 0L) {
+  haul_plot |> filter(haul_id %in% fig2_excl$haul_id)
+} else {
+  haul_plot[0, , drop = FALSE]
+}
+
+p_fig2_inset <- fig2_base +
+  geom_point(
+    data = haul_lev,
+    aes(x = fig2_predicted_ratio, y = fig2_observed_ratio),
+    colour = "#b2182b", size = 1.8, alpha = 0.95, inherit.aes = FALSE
+  ) +
+  coord_cartesian(xlim = fig2_full_lim, ylim = fig2_full_lim) +
+  labs(x = NULL, y = NULL, title = "Full range", subtitle = NULL) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 8, face = "bold"),
+    axis.text = element_text(size = 6),
+    plot.background = element_rect(fill = "white", colour = "grey55", linewidth = 0.4),
+    panel.background = element_rect(fill = "grey98", colour = NA)
+  )
+
+p_fig2_main + inset_element(
+  p_fig2_inset,
+  left = 0.58, bottom = 0.05, right = 0.99, top = 0.42,
+  align_to = "panel"
+)
+```
+
+**Figure 2.** Reproduction of Harte et al. (2022) Fig 2. Predicted vs observed E/B^(3/4) on **sqrt-scaled** raw-ratio axes (visual only — Pearson R² still computed on untransformed ratios), coloured by ln(S). Main panel zoomed tightly around the bulk (~0–60) via `coord_cartesian`; inset shows the full range with the `r n_fig2_excl` high-leverage hauls marked. Primary on-plot number is trimmed Pearson R² = `r r2_ratio_pearson_trim` (top `r n_fig2_excl` by |pred×obs| excluded); all-hauls R² = `r r2_ratio_pearson_all`. Comparable in spirit to Harte's `r sprintf("%.3f", harte_fig2_ref)` once leverage is acknowledged.
+
+```{r fig2-leverage-table}
+if (nrow(fig2_excl) > 0L) {
+  fig2_excl |>
+    transmute(
+      Rank = leverage_rank,
+      `Haul ID` = haul_id,
+      S = S,
+      N = N,
+      E = sprintf("%.3g", E),
+      B_obs = sprintf("%.0f", B_obs),
+      B_pred = sprintf("%.0f", B_pred),
+      `Pred ratio` = sprintf("%.1f", fig2_predicted_ratio),
+      `Obs ratio` = sprintf("%.1f", fig2_observed_ratio)
+    ) |>
+    kable(caption = sprintf(
+      "Fig 2 high-leverage hauls excluded for trimmed R² (N = %d). Check low S for numerical instability in the ratio denominator.",
+      n_fig2_excl
+    )) |>
+    style_kable()
+}
+```
+
+*Additional diagnostic (not part of the reproduction):* the log-scale coefficient of determination on the ratios, `fig2_r2_cod_extended` = **`r r2_fig2_cod_ext`**. This is a stricter, absolute-scale check beyond what Harte's Fig 2 tested and is **not** comparable to their `r sprintf("%.3f", harte_fig2_ref)`; it is reported for completeness only. A log-log version of this scatter is fine as a side sanity-check but is **not** the headline reproduction figure.
+
+**Caveat on the ratio statistic.** Both axes share the same per-haul E in the numerator (predicted and observed ratios differ only in the B^(3/4) denominator), so a large part of the Pearson R² reflects shared-E covariation across hauls that span several orders of magnitude in E. This is true of Harte's original Fig 2 as well, which is why the reproduction is a like-for-like parity check rather than independent evidence that S and N explain the ratio. The leverage diagnostic above adds a second caveat specific to NS-IBTS: raw-ratio Pearson R² can be inflated by a few extreme hauls that have no counterpart in Harte's narrow-range plots. Read Test 2 alongside Test 1: even after trimming, relative-ratio agreement remains stronger than absolute biomass-scale performance (Test 1).
+
+---
+
+## Supplementary statistics and breakdown
+
+Each statistic below is reported with what it measures and what it contributes to the argument — not the number alone.
+
+### 1. cor² = `r cor2_eeos` (diagnostic only)
+
+**What it measures.** Squared Pearson correlation of log(B_obs) and log(B_pred): rank agreement, independent of absolute scale.
+
+**What it contributes.** It resolves an apparent contradiction — a high correlation coexists with a strongly negative log_r2 (Test 1) because the EEoS scatter sits *tightly but consistently above* the 1:1 line. That is a systematic offset, not noisy scatter, which is exactly the signature of a catchability-type mechanism rather than random error. cor² is reported as a diagnostic; it is not the H1 test statistic, because on its own it would make a 4× overprediction invisible.
+
+### 2. Median B_pred/B_obs = `r med_ratio`× (systematic overprediction)
+
+**What it measures.** The median ratio of predicted to observed biomass across hauls (both in grams).
+
+**What it contributes.** It quantifies the offset directly. A `r med_ratio`× median overprediction is central evidence for a catchability interpretation — survey gear systematically undersamples relative to the biomass EEoS implies — rather than a random-error story. Both sides are in grams, so this is not a unit artefact.
+
+### 3. Overprediction by biomass quartile
+
+```{r bobs-quartile-table}
+haul_q <- haul |>
+  mutate(
+    q = ntile(ln_B_obs, 4),
+    q_label = factor(
+      case_when(
+        q == 1 ~ "Q1 (smallest)", q == 2 ~ "Q2",
+        q == 3 ~ "Q3", q == 4 ~ "Q4 (largest)"
+      ),
+      levels = c("Q1 (smallest)", "Q2", "Q3", "Q4 (largest)")
+    )
+  )
+quartile_tbl <- haul_q |>
+  group_by(q_label) |>
+  summarise(
+    `B range (log g)` = sprintf("%.1f\u2013%.1f", min(ln_B_obs, na.rm = TRUE), max(ln_B_obs, na.rm = TRUE)),
+    med_ratio_q = median(B_pred / B_obs, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  rename(Quartile = q_label)
+if (knitr::is_html_output()) {
+  quartile_tbl <- quartile_tbl |>
+    mutate(`Median B_pred/B_obs` = sprintf("**%.1f\u00D7**", med_ratio_q)) |>
+    select(Quartile, `B range (log g)`, `Median B_pred/B_obs`)
+} else {
+  quartile_tbl <- quartile_tbl |>
+    mutate(`Median B_pred/B_obs` = sprintf("%.1fx", med_ratio_q)) |>
+    select(Quartile, `B range (log g)`, `Median B_pred/B_obs`)
+}
+quartile_tbl |>
+  kable(caption = "EEoS overprediction ratio by observed biomass quartile.") |>
+  style_kable()
+```
+
+**What it measures.** Median overprediction within quartiles of observed biomass.
+
+**What it contributes.** The bias is **not a fixed multiplicative constant** — it grows with biomass magnitude. This matters directly for H2: if a naive catchability correction were applied and fishing pressure correlates with biomass, that correction would confound the H2 test. Carry this forward as an explicit design consideration.
+
+### 4. Null model: p < 0.001 (structure, not noise)
+
+```{r null-table}
+null_tbl <- data.frame(
+  Scheme  = c("Uniform on 95% log(B_obs)", "B shuffle"),
+  Null_median = c("-2.02", "-2.60"),
+  Observed    = c(as.character(r2_eeos), as.character(r2_eeos)),
+  p           = c("< 0.001", "< 0.001"),
+  stringsAsFactors = FALSE
+)
+if (knitr::is_html_output()) null_tbl$p <- c("**< 0.001**", "**< 0.001**")
+null_tbl |>
+  kable(col.names = c("Null scheme", "Null median log_r2", "Observed log_r2", "p (one-sided)"),
+        caption = "Null permutation: is haul-specific (S, N, E) → B_pred informative?") |>
+  style_kable()
+```
+
+**What it measures.** B_obs is randomised while B_pred (from observed S, N, E) is held fixed; log_r2 is recomputed over 999 permutations under two null schemes.
+
+**What it contributes.** It confirms the Test 1 residuals are **structured, not random noise** — the observed log_r2 sits far above both null distributions. This is a *necessary but not sufficient* condition for proceeding to H2/H3, which test whether that structure tracks fishing pressure. It is not evidence that EEoS predicts accurately: log_r2 remains negative.
+
+### 5. Extended comparison — fitted ln(E) OLS
+
+Reported **after** the unfitted baseline, as context only. `lm(log B_obs ~ log E)` is fitted to these same hauls: log(B_obs) = `r lne_intercept` + `r lne_slope` × log(E), giving log_r2 = **`r r2_lne`**.
+
+**Standing comparability warning.** OLS fits slope and intercept to minimise residuals on this dataset, so it answers a different (easier) question than the unfitted mechanistic prediction and its R² is **not on the same footing** as the unfitted log_r2 above. It absorbs the very scale offset that Test 1 penalises. Its closeness to productivity 1:1 (log_r2 `r r2_lne` vs `r r2_prod1`) should **not** be read as meaningful directly — they use different inputs (fitted normalised E vs unfitted E × m_min) and one is fitted.
+
+```{r fig-extended-lne, fig.width=12, fig.height=5}
+p_scatter <- ggplot(haul, aes(x = ln_B_obs, y = ln_B_pred)) +
+  geom_point(alpha = 0.06, size = 0.45, colour = "grey30") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey40", linewidth = 0.9) +
+  annotate("label", x = -Inf, y = Inf, hjust = -0.08, vjust = 1.4, size = 3.0,
+    label = sprintf("EEoS log_r2 = %.3f", r2_eeos),
+    fill = "white", alpha = 0.9, label.size = 0) +
+  labs(x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+       title = "EEoS (unfitted)", subtitle = "Mechanistic — no free parameters") +
+  theme_minimal(base_size = 11)
+
+r2_ext <- data.frame(
+  model  = factor(c("EEoS (S, N, E)", "ln(E) OLS (fitted)"),
+                  levels = c("ln(E) OLS (fitted)", "EEoS (S, N, E)")),
+  r2     = c(r2_eeos, r2_lne),
+  colour = c("below", "above")
+)
+
+p_bar_ext <- ggplot(r2_ext, aes(x = model, y = r2, fill = colour)) +
+  geom_col(width = 0.55, show.legend = FALSE) +
+  geom_hline(yintercept = 0, linewidth = 0.8, colour = "grey30") +
+  geom_text(aes(label = sprintf("%.3f", r2),
+                vjust = ifelse(r2 < 0, 1.5, -0.5)),
+            size = 3.5, fontface = "bold") +
+  scale_fill_manual(values = c("below" = "#d6604d", "above" = "#4393c3")) +
+  annotate("text", x = 1.5, y = r2_lne * 0.85, size = 3.0, colour = "grey40",
+           label = "Not like-for-like:\nOLS minimises SS_res") +
+  coord_flip() +
+  labs(x = NULL, y = "log_r2",
+       title = "Extended: fitted ln(E) OLS",
+       subtitle = "Different comparison — not prior-method baseline") +
+  theme_minimal(base_size = 11)
+
+p_scatter + p_bar_ext + plot_layout(widths = c(1.4, 1))
+```
+
+**Figure 3.** Extended comparison only. Unfitted EEoS vs fitted ln(E) OLS; R² values are not directly comparable (see warning). SS_res ratio EEoS/ln(E) = `r ss_ratio_lne`×.
+
+---
+
+## Transition to H2 and H3
+
+The Test 1 residuals are structured (null model, item 4) and scale with biomass magnitude in a way consistent with a catchability-type mechanism (items 2–3) rather than uniform random error. This motivates the shift in question for H2 and H3: not *does EEoS predict absolute biomass* (it does not, at haul scale), but *do EEoS residuals track fishing pressure*.
+
+Per the established design principle, the **mean absolute residual** — mean |log(B_obs) − log(B_pred)|, currently **`r mean_abs_resid`** — is the appropriate dependent variable for H2/H3, not the signed residual. EEoS is a static equilibrium theory: under disturbance a community can deviate from the equilibrium prediction in either direction, so signed residuals would net out directionally meaningful deviation, whereas the magnitude of deviation is the quantity of interest. H2 tests this cross-sectionally across ICES statistical rectangles; H3 tests it temporally across non-overlapping 5-year blocks anchored to fishing-policy change dates. Full metric guidance is in [`H1_metrics_review_H2_H3.md`](H1_metrics_review_H2_H3.md).
+
+Both B_obs and B_pred are compared in grams: **B_pred = B_pred_norm × m_min**, where B_pred_norm is the dimensionless EEoS output (the theory works in units of the minimum individual's metabolic rate) and m_min is the mass of the smallest individual in the haul, from the same FishBase length–weight parameters used to build E.
+
+---
+
+## Supplementary tables
+
+### Full model comparison
+
+```{r supp-overview}
+cmp |>
+  transmute(
+    Model = model,
+    Fitted = ifelse(fitted, "Yes", "No"),
+    `R² (Pearson)` = ifelse(
+      model_id == "productivity_ratio",
+      sprintf(
+        "%.3f all / %.3f trim (N=%d)",
+        fig2_r2_pearson_all, fig2_r2_pearson_trimmed, fig2_r2_pearson_n_excluded
+      ),
+      sprintf("%.3f", cor2)
+    ),
+    `cod R² ext.` = ifelse(
+      model_id == "productivity_ratio",
+      sprintf("%.3f", fig2_r2_cod_extended),
+      ifelse(is.na(log_r2), "—", sprintf("%.3f", log_r2))
+    ),
+    `log RMSE` = ifelse(is.na(log_rmse), "—", sprintf("%.3f", log_rmse)),
+    `Median pred/obs` = sprintf("%.2f", median_ratio)
+  ) |>
+  kable(caption = "All model comparisons. Fig 2 row: Pearson R² all + leverage-trimmed (primary for write-up); cod R² ext. = extended diagnostic only.") |>
+  style_kable()
+```
+
+### Multiple fit metrics and EOS Figure 2
+
+Coefficient of determination (`log_r2` / CoD), correlation squared (`cor²`), and RMSE for the unfitted H1 comparisons. For biomass maps (EEoS, productivity 1:1), CoD and RMSE are on the log scale; `cor²` is `cor(log obs, log pred)²`. For EOS Figure 2 (E/B^(3/4) ratios), Harte's headline statistic is Pearson `cor²` on the **raw** ratios; CoD and log RMSE are reported alongside as absolute-scale diagnostics (not Harte-comparable).
+
+```{r supp-multi-fit-metrics}
+fig2_log_m <- evaluate_prediction(
+  haul$fig2_observed_ratio,
+  haul$fig2_predicted_ratio,
+  log_scale = TRUE
+)
+fig2_raw_rmse <- round(row_ratio$raw_rmse, 2)
+fig2_log_rmse <- round(fig2_log_m$log_rmse, 3)
+fig2_log_cod <- round(fig2_log_m$log_r2, 3)
+fig2_log_cor2 <- round(fig2_log_m$cor2, 3)
+
+multi_fit <- data.frame(
+  Comparison = c(
+    "EEoS (log B_pred vs log B_obs)",
+    "Productivity 1:1 (log(E × m_min) vs log B_obs)",
+    "EOS Fig 2 — raw ratios (Harte primary)",
+    "EOS Fig 2 — log ratios (diagnostic)"
+  ),
+  `CoD (log_r2)` = c(
+    sprintf("%.3f", r2_eeos),
+    sprintf("%.3f", r2_prod1),
+    sprintf("%.3f", r2_fig2_cod_ext),
+    sprintf("%.3f", fig2_log_cod)
+  ),
+  `cor²` = c(
+    sprintf("%.3f", cor2_eeos),
+    sprintf("%.3f", cor2_prod1),
+    sprintf(
+      "%.3f all / %.3f trim (N=%d)",
+      r2_ratio_pearson_all, r2_ratio_pearson_trim, n_fig2_excl
+    ),
+    sprintf("%.3f", fig2_log_cor2)
+  ),
+  RMSE = c(
+    sprintf("%.3f (log)", rmse_eeos),
+    sprintf("%.3f (log)", rmse_prod1),
+    sprintf("%.2f (raw ratio)", fig2_raw_rmse),
+    sprintf("%.3f (log)", fig2_log_rmse)
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+multi_fit |>
+  kable(caption = "Multiple fit metrics: coefficient of determination, correlation squared, and RMSE.") |>
+  style_kable()
+```
+
+```{r supp-eos-fig2, fig.width=7.2, fig.height=6.8}
+fig2_supp_base <- ggplot(
+  haul_plot,
+  aes(x = fig2_predicted_ratio, y = fig2_observed_ratio, colour = ln_S)
+) +
+  geom_point(alpha = 0.14, size = 0.55) +
+  geom_abline(slope = 1, intercept = 0, colour = "grey35", linewidth = 0.9) +
+  scale_x_sqrt() +
+  scale_y_sqrt() +
+  scale_colour_viridis_c(option = "viridis", name = "ln(S)") +
+  theme_minimal(base_size = 11)
+
+p_fig2_supp <- fig2_supp_base +
+  coord_cartesian(xlim = fig2_xlim, ylim = fig2_ylim) +
+  annotate(
+    "text",
+    x = fig2_xlim[1] + diff(fig2_xlim) * 0.04,
+    y = fig2_ylim[2] - diff(fig2_ylim) * 0.05,
+    label = sprintf(
+      paste0(
+        "cor² = %.3f (trimmed, N=%d)\n",
+        "cor² = %.3f (all)\n",
+        "CoD = %.3f (raw-ratio)\n",
+        "RMSE = %.2f (raw) / %.3f (log)"
+      ),
+      r2_ratio_pearson_trim, n_fig2_excl,
+      r2_ratio_pearson_all,
+      r2_fig2_cod_ext,
+      fig2_raw_rmse, fig2_log_rmse
+    ),
+    size = 3.3, hjust = 0, vjust = 1
+  ) +
+  labs(
+    x = expression(Predicted ~ ratio ~ E/B^{3/4} ~ (sqrt ~ scale)),
+    y = expression(Observed ~ ratio ~ E/B^{3/4} ~ (sqrt ~ scale)),
+    title = "EOS Figure 2 reproduction (H1 supplementary)",
+    subtitle = "Sqrt axes visual only; Harte primary = Pearson cor² on raw ratios"
+  ) +
+  theme(legend.position = "right")
+
+haul_lev_supp <- if (nrow(fig2_excl) > 0L) {
+  haul_plot |> filter(haul_id %in% fig2_excl$haul_id)
+} else {
+  haul_plot[0, , drop = FALSE]
+}
+
+p_fig2_supp_inset <- fig2_supp_base +
+  geom_point(
+    data = haul_lev_supp,
+    aes(x = fig2_predicted_ratio, y = fig2_observed_ratio),
+    colour = "#b2182b", size = 1.8, alpha = 0.95, inherit.aes = FALSE
+  ) +
+  coord_cartesian(xlim = fig2_full_lim, ylim = fig2_full_lim) +
+  labs(x = NULL, y = NULL, title = "Full range", subtitle = NULL) +
+  theme(
+    legend.position = "none",
+    plot.title = element_text(size = 8, face = "bold"),
+    axis.text = element_text(size = 6),
+    plot.background = element_rect(fill = "white", colour = "grey55", linewidth = 0.4),
+    panel.background = element_rect(fill = "grey98", colour = NA)
+  )
+
+p_fig2_supp + inset_element(
+  p_fig2_supp_inset,
+  left = 0.58, bottom = 0.05, right = 0.99, top = 0.42,
+  align_to = "panel"
+)
+```
+
+**Supplementary Figure S1.** EOS / Harte Fig 2 reproduction for H1: predicted vs observed E/B^(3/4). Primary Harte-comparable metric is Pearson `cor²` (trimmed `r r2_ratio_pearson_trim`; all-hauls `r r2_ratio_pearson_all`). Also annotated: coefficient of determination on raw ratios (`r r2_fig2_cod_ext`) and RMSE (raw `r fig2_raw_rmse`; log `r fig2_log_rmse`).
+
+### Additional diagnostics
+
+- **Median signed residual** log(B_obs) − log(B_pred) = `r med_signed_resid` (negative = overprediction); reported for completeness — the H2/H3 dependent variable is the **mean absolute** residual (`r mean_abs_resid`), see transition above.
+- **Raw-scale RMSE** for EEoS = `r format(raw_rmse_eeos, big.mark = ",")` g; raw-scale R² = `r r2_raw`. Dominated by a few very large hauls; log scale is preferred throughout.
+- **Productivity 1:1 vs fitted ln(E) OLS.** Productivity 1:1 log_r2 (`r r2_prod1`) and fitted ln(E) OLS (`r r2_lne`) are not like-for-like: the former is an unfitted map of E × m_min (same E and m_min as EEoS) onto B_obs; the latter fits slope/intercept on normalised E (= E_raw / m_min^0.75) with slope `r lne_slope`. Neither validates EEoS; both bypass the equation of state.
+
+*Pipeline sources: `outputs/h1_model_comparison.csv`, `outputs/h1_harte_baseline_metrics.csv`, `outputs/h1_fig2_leverage_hauls.csv`, `outputs/h1_lne_coefficients.csv`, `outputs/figures/harte_fig*.png`. Companion: [`H1_metrics_review_H2_H3.md`](H1_metrics_review_H2_H3.md).*

@@ -1,0 +1,2 @@
+model_id,term,estimate,std_error,statistic,p_value,ci_low,ci_high,lambda,r_squared,adj_r_squared,n
+sem_primary_abs,mean_annual_hours_total,-6.090974851647903e-7,9.968637298175943e-7,-0.6110137894938185,0.5411904513637011,-2.562914493101544e-6,1.3447195227719637e-6,0.8584177740031406,NA,NA,158

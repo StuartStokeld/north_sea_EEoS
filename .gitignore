@@ -1,0 +1,35 @@
+# === OS / editor cruft ===
+.DS_Store
+*.swp
+
+# === R session artifacts ===
+.RData
+.Rhistory
+.Rapp.history
+.Rproj.user/
+Rplots.pdf
+
+# renv: keep renv.lock, activate.R, settings.json (see renv/.gitignore for the rest)
+
+# === Python ===
+.venv/
+__pycache__/
+*.pyc
+
+# === Large external / source datasets (not redistributed) ===
+# ICES unaggregated trawl download (~250 MB, obtain from DATRAS)
+Unaggregated trawl and biological information_*/
+# Couce reconstructed fishing effort (metadata tracked separately)
+data/external/couce_trawling_effort/*.csv
+
+# === Build artifacts ===
+north_sea_eeos_H1_supervisor_package.zip
+north_sea_eeos_H1_results.zip
+
+# === Personal (not for public sharing) ===
+display_discussion/review_h1_talk_track.md
+H1_results/display_discussion/review_h1_talk_track.md
+
+# === Nested clones (tracked in their own upstream repos) ===
+FishGlob_data/
+equation_of_state/

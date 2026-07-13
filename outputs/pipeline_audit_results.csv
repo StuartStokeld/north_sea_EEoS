@@ -1,0 +1,23 @@
+"check_id","description","status","notes"
+"n_species_le_s","n_species_with_lw <= S","PASS",NA
+"n_species_eq_s","n_species_with_lw == S","PASS",NA
+"n_ge_s","N >= S","PASS",NA
+"e_norm_ratio","E == E_raw / m_min^0.75","PASS",NA
+"min_epsilon_one","min_epsilon == 1","PASS",NA
+"e_gt_n_pool","Hauls with E <= N in full DATRAS pool (excluded before EEoS)","INFO","1"
+"1_N_source","N derived from DATRAS HL pipeline (not FishGlob num/num_cpue)","PASS","See build_datras_state_variables.R"
+"2_S_source","S = n_distinct(AphiaID) in same LW-filtered DATRAS rows as E","PASS","0 hauls with n_species_with_lw != S"
+"7_n_lw_vs_S","n_species_with_lw <= S for all hauls","PASS","0 violations"
+"4_m_min_method","m_min from smallest length bin (not species mean length)","PASS","0 hauls still on mean_length_fallback — upload full datras_hl_raw.rds"
+"3a_LngtCode","All LngtCode values in HL have known conversion","PASS",NA
+"R1_null_E_joined","No joined hauls with NA E in haul_state_variables","PASS","0"
+"6_E_gt_N_filtered","All EEoS prediction hauls satisfy E > N","PASS","joined=12117; filtered predictions=12069"
+"6_S_le_N","S <= N on joined hauls","PASS","0"
+"5_join_funnel","Documented haul counts at each pipeline step","INFO","DATRAS valid=12389; FishGlob joined=12117; null E=0; predictions=12069; EEoS failed=0"
+"spike_years_hl_retention","1998/2013-14 dropout diagnosis: spike_years_hl_retention","PASS","1998, 2013, 2014"
+"spike_years_join_retention","1998/2013-14 dropout diagnosis: spike_years_join_retention","PASS","max datras->join drop = 2 (2014)"
+"spike_years_prediction_retention","1998/2013-14 dropout diagnosis: spike_years_prediction_retention","PASS","max join->pred drop = 0 (1998, 2013, 2014)"
+"10_residual","residual = log(B_obs) - log(B_pred); abs_residual primary metric","PASS","residual_norm is diagnostic only"
+"4_B_scale","B_obs in grams; median B_pred/B_obs documented (scale offset, not units)","INFO","median B_pred/B_obs = 4.081"
+"H1_r2_metric","Primary H1 R² is log_r2 (SS-based), not cor(log B)²","INFO","log_r2 = -0.223; cor² = 0.926"
+"8_quarter_filter","Analysis restricted to Q1 1985-2015 in HL processing","PASS","HL rows=1372057 hauls=12389 years=1985-2015 (complete=TRUE)"

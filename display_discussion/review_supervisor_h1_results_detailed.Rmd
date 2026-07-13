@@ -1,0 +1,587 @@
+---
+title: "H1 — Detailed results and diagnostics"
+subtitle: "NS-IBTS Q1 (1985–2015) · working document, not for sharing yet"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      fig.width = 10, fig.height = 5)
+workspace_root <- if (file.exists("FishGlob_data")) {
+  normalizePath(getwd(), winslash = "/", mustWork = TRUE)
+} else if (file.exists("../FishGlob_data")) {
+  normalizePath("..", winslash = "/", mustWork = TRUE)
+} else {
+  inp <- knitr::current_input(dir = TRUE)
+  normalizePath(file.path(inp, ".."), winslash = "/", mustWork = TRUE)
+}
+r_dir <- file.path(workspace_root, "pipeline", "R")
+source(file.path(r_dir, "h1_common.R"))
+source(file.path(r_dir, "h1_lne_helpers.R"))
+project_root <- workspace_root
+
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+library(patchwork)
+
+haul      <- readRDS(file.path(project_root, "outputs", "haul_h1_benchmarks.rds"))
+compare   <- readRDS(file.path(project_root, "outputs", "h1_model_comparison.rds"))
+lne_coef  <- read.csv(file.path(project_root, "outputs", "h1_lne_coefficients.csv"))
+
+# Key scalars used throughout
+n_hauls     <- nrow(haul)
+r2_eeos     <- log_r2(haul$ln_B_obs, haul$ln_B_pred)
+cor2_eeos   <- log_cor2(haul$ln_B_obs, haul$ln_B_pred)
+r2_lne      <- compare$comparison$log_r2[compare$comparison$model_id == "ln_e_ols"]
+ss_ratio    <- compare$ss_ratio_eeos_over_lne
+med_ratio   <- median(haul$B_pred / haul$B_obs, na.rm = TRUE)
+med_abs_ee  <- median(haul$abs_residual, na.rm = TRUE)
+med_abs_lne <- median(haul$abs_residual_lnE, na.rm = TRUE)
+
+lne_intercept <- lne_coef$Estimate[lne_coef$term == "(Intercept)"]
+lne_slope     <- lne_coef$Estimate[lne_coef$term == "log_E"]
+
+# Raw-scale R² (for comparison)
+ss_res_raw <- sum((haul$B_obs - haul$B_pred)^2)
+ss_tot_raw <- sum((haul$B_obs - mean(haul$B_obs))^2)
+r2_raw <- 1 - ss_res_raw / ss_tot_raw
+
+# Helper: log_r2 for a dplyr group
+group_log_r2 <- function(df) {
+  log_r2(df$ln_B_obs, df$ln_B_pred)
+}
+```
+
+> **This document is for your own understanding.** It contains everything — plain-language explanations of the statistics, all diagnostic plots, and the full discussion. Trim it down before sharing with supervisors.
+
+---
+
+# 1. What statistics am I actually using?
+
+## 1.1 The three numbers that all look like R²
+
+There are three different "R²-like" values in the H1 results. They answer completely different questions and should not be conflated.
+
+```{r r2-table}
+tibble(
+  Name = c("**log_r2** (primary H1 metric)", "**cor(log B)²** (diagnostic only)", "**ln(E) log_r2** (OLS benchmark)"),
+  Value = c(
+    sprintf("**%.3f**", r2_eeos),
+    sprintf("%.3f", cor2_eeos),
+    sprintf("**+%.3f**", r2_lne)
+  ),
+  `What it measures` = c(
+    "Does EEoS *predict* B? — 1 minus the fraction of log-scale variance left unexplained",
+    "Do hauls rank in the same order? — Pearson correlation squared on log(B)",
+    "How much variance does E alone explain? — same formula but for a *fitted* OLS line"
+  ),
+  `Fitted?` = c("No — EEoS outputs a fixed number per haul, no parameters adjusted", "No", "Yes — OLS finds the best-fit slope and intercept")
+) |>
+  kable(col.names = c("Name", "Value", "What it measures", "Fitted?"),
+        caption = "The three R²-like values in H1") |>
+  kable_styling(full_width = TRUE, bootstrap_options = c("striped", "hover"))
+```
+
+**The critical distinction in plain English:**
+
+- **log_r2 for EEoS** is computed with *no fitting*. You plug (S, N, E) into the equation of state, get a number out, compare it to what was observed. Nobody adjusted any parameters to make EEoS fit the data. That is why it can go negative — there is no floor stopping it.
+
+- **ln(E) log_r2** is the R² from an ordinary linear regression — a fitted straight line through log(B_obs) vs log(E). The regression is *allowed* to find whatever slope and intercept makes it fit best (slope = `r round(lne_slope, 3)`, intercept = `r round(lne_intercept, 2)`). An OLS R² *cannot* go below zero by construction. You are comparing an unfitted theoretical prediction to a fitted line — this is intentional and is what the Harte criterion tests.
+
+- **cor(log B)²** tells you only about rank order: do hauls with higher predicted biomass tend to have higher observed biomass? It says nothing about whether the predictions are accurate in absolute terms. A perfect rank correlation with a systematic 4× offset would give cor² = 1.0 and log_r2 = very negative.
+
+---
+
+## 1.2 Why log scale rather than raw grams?
+
+```{r r2-raw-vs-log}
+tibble(
+  Scale = c("Raw grams", "Log scale (primary)"),
+  `R²` = c(sprintf("%.3f", r2_raw), sprintf("%.3f", r2_eeos)),
+  Note = c(
+    "Dominated by a handful of very large hauls — one big catch swamps everything else",
+    "Each order of magnitude contributes equally — standard for biomass/abundance data"
+  )
+) |>
+  kable(caption = "Raw vs log-scale R² for EEoS") |>
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+```
+
+B_obs spans roughly four orders of magnitude across hauls (tens of thousands to millions of grams). On the raw scale, a haul catching 2 million grams contributes ~10,000× more to SS_res than a haul catching 20,000 grams. This means raw R² is almost entirely determined by whether EEoS gets the biggest hauls right — which may have nothing to do with whether the theory works across the community. Log scale is the correct scale for this data and is standard practice in macroecology.
+
+Note that log_r2 = `r round(r2_eeos, 3)` is already the *more favourable* framing for EEoS. The raw-scale R² = `r round(r2_raw, 3)` is even more negative.
+
+---
+
+## 1.3 Is the ln(E) result from my data or the literature?
+
+The ln(E) benchmark is **entirely from your data**. It is `lm(log(B_obs) ~ log(E))` fitted on the same `r format(n_hauls, big.mark = ",")` hauls, using the same normalised E values that go into EEoS. The fitted equation is:
+
+$$\log(B_\text{obs}) = `r round(lne_intercept, 2)` + `r round(lne_slope, 3)` \times \log(E)$$
+
+It comes from `pipeline/run_h1_lne_reference.R` and the results are in `outputs/h1_lne_coefficients.csv`. It is not a prediction from Harte et al. — it is your own haul-level OLS fit. Harte et al. (2022) provide the criterion (EEoS SS should be < ½ the best simple predictor's SS); the actual benchmark model is yours.
+
+---
+
+# 2. The supervisor critique — what are the inputs doing?
+
+This is the sharpest question you will get. Your supervisor is pointing at something real.
+
+## 2.1 The concern, stated simply
+
+> "S, N, and E are themselves correlated with observed biomass. More fish caught = higher N, higher E, possibly higher S. So when EEoS produces a B_pred that correlates with B_obs, is the theory doing something, or is it just reflecting that the inputs and the output go up and down together?"
+
+This is a genuine methodological concern. The cor² of 0.93 does not prove EEoS works — it might just mean that hauls where a lot was caught also happen to have high S, N, and E because those are all properties of a large, diverse catch.
+
+## 2.2 Why ln(E) is the key piece of evidence
+
+You already have the clearest possible answer in your results. E alone — one number, no equation of state, just a straight line fit — explains 60% of log-scale variance in observed biomass. EEoS, using all three state variables and the full theoretical machinery, explains −22% (i.e. it makes things worse than the mean). The theoretical structure is not adding information; it is losing it.
+
+This means:
+
+1. **The correlation in cor² = 0.93 is largely the E signal.** E alone tracks with B_obs. EEoS inherits that correlation (because E is one of its inputs) but then distorts the prediction through the partition function, producing a systematic 4× overprediction.
+
+2. **S and N are not contributing useful information at haul scale.** Adding them via the equation of state makes prediction worse relative to E alone, not better.
+
+3. **A naive regression would likely beat EEoS.** If `lm(log(B_obs) ~ log(S) + log(N) + log(E))` achieves R² > 0.60, that would mean the inputs jointly predict B well but EEoS is the wrong functional form for combining them. This is worth checking but not necessary for the H1 result as stated.
+
+## 2.3 What does this mean for the thesis?
+
+It does not invalidate the research. It is a finding. EEoS adds theoretical structure to how S, N, and E combine — at haul scale in a trawl survey, that structure does not improve on a simple E regression. The honest framing is: the inputs contain relevant information (the null model confirms this), but the equation of state does not correctly translate that information into absolute predictions at this scale. This motivates H2 and H3: do EEoS *residuals* (where the theory falls short) carry information about fishing pressure?
+
+---
+
+# 3. Diagnostic plots — breaking apart the relationship
+
+All plots below use the same `r format(n_hauls, big.mark = ",")` hauls. No new data is loaded.
+
+## 3.1 Side-by-side: EEoS vs ln(E) OLS — the core comparison
+
+```{r fig-ols-comparison, fig.cap="Left: log(B_obs) vs log(B_pred) from EEoS (no fitting). Right: log(B_obs) vs log(E) with fitted OLS line. Same hauls, same axes — the OLS fit achieves positive R² simply by adjusting its intercept and slope to the data.", fig.width=12, fig.height=5}
+p_eeos <- ggplot(haul, aes(x = ln_B_obs, y = ln_B_pred)) +
+  geom_point(alpha = 0.07, size = 0.5, colour = "grey30") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50", linewidth = 0.8) +
+  geom_smooth(method = "lm", se = FALSE, colour = "firebrick", linewidth = 0.9) +
+  annotate("label",
+    x = -Inf, y = Inf, hjust = -0.08, vjust = 1.3, size = 3.2,
+    label = sprintf("log_r2 = %.3f\ncor² = %.3f\nNo fitting — fixed equation",
+                    r2_eeos, cor2_eeos),
+    fill = "white", alpha = 0.9, label.size = 0
+  ) +
+  labs(
+    x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+    title = "EEoS prediction (no free parameters)",
+    subtitle = "Cloud above 1:1 line = systematic overprediction"
+  ) +
+  theme_minimal(base_size = 11)
+
+p_lne <- ggplot(haul, aes(x = log(E), y = ln_B_obs)) +
+  geom_point(alpha = 0.07, size = 0.5, colour = "grey30") +
+  geom_smooth(method = "lm", se = FALSE, colour = "darkgreen", linewidth = 0.9) +
+  annotate("label",
+    x = -Inf, y = Inf, hjust = -0.08, vjust = 1.3, size = 3.2,
+    label = sprintf("log_r2 = %.3f\nFitted OLS: slope = %.3f, intercept = %.2f",
+                    r2_lne, lne_slope, lne_intercept),
+    fill = "white", alpha = 0.9, label.size = 0
+  ) +
+  labs(
+    x = "log(E) [normalised]", y = "log(B_obs) [g]",
+    title = "ln(E) OLS benchmark (fitted line)",
+    subtitle = "Line is optimised to minimise SS_res — cannot go negative"
+  ) +
+  theme_minimal(base_size = 11)
+
+p_eeos + p_lne + plot_layout(widths = c(1, 1))
+```
+
+**What to take from this:** Both panels use the same hauls and the same log-scale R² formula. The only difference is that the right panel is *allowed* to find the best-fit slope and intercept. The theory (left) is being held to a much stricter standard — it gets no parameters to tune. The Harte criterion asks whether that strictness costs less than half of what the OLS gets in SS_res terms. It costs three times as much.
+
+---
+
+## 3.2 Residual distribution — is there one failure mode or two?
+
+In the supervisor meeting, a possible "two trends" pattern was noted in the main scatter — one group of hauls appearing to cluster closer to the 1:1 line, another sitting further above it. This could be a visual density artifact or a genuine bimodal residual distribution. The plots below check both.
+
+```{r fig-resid-density, fig.cap="Density plot of EEoS log-scale residuals (log(B_obs) − log(B_pred)). A unimodal distribution centred below zero = systematic overprediction with a single failure mode. A bimodal distribution = two distinct haul populations with different prediction error. The rug at the bottom shows individual haul positions.", fig.width=10, fig.height=5}
+resid_df <- data.frame(residual = haul$residual)
+med_resid  <- median(haul$residual, na.rm = TRUE)
+mean_resid <- mean(haul$residual, na.rm = TRUE)
+
+ggplot(resid_df, aes(x = residual)) +
+  geom_histogram(aes(y = after_stat(density)),
+    bins = 80, fill = "steelblue", colour = "white", alpha = 0.7) +
+  geom_density(colour = "firebrick", linewidth = 1.0) +
+  geom_rug(alpha = 0.03, colour = "grey40") +
+  geom_vline(xintercept = 0,         linetype = 2, colour = "grey40", linewidth = 0.8) +
+  geom_vline(xintercept = med_resid, linetype = 1, colour = "steelblue", linewidth = 0.9) +
+  geom_vline(xintercept = mean_resid,linetype = 3, colour = "firebrick",  linewidth = 0.9) +
+  annotate("text", x = 0.15, y = Inf, vjust = 1.5, hjust = 0, size = 3.2, colour = "grey40",
+           label = "zero = perfect prediction") +
+  annotate("text", x = med_resid - 0.1, y = Inf, vjust = 3.0, hjust = 1, size = 3.2,
+           colour = "steelblue",
+           label = sprintf("median = %.2f", med_resid)) +
+  labs(
+    x = "log-scale residual  [log(B_obs) \u2212 log(B_pred)]",
+    y = "Density",
+    title = "Are there one or two failure modes?",
+    subtitle = "Negative residual = EEoS overpredicts; blue line = median; red dotted = mean"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** If the density curve is cleanly unimodal (single peak), the "two trends" in the main scatter is a visual artifact from overplotting density — most points cluster near the median residual and the tails appear sparse enough to look like separate groups. If there is a genuine shoulder or second peak, a real subpopulation of hauls sits closer to accurate prediction.
+
+---
+
+## 3.3 Main scatter coloured by decade — do the apparent trends separate in time?
+
+If two groups exist, one candidate explanation is temporal: earlier decades may have had less fishing pressure, placing more hauls closer to the EEoS prediction. Colouring the scatter by decade tests this directly.
+
+```{r fig-scatter-decade, fig.cap="log(B_obs) vs log(B_pred) coloured by decade. If the 'two trends' separate by time, earlier hauls (less cumulative fishing pressure) should cluster closer to the 1:1 line than later hauls.", fig.width=11, fig.height=5.5}
+haul_col <- haul |>
+  mutate(decade = case_when(
+    year <= 1994 ~ "1985\u20131994",
+    year <= 2004 ~ "1995\u20132004",
+    TRUE         ~ "2005\u20132015"
+  ),
+  decade = factor(decade, levels = c("1985\u20131994", "1995\u20132004", "2005\u20132015")))
+
+ggplot(haul_col, aes(x = ln_B_obs, y = ln_B_pred, colour = decade)) +
+  geom_point(alpha = 0.15, size = 0.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey40", linewidth = 0.8) +
+  scale_colour_manual(
+    values = c("1985\u20131994" = "#2166ac",
+               "1995\u20132004" = "#f4a582",
+               "2005\u20132015" = "#d6604d"),
+    name = "Decade"
+  ) +
+  labs(
+    x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+    title = "Do the two apparent trends separate by decade?",
+    subtitle = "1:1 line = perfect prediction; points coloured by decade"
+  ) +
+  guides(colour = guide_legend(override.aes = list(alpha = 0.8, size = 2))) +
+  theme_minimal(base_size = 11)
+```
+
+```{r resid-by-decade-table}
+haul_col |>
+  group_by(decade) |>
+  summarise(
+    n              = n(),
+    median_residual = round(median(residual, na.rm = TRUE), 3),
+    median_ratio    = round(median(B_pred / B_obs, na.rm = TRUE), 2),
+    log_r2          = round(log_r2(ln_B_obs, ln_B_pred), 3),
+    .groups = "drop"
+  ) |>
+  kable(
+    col.names = c("Decade", "n hauls", "Median residual", "Median B_pred/B_obs", "log_r2"),
+    caption   = "EEoS performance by decade — does the failure mode change over time?"
+  ) |>
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover"))
+```
+
+**What to take from this:** If median residuals become more negative over time (overprediction worsening), the community has declined below EEoS predictions as fishing pressure accumulated. If residuals are stable across decades, temporal change is not driving the pattern and the "two trends" observation is most likely an artifact. The table provides exact values for each decade to make this concrete.
+
+---
+
+## 3.4 Residuals vs log(E) — is EEoS using E correctly?
+
+```{r fig-resid-loge, fig.cap="EEoS log-scale residuals plotted against log(E). If EEoS correctly captured the E-information, residuals should be flat (no trend). A systematic slope means the theory is not extracting the E-signal correctly.", fig.width=10, fig.height=5}
+ggplot(haul, aes(x = log(E), y = residual)) +
+  geom_point(alpha = 0.06, size = 0.5, colour = "grey30") +
+  geom_hline(yintercept = 0, linetype = 2, colour = "grey50") +
+  geom_smooth(method = "loess", se = TRUE, colour = "firebrick", linewidth = 0.9,
+              fill = "firebrick", alpha = 0.15) +
+  geom_smooth(method = "lm", se = FALSE, colour = "steelblue",
+              linewidth = 0.8, linetype = "dashed") +
+  labs(
+    x = "log(E) [normalised metabolic rate]",
+    y = "EEoS log-scale residual\nlog(B_obs) − log(B_pred)",
+    title = "Are EEoS residuals correlated with log(E)?",
+    subtitle = "Red = LOESS trend; blue dashed = linear trend; flat line = theory working correctly"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** If there is a slope in this plot, it means EEoS is not correctly extracting the information that E has about B_obs. Since ln(E) OLS explains 60% of log-scale variance, a strong residual trend here is expected and confirms the supervisor's concern: the E-signal exists in the data but EEoS is not converting it correctly into a prediction.
+
+---
+
+## 3.5 Faceted by decade — per-panel performance
+
+```{r fig-facet-decade, fig.cap="log(B_obs) vs log(B_pred_EEoS) split by decade. Per-panel log_r2 shown. If the community has declined under fishing pressure over time, EEoS (predicting from in-situ state variables) would predict more biomass than is caught in later decades.", fig.width=12, fig.height=5}
+haul_dec <- haul |>
+  mutate(decade = cut(year,
+    breaks = c(1984, 1994, 2004, 2015),
+    labels = c("1985–1994", "1995–2004", "2005–2015")
+  ))
+
+r2_dec <- haul_dec |>
+  group_by(decade) |>
+  summarise(
+    r2   = log_r2(ln_B_obs, ln_B_pred),
+    n    = n(),
+    label = sprintf("log_r2 = %.3f\nn = %s", r2, format(n, big.mark = ",")),
+    .groups = "drop"
+  )
+
+ggplot(haul_dec, aes(x = ln_B_obs, y = ln_B_pred)) +
+  geom_point(alpha = 0.08, size = 0.5, colour = "grey30") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50") +
+  geom_smooth(method = "lm", se = FALSE, colour = "firebrick", linewidth = 0.9) +
+  geom_label(
+    data = r2_dec,
+    aes(label = label),
+    x = -Inf, y = Inf, hjust = -0.05, vjust = 1.3,
+    size = 3, inherit.aes = FALSE, fill = "white", alpha = 0.9, label.size = 0
+  ) +
+  facet_wrap(~ decade) +
+  labs(
+    x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+    title = "EEoS performance by decade",
+    subtitle = "1:1 line = perfect prediction; red line = observed trend"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** If log_r2 becomes more negative over time, it suggests EEoS is increasingly overestimating biomass in later decades — consistent with a community declining under fishing while state variables (measured from catches) do not fully capture that decline. If it is stable across decades, scale mismatch is the dominant story rather than temporal drift.
+
+---
+
+## 3.6 Faceted by species richness (S) quartile — is S doing anything?
+
+```{r fig-facet-S, fig.cap="log(B_obs) vs log(B_pred_EEoS) split by S quartile. If EEoS correctly uses species richness, performance should differ meaningfully across panels. Identical panels across quartiles suggest S is not contributing to prediction.", fig.width=12, fig.height=5}
+S_bounds <- quantile(haul$S, probs = c(0, 0.25, 0.5, 0.75, 1))
+
+haul_sq <- haul |>
+  mutate(
+    S_q  = ntile(S, 4),
+    S_label = case_when(
+      S_q == 1 ~ sprintf("S Q1: %d–%d spp", S_bounds[1], S_bounds[2]),
+      S_q == 2 ~ sprintf("S Q2: %d–%d spp", S_bounds[2], S_bounds[3]),
+      S_q == 3 ~ sprintf("S Q3: %d–%d spp", S_bounds[3], S_bounds[4]),
+      S_q == 4 ~ sprintf("S Q4: %d–%d spp", S_bounds[4], S_bounds[5])
+    ),
+    S_label = factor(S_label, levels = unique(S_label[order(S_q)]))
+  )
+
+r2_sq <- haul_sq |>
+  group_by(S_label) |>
+  summarise(
+    r2    = log_r2(ln_B_obs, ln_B_pred),
+    n     = n(),
+    label = sprintf("log_r2 = %.3f\nn = %s", r2, format(n, big.mark = ",")),
+    .groups = "drop"
+  )
+
+ggplot(haul_sq, aes(x = ln_B_obs, y = ln_B_pred)) +
+  geom_point(alpha = 0.08, size = 0.5, colour = "grey30") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50") +
+  geom_smooth(method = "lm", se = FALSE, colour = "firebrick", linewidth = 0.9) +
+  geom_label(
+    data = r2_sq,
+    aes(label = label),
+    x = -Inf, y = Inf, hjust = -0.05, vjust = 1.3,
+    size = 3, inherit.aes = FALSE, fill = "white", alpha = 0.9, label.size = 0
+  ) +
+  facet_wrap(~ S_label) +
+  labs(
+    x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+    title = "EEoS performance by species richness quartile",
+    subtitle = "Does EEoS work better for richer or poorer hauls?"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** EEoS enters S through the partition function — richer communities should have a different prediction profile. If performance is flat across S quartiles, species richness is not contributing meaningfully at this scale. Given that ln(E) alone beats EEoS, this is the expected outcome.
+
+---
+
+## 3.7 Faceted by abundance (N) quartile — is N doing anything?
+
+```{r fig-facet-N, fig.cap="log(B_obs) vs log(B_pred_EEoS) split by log(N) quartile. N enters EEoS through the normalisation — hauls with very different abundance should show different prediction profiles if N is contributing correctly.", fig.width=12, fig.height=5}
+haul_nq <- haul |>
+  mutate(
+    logN = log(N),
+    N_q  = ntile(logN, 4)
+  )
+
+N_bounds <- quantile(haul_nq$logN, probs = c(0, 0.25, 0.5, 0.75, 1))
+
+haul_nq <- haul_nq |>
+  mutate(
+    N_label = case_when(
+      N_q == 1 ~ sprintf("log(N) Q1: %.1f–%.1f", N_bounds[1], N_bounds[2]),
+      N_q == 2 ~ sprintf("log(N) Q2: %.1f–%.1f", N_bounds[2], N_bounds[3]),
+      N_q == 3 ~ sprintf("log(N) Q3: %.1f–%.1f", N_bounds[3], N_bounds[4]),
+      N_q == 4 ~ sprintf("log(N) Q4: %.1f–%.1f", N_bounds[4], N_bounds[5])
+    ),
+    N_label = factor(N_label, levels = unique(N_label[order(N_q)]))
+  )
+
+r2_nq <- haul_nq |>
+  group_by(N_label) |>
+  summarise(
+    r2    = log_r2(ln_B_obs, ln_B_pred),
+    n     = n(),
+    label = sprintf("log_r2 = %.3f\nn = %s", r2, format(n, big.mark = ",")),
+    .groups = "drop"
+  )
+
+ggplot(haul_nq, aes(x = ln_B_obs, y = ln_B_pred)) +
+  geom_point(alpha = 0.08, size = 0.5, colour = "grey30") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50") +
+  geom_smooth(method = "lm", se = FALSE, colour = "firebrick", linewidth = 0.9) +
+  geom_label(
+    data = r2_nq,
+    aes(label = label),
+    x = -Inf, y = Inf, hjust = -0.05, vjust = 1.3,
+    size = 3, inherit.aes = FALSE, fill = "white", alpha = 0.9, label.size = 0
+  ) +
+  facet_wrap(~ N_label) +
+  labs(
+    x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+    title = "EEoS performance by abundance quartile",
+    subtitle = "Does EEoS work better for more or less abundant communities?"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** If the overprediction ratio changes systematically with N — for example, getting worse for very abundant hauls — that tells you something specific about how N enters the prediction. Large-N hauls may have a different catchability profile (schooling species, high N from a few dominant taxa) that neither E nor N can account for through EEoS.
+
+---
+
+## 3.8 Residual vs log(B_obs) — is the offset uniform or scale-dependent?
+
+This is the single most direct diagnostic for the catchability explanation. If overprediction is a fixed multiplicative factor (e.g. trawl efficiency ≈ 25%), residuals should be flat across the full B_obs range. A slope means the mismatch grows or shrinks with haul biomass.
+
+```{r fig-resid-logbobs, fig.cap="EEoS log-scale residuals plotted against log(B_obs). Flat line = uniform multiplicative offset (consistent with fixed catchability). A negative slope (residuals becoming more negative at high B_obs) means EEoS overpredicts large hauls proportionally more. A positive slope means EEoS overpredicts small hauls more.", fig.width=10, fig.height=5}
+ggplot(haul, aes(x = ln_B_obs, y = residual)) +
+  geom_point(alpha = 0.06, size = 0.5, colour = "grey30") +
+  geom_hline(yintercept = 0, linetype = 2, colour = "grey50", linewidth = 0.8) +
+  geom_hline(
+    yintercept = median(haul$residual, na.rm = TRUE),
+    linetype = 3, colour = "steelblue", linewidth = 0.8
+  ) +
+  geom_smooth(method = "loess", se = TRUE, colour = "firebrick", linewidth = 0.9,
+              fill = "firebrick", alpha = 0.12) +
+  geom_smooth(method = "lm", se = FALSE, colour = "steelblue",
+              linewidth = 0.8, linetype = "dashed") +
+  annotate("text", x = Inf, y = 0.3, hjust = 1.05, size = 3.2, colour = "grey40",
+           label = "zero line (perfect prediction)") +
+  annotate("text", x = Inf, y = median(haul$residual, na.rm = TRUE) + 0.25,
+           hjust = 1.05, size = 3.2, colour = "steelblue",
+           label = sprintf("median residual = %.2f", median(haul$residual, na.rm = TRUE))) +
+  labs(
+    x = "log(B_obs) [g]",
+    y = "EEoS log residual\nlog(B_obs) \u2212 log(B_pred)",
+    title = "Is the scale offset uniform across haul biomass?",
+    subtitle = "Red = LOESS; blue dashed = linear trend; blue dotted = median residual"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** The median residual ≈ `r round(median(haul$residual, na.rm = TRUE), 2)` (EEoS overpredicts by roughly e^`r abs(round(median(haul$residual, na.rm = TRUE), 2))` ≈ `r round(exp(abs(median(haul$residual, na.rm = TRUE))), 1)`× on average). If the LOESS line is flat, the offset is consistent with a fixed catchability correction. If there is a systematic slope, it means the failure mode changes with haul size — which would be important for interpreting H2 and H3 residuals.
+
+---
+
+## 3.9 Faceted by observed biomass (B_obs) quartile — does EEoS fail uniformly?
+
+The previous plot shows the trend as a single line. This panel version lets you see the full scatter within each biomass range and whether the 1:1 line relationship holds locally.
+
+```{r fig-facet-bobs, fig.cap="log(B_obs) vs log(B_pred_EEoS) split into four equal groups by observed haul biomass. Each panel covers roughly one order of magnitude of B_obs. If the offset is uniform (fixed catchability), every panel should show the cloud sitting the same distance above the 1:1 line. A changing gap indicates scale-dependent mismatch.", fig.width=12, fig.height=5.5}
+B_bounds <- quantile(haul$ln_B_obs, probs = c(0, 0.25, 0.5, 0.75, 1))
+
+haul_bq <- haul |>
+  mutate(
+    B_q = ntile(ln_B_obs, 4),
+    B_label = case_when(
+      B_q == 1 ~ sprintf("B Q1: %.1f\u2013%.1f log g", B_bounds[1], B_bounds[2]),
+      B_q == 2 ~ sprintf("B Q2: %.1f\u2013%.1f log g", B_bounds[2], B_bounds[3]),
+      B_q == 3 ~ sprintf("B Q3: %.1f\u2013%.1f log g", B_bounds[3], B_bounds[4]),
+      B_q == 4 ~ sprintf("B Q4: %.1f\u2013%.1f log g", B_bounds[4], B_bounds[5])
+    ),
+    B_label = factor(B_label, levels = unique(B_label[order(B_q)]))
+  )
+
+r2_bq <- haul_bq |>
+  group_by(B_label) |>
+  summarise(
+    r2          = log_r2(ln_B_obs, ln_B_pred),
+    med_ratio   = median(B_pred / B_obs, na.rm = TRUE),
+    n           = n(),
+    label       = sprintf("log_r2 = %.3f\nmedian B_pred/B_obs = %.1f\u00d7\nn = %s",
+                          r2, med_ratio, format(n, big.mark = ",")),
+    .groups = "drop"
+  )
+
+ggplot(haul_bq, aes(x = ln_B_obs, y = ln_B_pred)) +
+  geom_point(alpha = 0.10, size = 0.5, colour = "grey30") +
+  geom_abline(slope = 1, intercept = 0, linetype = 2, colour = "grey50", linewidth = 0.8) +
+  geom_smooth(method = "lm", se = FALSE, colour = "firebrick", linewidth = 0.9) +
+  geom_label(
+    data = r2_bq,
+    aes(label = label),
+    x = -Inf, y = Inf, hjust = -0.04, vjust = 1.2,
+    size = 2.9, inherit.aes = FALSE, fill = "white", alpha = 0.9, label.size = 0
+  ) +
+  facet_wrap(~ B_label, scales = "free") +
+  labs(
+    x = "log(B_obs) [g]", y = "log(B_pred) [g]",
+    title = "EEoS performance by observed biomass quartile",
+    subtitle = "1:1 line = perfect prediction; each panel covers ~1 order of magnitude"
+  ) +
+  theme_minimal(base_size = 11)
+```
+
+**What to take from this:** Each panel annotation shows both log_r2 *and* the median B_pred/B_obs ratio within that quartile. If the ratio is similar across panels (all ≈ 4×), the offset is uniform — the catchability story holds cleanly. If the ratio climbs in the upper quartile (EEoS predicts proportionally more for the largest hauls), that suggests the partition function amplifies large-E inputs more than the data supports. If it shrinks, EEoS is relatively better at large hauls, which would be consistent with theory working better where catches better approximate the full in-situ community.
+
+---
+
+# 4. Discussion — why H1 fails and what it means
+
+## 4.1 Catchability is the most likely explanation for the 4× offset
+
+The most straightforward explanation for systematic overprediction (median B_pred / B_obs ≈ `r round(med_ratio, 1)`×) is the conceptual gap between what EEoS predicts and what the survey measures.
+
+EEoS derives a theoretical total community biomass from the full set of organisms described by S, N, and E — an in-situ estimate with no sampling correction. FishGlob `B_obs` is survey *catch* biomass: the fraction of community biomass swept by a 30-minute bottom trawl with gear-specific efficiency well below 1. Trawl catchability for demersal fish communities is typically 0.1–0.5, consistent with a 4× upward offset.
+
+Critically, this offset does not invalidate the rank ordering: if catchability is approximately constant across hauls, the relative ordering of (S, N, E) → B_pred should still reflect relative ordering of B_obs — which is what cor² ≈ `r round(cor2_eeos, 2)` and the null model p < 0.001 confirm. The open question for H2 and H3 is whether catchability varies spatially or temporally in a way that co-varies with fishing pressure. If it does, some fraction of the H2/H3 residual signal may reflect catchability gradients rather than condition gradients.
+
+## 4.2 Haul scale vs the scale EEoS was designed for
+
+EEoS has previously been validated at whole-ecosystem or assemblage aggregate scales — plant community plots (Xiao et al. 2015), continental tree communities (Williams and Pettorelli 2025). A single 30-minute trawl haul is a high-variance snapshot subject to local patchiness, school encounter probability, and stochastic gear-fish interactions that no macroecological theory models. The negative log_r2 is consistent with haul-level variance in B_obs being dominated by sampling stochasticity rather than variation in (S, N, E).
+
+At spatial or temporal aggregate scales (H2: StatRec × decade, H3: StatRec time series), stochastic haul-to-haul noise should partially cancel, and structural signal in EEoS residuals — if it exists — should become more detectable. H1 failure at haul level is therefore not necessarily evidence against EEoS at the scales H2 and H3 target.
+
+## 4.3 Why ln(E) outperforms EEoS — two mechanisms
+
+ln(E) achieves log_r2 = `r round(r2_lne, 3)`; the full EEoS achieves `r round(r2_eeos, 3)`. Adding species richness and abundance through the equation of state increases log-scale error by a factor of `r round(ss_ratio, 1)`. Two non-exclusive explanations:
+
+**E already encodes most of what predicts B at haul scale.** E is a metabolically weighted sum across all length bins — hauls with higher total biomass tend to have higher total metabolic rate. S and N add complexity through the partition function without adding independent information.
+
+**S and N from DATRAS and B_obs from FishGlob share the same catch as their upstream source.** They are not fully independent measurements. Any haul-specific noise in gear performance propagates into S, N, E via state variable calculation, and into B_obs via FishGlob mass summation — but through different processing chains, introducing noise that ln(E) is less sensitive to because E is a smoother aggregate than S or N.
+
+## 4.4 The null result is the key positive finding
+
+The p < 0.001 result against both null schemes is the most theoretically important H1 result, even if it is the least practically satisfying. It establishes that haul-specific (S, N, E) carries genuine information about haul-specific B_obs beyond what would be expected from random biomass assignment. This non-random co-structure is the minimal condition for EEoS residuals to be informative for H2 and H3. Without it, deviations from EEoS would be entirely noise-driven and spatiotemporal structure in residuals would have no biological interpretation.
+
+The result is consistent with Franzman et al. (2021), who found METE fails in absolute terms in a stressed alpine community but still detects systematic deviation signal, and with Harte (2025): theory-based residuals carry information precisely when absolute fit is poor. In a chronically overfished system like the North Sea, deviation from the theoretical baseline is the measurement of interest — and H1 confirms that deviation is structured, not random.
+
+## 4.5 What the supervisor's "correlation" critique means for the thesis
+
+Your supervisor is right to flag this. The cor² of 0.93 does not prove EEoS works — it mostly reflects that inputs and output go up and down together (large hauls have high S, N, E, and high B_obs). The ln(E) result is the sharpest answer: even one input with a fitted line beats the full equation of state. EEoS is not adding information over and above what E alone provides.
+
+The honest framing is: the inputs contain relevant information (null model confirms), but EEoS does not correctly convert that information into absolute predictions at haul scale. This is a scale and catchability problem, not necessarily a theory failure in principle. H2 and H3 do not require EEoS to be a good absolute predictor — they require residuals to carry structure.
+
+---
+
+*All figures computed from `outputs/haul_h1_benchmarks.rds` and `outputs/h1_model_comparison.rds`. Re-knit after pipeline re-run. For methods see [`review_supervisor_h1_briefing.Rmd`](review_supervisor_h1_briefing.Rmd).*

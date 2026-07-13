@@ -1,0 +1,7 @@
+Year,Gear,ICES_rect,lon,lat,Data_type,Countries_included,Hours_trawling
+1985,Beam,"""38F5""",3.5,57.75,Reconstructed,"ENG, SCO",100
+1985,Otter,"""38F5""",3.5,57.75,Reconstructed,"ENG, SCO",200
+1986,Beam,"""38F5""",3.5,57.75,Reconstructed,"ENG, SCO",150
+1986,Otter,"""38F5""",3.5,57.75,Reconstructed,"ENG, SCO",250
+1985,Beam,"""39F3""",4.5,57.75,Reconstructed,"ENG, SCO",50
+1985,Otter,"""39F3""",4.5,57.75,Reconstructed,"ENG, SCO",75
