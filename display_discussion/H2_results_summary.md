@@ -17,6 +17,8 @@ Do more heavily fished rectangles show larger mean |EEoS residual| — greater d
 
 ## Headline results
 
+![H2 topline result](../outputs/figures/h2_topline_result.png)
+
 **Primary OLS:** β = −2.7 × 10⁻⁶ hours⁻¹ (p = 0.010, N = 158, R² = 0.04). Higher fishing pressure is associated with **smaller** mean absolute residuals — opposite the pre-registered positive β expectation.
 
 **Spatial error model:** β = −6.1 × 10⁻⁷ (p = 0.54, λ = 0.86). After spatial correction, fishing pressure is **not** a significant predictor of |residual|.
@@ -48,6 +50,7 @@ Do more heavily fished rectangles show larger mean |EEoS residual| — greater d
 | OLS results | `outputs/h2_ols_results.csv` |
 | Spatial diagnostics | `outputs/h2_spatial_diagnostics.csv` |
 | SEM results | `outputs/h2_sem_results.csv` |
+| **Topline figure** | `outputs/figures/h2_topline_result.png` |
 | Figures | `outputs/figures/h2_*.png` |
 | Full report | `display_discussion/review_hypothesis_2.Rmd` |
 

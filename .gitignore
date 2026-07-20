@@ -22,6 +22,10 @@ Unaggregated trawl and biological information_*/
 # Couce reconstructed fishing effort (metadata tracked separately)
 data/external/couce_trawling_effort/*.csv
 
+# Large GIS layers not used by the H2 pipeline
+gis/ICES_rectangles/MDRExternalStorage.*
+gis/ICES_rectangles/couce_effort_rectangles.zip
+
 # === Build artifacts ===
 north_sea_eeos_H1_supervisor_package.zip
 north_sea_eeos_H1_results.zip

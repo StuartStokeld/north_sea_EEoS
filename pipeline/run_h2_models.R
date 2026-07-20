@@ -110,6 +110,21 @@ save_h2_figures(
   paths$fig_dir
 )
 
+primary_ols_row <- ols_results %>%
+  filter(model_id == "primary_abs_min10") %>%
+  slice(1)
+sem_primary_row <- sem_results %>%
+  filter(model_id == "sem_primary_abs", term == "mean_annual_hours_total") %>%
+  slice(1)
+
+save_h2_topline_figure(
+  panel,
+  primary_ols_row,
+  sem_primary_row,
+  spatial_diagnostics,
+  paths$fig_dir
+)
+
 cat("Analysis rectangles:", nrow(panel), "\n")
 cat("Primary OLS beta:", round(coef(primary_fit)[2], 5),
     "p =", signif(summary(primary_fit)$coefficients[2, 4], 3), "\n")

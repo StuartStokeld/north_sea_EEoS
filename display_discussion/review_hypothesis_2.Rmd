@@ -97,6 +97,18 @@ bind_rows(
 
 ---
 
+## Topline result
+
+```{r fig-topline, fig.cap="Headline H2 result: negative OLS association between fishing hours and mean |EEoS residual| (panel A) is not robust after spatial error correction (panel B). Coefficients scaled per 10,000 annual hours; * p < 0.05.", out.width="100%"}
+knitr::include_graphics(file.path(fig_dir, "h2_topline_result.png"))
+```
+
+**Primary OLS:** β = `r sprintf("%.2e", primary$estimate)` (p = `r signif(primary$p_value, 3)`). The slope is **negative** — rectangles with higher fishing pressure tend to show **smaller** mean absolute residuals, opposite the pre-registered directional expectation (β > 0).
+
+After spatial error correction (SEM), β = `r sprintf("%.2e", sem_row$estimate)` (p = `r signif(sem_row$p_value, 3)`; λ = `r round(sem_row$lambda, 2)`). **Success criterion 2 is not met.**
+
+---
+
 ## Primary inference (OLS)
 
 ```{r primary-table}
@@ -117,8 +129,6 @@ primary |>
 ```{r fig-scatter, fig.cap="Mean |EEoS residual| vs mean annual fishing hours (primary analysis panel)."}
 knitr::include_graphics(file.path(fig_dir, "h2_scatter_pressure_vs_abs_residual.png"))
 ```
-
-**Primary result:** β = `r sprintf("%.2e", primary$estimate)` (p = `r signif(primary$p_value, 3)`). The slope is **negative** — rectangles with higher fishing pressure tend to show **smaller** mean absolute residuals, opposite the pre-registered directional expectation (β > 0).
 
 ---
 

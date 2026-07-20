@@ -1,0 +1,68 @@
+"metric","extreme","dominant_species","n_hauls","pct_of_decile"
+"D","top","Trisopterus esmarkii",329,27.3
+"D","top","Clupea harengus",326,27
+"D","top","Sprattus sprattus",318,26.4
+"D","top","Limanda limanda",104,8.6
+"D","top","Merlangius merlangus",71,5.9
+"D","top","Melanogrammus aeglefinus",21,1.7
+"D","top","Eutrigla gurnardus",15,1.2
+"D","top","Ammodytes marinus",6,0.5
+"D","top","Scomber scombrus",6,0.5
+"D","top","Ammodytes",5,0.4
+"D","top","Ammodytes tobianus",1,0.1
+"D","top","Gadus morhua",1,0.1
+"D","top","Hippoglossoides platessoides",1,0.1
+"D","top","Pollachius virens",1,0.1
+"D","top","Trisopterus minutus",1,0.1
+"size_CV","top","Melanogrammus aeglefinus",391,32.4
+"size_CV","top","Limanda limanda",284,23.5
+"size_CV","top","Merlangius merlangus",177,14.7
+"size_CV","top","Sprattus sprattus",100,8.3
+"size_CV","top","Clupea harengus",88,7.3
+"size_CV","top","Trisopterus esmarkii",65,5.4
+"size_CV","top","Hippoglossoides platessoides",56,4.6
+"size_CV","top","Trisopterus minutus",11,0.9
+"size_CV","top","Gadus morhua",5,0.4
+"size_CV","top","Trachurus trachurus",4,0.3
+"size_CV","top","Eutrigla gurnardus",3,0.2
+"size_CV","top","Pleuronectes platessa",3,0.2
+"size_CV","top","Scomber scombrus",3,0.2
+"size_CV","top","Gadiculus argenteus",2,0.2
+"size_CV","top","Pollachius virens",2,0.2
+"size_CV","top","Scyliorhinus canicula",2,0.2
+"size_CV","top","Amblyraja radiata",1,0.1
+"size_CV","top","Ammodytes",1,0.1
+"size_CV","top","Ammodytes marinus",1,0.1
+"size_CV","top","Buglossidium luteum",1,0.1
+"size_CV","top","Merluccius merluccius",1,0.1
+"size_CV","top","Myoxocephalus scorpius",1,0.1
+"size_CV","top","Pomatoschistus",1,0.1
+"size_CV","top","Raja clavata",1,0.1
+"size_CV","top","Spondyliosoma cantharus",1,0.1
+"size_CV","top","Trisopterus luscus",1,0.1
+"size_CV","bottom","Clupea harengus",626,51.9
+"size_CV","bottom","Trisopterus esmarkii",270,22.4
+"size_CV","bottom","Sprattus sprattus",182,15.1
+"size_CV","bottom","Scomber scombrus",29,2.4
+"size_CV","bottom","Merlangius merlangus",28,2.3
+"size_CV","bottom","Melanogrammus aeglefinus",21,1.7
+"size_CV","bottom","Pollachius virens",8,0.7
+"size_CV","bottom","Limanda limanda",6,0.5
+"size_CV","bottom","Sardina pilchardus",5,0.4
+"size_CV","bottom","Engraulis encrasicolus",4,0.3
+"size_CV","bottom","Ammodytes",3,0.2
+"size_CV","bottom","Micromesistius poutassou",3,0.2
+"size_CV","bottom","Scyliorhinus canicula",3,0.2
+"size_CV","bottom","Trachurus trachurus",3,0.2
+"size_CV","bottom","Ammodytes marinus",2,0.2
+"size_CV","bottom","Ammodytes tobianus",2,0.2
+"size_CV","bottom","Eutrigla gurnardus",2,0.2
+"size_CV","bottom","Trisopterus minutus",2,0.2
+"size_CV","bottom","Agonus cataphractus",1,0.1
+"size_CV","bottom","Arnoglossus laterna",1,0.1
+"size_CV","bottom","Callionymus lyra",1,0.1
+"size_CV","bottom","Hyperoplus immaculatus",1,0.1
+"size_CV","bottom","Platichthys flesus",1,0.1
+"size_CV","bottom","Pomatoschistus",1,0.1
+"size_CV","bottom","Spinachia spinachia",1,0.1
+"size_CV","bottom","Taurulus bubalis",1,0.1

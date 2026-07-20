@@ -35,7 +35,8 @@ cd /path/to/north_sea_eeos
 | `outputs/datras_hl_raw.rds` | DATRAS HL length bins (Q1 1985–2015); built from CSV if missing |
 | `outputs/fishbase_lw_lookup_v2.csv` | Length–weight parameters |
 | `equation_of_state/` | Cloned EEoS repo (contains `biomass.py`) |
-| `data/external/couce_trawling_effort/NorthSea_trawling_effort_1985to2015_REVIEW_v2.csv` | Couce et al. (2020) fishing hours (download via Cefas Data Hub DOI 10.14466/CefasDataHub.61) |
+| `data/external/couce_trawling_effort/NorthSea_trawling_effort_1985to2015_REVIEW_v2.csv` | Couce et al. (2020) fishing hours (download via Cefas Data Hub DOI 10.14466/CefasDataHub.61; see [`DATA_SOURCE.md`](../data/external/couce_trawling_effort/DATA_SOURCE.md)) |
+| `gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.shp` | ICES statistical rectangles for H2 spatial weights (tracked in repo) |
 
 Legacy notebook: [`supplementary/fishbase_lookup.Rmd`](../supplementary/fishbase_lookup.Rmd).
 
@@ -54,6 +55,8 @@ Legacy notebook: [`supplementary/fishbase_lookup.Rmd`](../supplementary/fishbase
 | — | [`run_pipeline_diagnostics.R`](run_pipeline_diagnostics.R) | Audit checks from `cursor_pipeline_audit.md` | `outputs/pipeline_audit_results.csv`, `outputs/h1_dropout_by_year.csv` |
 | — | [`run_h1_dropout_diagnosis.R`](run_h1_dropout_diagnosis.R) | Year funnel + 1998/2013–14 spike diagnosis | `outputs/h1_dropout_funnel_by_year.csv`, `display_discussion/H1_dropout_diagnosis.md` |
 | — | [`explore_h1_catchability_scaling.R`](explore_h1_catchability_scaling.R) | Catchability offset exploration (**no correction applied**) | `display_discussion/H1_catchability_scaling_exploration.md` |
+| — | [`explore_h1_haul_dominance.R`](explore_h1_haul_dominance.R) | Numerical dominance (D) + dominant-species size-homogeneity (size_CV) exploration (**parallel diagnostic track, no correction applied**) | `outputs/h1_dominance_*.csv`, `display_discussion/H1_dominance_size_homogeneity_exploration.md` |
+| — | [`explore_h1_dominance_partial_r2.R`](explore_h1_dominance_partial_r2.R) | Partial R² of {D, size_CV} beyond log(B_obs); D×size_CV interaction test (follow-up to the dominance exploration above) | `outputs/h1_dominance_partial_r2_*.csv` |
 
 ### Hypothesis 2 (rectangle-level residuals vs fishing pressure)
 
@@ -63,13 +66,18 @@ Run after the H1 pipeline (`build_eeos_predictions.R` must exist).
 |------|--------|---------|--------------|
 | H2a | [`import_couce_fishing_effort.R`](import_couce_fishing_effort.R) | Import Couce trawling hours | `outputs/h2_couce_rectangle_effort.rds`, `outputs/h2_couce_import_diagnostics.csv` |
 | H2b | [`build_h2_rectangle_panel.R`](build_h2_rectangle_panel.R) | Aggregate residuals to rectangle panel | `outputs/h2_rectangle_panel.rds`, `outputs/h2_rectangle_panel.csv` |
-| H2c | [`run_h2_models.R`](run_h2_models.R) | OLS, Moran's I, SEM, figures | `outputs/h2_ols_results.csv`, `outputs/h2_sem_results.csv`, `outputs/figures/h2_*.png` |
+| H2c | [`run_h2_models.R`](run_h2_models.R) | OLS, Moran's I, SEM, figures | `outputs/h2_ols_results.csv`, `outputs/h2_sem_results.csv`, `outputs/figures/h2_topline_result.png`, `outputs/figures/h2_*.png` |
 
 ```bash
 Rscript pipeline/import_couce_fishing_effort.R
 Rscript pipeline/build_h2_rectangle_panel.R
 Rscript pipeline/run_h2_models.R
 ```
+
+Requires **spdep**, **spatialreg**, and **sf** (plus **patchwork** for the topline figure). Install if not in renv:
+`renv::install(c("sf", "spdep", "spatialreg", "patchwork"))`
+
+Also requires ICES rectangle geometry: [`gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.shp`](../gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.shp).
 
 ```bash
 Rscript pipeline/build_datras_state_variables.R
@@ -80,6 +88,8 @@ Rscript pipeline/run_h1_null_model.R
 Rscript pipeline/run_pipeline_diagnostics.R
 Rscript pipeline/run_h1_dropout_diagnosis.R
 Rscript pipeline/explore_h1_catchability_scaling.R
+Rscript pipeline/explore_h1_haul_dominance.R
+Rscript pipeline/explore_h1_dominance_partial_r2.R
 ```
 
 **Unit tests:**
@@ -105,6 +115,7 @@ Rscript pipeline/tests/testthat.R
 | [`R/h1_harte_baseline_helpers.R`](R/h1_harte_baseline_helpers.R) | Harte unfitted baseline (Tier 1) |
 | [`R/h1_lne_helpers.R`](R/h1_lne_helpers.R) | ln(E) OLS + unified model comparison |
 | [`R/h1_null_helpers.R`](R/h1_null_helpers.R) | B-null distribution assessment and simulation |
+| [`R/h1_dominance_helpers.R`](R/h1_dominance_helpers.R) | Haul numerical dominance (D) + dominant-species size-CV; confound checks; binned reporting |
 | [`R/h2_common.R`](R/h2_common.R) | H2 constants, paths, stat_rec normalisation |
 | [`R/h2_couce_helpers.R`](R/h2_couce_helpers.R) | Couce fishing effort import |
 | [`R/h2_panel_helpers.R`](R/h2_panel_helpers.R) | Rectangle-level EEoS panel |

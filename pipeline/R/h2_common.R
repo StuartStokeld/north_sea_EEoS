@@ -44,6 +44,12 @@ h2_output_paths <- function(project_root) {
     spatial_diagnostics = file.path(out, "h2_spatial_diagnostics.csv"),
     sem_results = file.path(out, "h2_sem_results.csv"),
     model_summary = file.path(out, "h2_model_summary.rds"),
+    sem_biomass_covariate = file.path(out, "h2_sem_biomass_covariate.rds"),
+    spatial_sensitivity = file.path(out, "h2_spatial_sensitivity_min5_min20.rds"),
+    leverage_diagnostics = file.path(out, "h2_leverage_diagnostics.rds"),
+    lm_tests = file.path(out, "h2_lm_tests.rds"),
+    provenance_stamp = file.path(out, "h2_provenance_stamp.rds"),
+    sar_lag_results = file.path(out, "h2_sar_lag_results.rds"),
     fig_dir = fig
   )
 }
