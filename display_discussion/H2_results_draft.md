@@ -16,4 +16,4 @@ Overall, H2 finds no support for the hypothesis that fishing pressure is associa
 
 ---
 
-*Limitations and potential expansions of H2: see [H2 methods](review_hypothesis_2.Rmd#methods) (`display_discussion/review_hypothesis_2.Rmd`).*
+*Limitations and potential expansions of H2: see [H2 methods draft](H2_methods_draft.md).*

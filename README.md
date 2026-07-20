@@ -32,8 +32,6 @@ Open the pre-knitted report:
 
 Or knit from [`H1_results/`](H1_results/) — see [`H1_results/SUPERVISOR_README.txt`](H1_results/SUPERVISOR_README.txt).
 
-Also useful: [`display_discussion/review_supervisor_h1_briefing.html`](display_discussion/review_supervisor_h1_briefing.html) (methods + figures).
-
 ---
 
 ## Reproduce the analysis

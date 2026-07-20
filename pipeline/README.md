@@ -53,7 +53,7 @@ Legacy notebook: [`supplementary/fishbase_lookup.Rmd`](../supplementary/fishbase
 | 2b | [`run_h1_lne_reference.R`](run_h1_lne_reference.R) | Unified model comparison + ln(E) OLS (Tier 2) | `outputs/h1_model_comparison.csv`, `outputs/haul_h1_benchmarks.rds` |
 | 3 | [`run_h1_null_model.R`](run_h1_null_model.R) | B-only null model (999 permutations) | `outputs/null_summary.rds`, `outputs/figures/null_r2_*.png` |
 | — | [`run_pipeline_diagnostics.R`](run_pipeline_diagnostics.R) | Audit checks from `cursor_pipeline_audit.md` | `outputs/pipeline_audit_results.csv`, `outputs/h1_dropout_by_year.csv` |
-| — | [`run_h1_dropout_diagnosis.R`](run_h1_dropout_diagnosis.R) | Year funnel + 1998/2013–14 spike diagnosis | `outputs/h1_dropout_funnel_by_year.csv`, `display_discussion/H1_dropout_diagnosis.md` |
+| — | [`run_h1_dropout_diagnosis.R`](run_h1_dropout_diagnosis.R) | Year funnel + 1998/2013–14 spike diagnosis | `outputs/h1_dropout_funnel_by_year.csv` (local markdown report not tracked in repo) |
 | — | [`explore_h1_catchability_scaling.R`](explore_h1_catchability_scaling.R) | Catchability offset exploration (**no correction applied**) | `display_discussion/H1_catchability_scaling_exploration.md` |
 | — | [`explore_h1_haul_dominance.R`](explore_h1_haul_dominance.R) | Numerical dominance (D) + dominant-species size-homogeneity (size_CV) exploration (**parallel diagnostic track, no correction applied**) | `outputs/h1_dominance_*.csv`, `display_discussion/H1_dominance_size_homogeneity_exploration.md` |
 | — | [`explore_h1_dominance_partial_r2.R`](explore_h1_dominance_partial_r2.R) | Partial R² of {D, size_CV} beyond log(B_obs); D×size_CV interaction test (follow-up to the dominance exploration above) | `outputs/h1_dominance_partial_r2_*.csv` |

@@ -6,7 +6,7 @@ Contents
   display_discussion/H1_results_summary.Rmd   Report source (knit to HTML)
   display_discussion/H1_results_summary.html  Pre-knitted copy (read-only backup)
   display_discussion/H1_results_summary.md    Markdown companion (email-friendly)
-  display_discussion/H1_metrics_review_H2_H3.md  Which H1 stats carry to H2/H3 (DV = mean absolute residual)
+  display_discussion/H1_methods_draft.md      H1 methods draft (H2/H3 metric guidance)
   outputs/haul_eeos_predictions.rds           Raw EEoS predictions (S, N, E, B_obs, B_pred)
   outputs/haul_h1_benchmarks.rds              Haul data used by the report (+ ln(E) benchmark)
   outputs/h1_harte_baseline_metrics.csv   Harte unfitted baseline metrics (Tier 1)

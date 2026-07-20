@@ -52,7 +52,7 @@ Do more heavily fished rectangles show larger mean |EEoS residual| — greater d
 | SEM results | `outputs/h2_sem_results.csv` |
 | **Topline figure** | `outputs/figures/h2_topline_result.png` |
 | Figures | `outputs/figures/h2_*.png` |
-| Full report | `display_discussion/review_hypothesis_2.Rmd` |
+| Full report | `display_discussion/H2_results_draft.md` |
 
 ---
 
