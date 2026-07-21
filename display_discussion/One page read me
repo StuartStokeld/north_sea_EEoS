@@ -1,0 +1,60 @@
+Our hypotheses move from establishing whether the EEoS baseline is reachable in this system, to detecting a spatial disturbance signal, to detecting a temporal one. **The challenge is isolated these signals from noise.**
+
+- H1 - Can EEoS be used to predict biomass using the state variables from the haul data.
+- H2 - Do failures in EEoS prediction correlate with disturbance spatially.
+- H3 - Do failures in EEoS prediction correlate with disturbance temporally.
+
+METE fails when the community structure is not as the theory assumes: IE “intact”. We can expect METE to fail in our project for two key reasons:
+
+A) **Due to disturbance** (good failure, we are looking for this). 
+
+- The North Sea is a fundamentally disturbed system. METE would fail (for example) due to the selective removal of larger or longer-lived taxa under sustained fishing pressure, resulting in the aggregate state variables (S, N, E) no longer describe a community in the configuration METE assumes. High fishing pressure across the study area is our working expectation/ explanation for H1 failure.
+- H2/H3 aim to isolate this, testing for correlation between magnitude of disturbance and magnitude theory prediction failure.
+
+B) **Due to catchability or haul level unrepresentativeness** (bad failure: we may assume this is just theory failure, OR associate it spuriously with disturbance).
+
+- Initial research design assumed that haul data accurately represents the ecological assemblage within the North Sea (because we have enough hauls and they are well distributed spatially and temporally). This is challenged by a key confounder *“catchability”* at the **haul level** (in fisheries = haul systematically underestimates true standing biomass by a roughly consistent factor).
+- Alternatively, A **single haul** may not be an entirely accurate representation of wider community structure. Fish are highly mobile, often travel in shoals, and the state variable distribution in any given haul is driven by the ability for a haul to capture a random sample of the North Sea assemblage.
+- The key example I started with and am using currently is a large haul of many similar sized individuals of a single species (big shoal). This is an unrepresentative snapshot, and we would expect METE to fail here, because it falls outside METE’s assumption that individuals are distributed across species and body sizes without systematic aggregation. There are other examples of these (’unexpected METE haul distributions’) but not yet explored.
+
+We have two “extremes” of research design. 1) assume that we have enough hauls to not control for catchability at all 2) attempt to fully control for catchability.
+
+1. The problem here is that we cannot say whether failure is due to A or B.
+2. The problem here is that if we control too strongly, we might obscure the signal that we are looking for or give us spurious results.
+
+I am attempting to find an informed balance between the two, accept that we cannot fully control for catchability but that there are low hanging fruit (starting with big shoals), and take reasonable steps to ensure that controlling does not end up circularly impacting our results (IE giving us a spurious result that we are “looking for”).
+
+Current status/ results.
+
+H1 was tested at individual haul level (n = 12,069), comparing EEoS's parameter-free biomass prediction from observed S, N, and E directly against observed catch biomass with no fitting:
+
+- EEoS does not predict absolute haul-level biomass in the North Sea trawl survey, a simple productivity map outperforms the full equation of state by a wide margin.
+- H1 quantitative result: log_r² = −0.223 (worse than mean-prediction) against a 1:1 productivity baseline of 0.736, but cor² = 0.926: High correlation with a systematic ~3.7–4.1× overprediction.
+- EEoS overprediction is not a fixed offset, but **grows with observed biomass magnitude**, from roughly 3× in the lowest quartile to over 5× in the highest, indicating the catchability-type bias scales with haul size rather than acting as a simple constant correction factor.
+- However, the **relative productivity-ratio structure Harte et al. used to validate EEoS is reproduced, in the form Harte associated with disturbed systems.**
+- “Big shoals” (hauls at the extreme of the dominance/size-homogeneity distribution) show larger overprediction than hauls with a more typical spread across species and sizes. This gradient is smaller than the biomass-magnitude effect, but it persists after conditioning on biomass magnitude, indicating a second, largely independent source of prediction failure.
+
+H2 aggregated EEoS residual magnitude to ICES rectangle level and tested its association with Couce et al. (2020) fishing-effort data using spatial error models, with LM specification tests used to confirm an error rather than lag structure before interpreting results.
+
+- Fishing pressure does not predict EEoS residual magnitude at rectangle scale; biomass scale does:
+- Mean absolute residual magnitude scaled positively with mean observed biomass independent of fishing pressure, consistent with H1's scale dependent bias as the dominant cross-rectangle driver of residual structure.
+- Once biomass was controlled for: fishing pressure became positively associated with residual magnitude, but this too failed to survive spatial correction.
+
+Working H2 explanation:
+
+- Across a 30-year period and many ICES rectangles, areas with persistently higher fish biomass are also the areas fishing fleets have most consistently targeted.
+
+Therefore I am currently exploring:
+
+- Control for biomass as a confound: first - test whether biomass is correlated with fishing pressure. Test for nonlinearity (H1 shows biomass / EEoS overprediction ratio is non-linear) - break up into quartiles
+- Does fishing pressure survive controlling for biomass? Fit residual magnitude ~ biomass alone, then residual magnitude ~biomass + fishing pressure, and see the incremental R² fishing pressure adds beyond biomass.
+- Interaction term (biomass × fishing pressure)
+
+Broken down above / in **methods note for discussion:**
+
+- Atypical-haul filtering strategy - second source of *rectangle-level covariate: could be tested for their own confound relationship with fishing pressure before being trusted as clean predictors.*
+
+H2/ H3 limitation:
+
+- Couce data has some areas missing (highlighted in H2 methods)
+- Couce fishing-hours data may not adequately capture disturbance - SAR data may offer a better signal (highlighted in H2 methods)
