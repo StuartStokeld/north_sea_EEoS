@@ -16,6 +16,8 @@ B) **Due to catchability or haul level unrepresentativeness** (bad failure: we m
 - Initial research design assumed that haul data accurately represents the ecological assemblage within the North Sea (because we have enough hauls and they are well distributed spatially and temporally). This is challenged by a key confounder *“catchability”* at the **haul level** (in fisheries = haul systematically underestimates true standing biomass by a roughly consistent factor).
 - Alternatively, A **single haul** may not be an entirely accurate representation of wider community structure. Fish are highly mobile, often travel in shoals, and the state variable distribution in any given haul is driven by the ability for a haul to capture a random sample of the North Sea assemblage.
 - The key example I started with and am using currently is a large haul of many similar sized individuals of a single species (big shoal). This is an unrepresentative snapshot, and we would expect METE to fail here, because it falls outside METE’s assumption that individuals are distributed across species and body sizes without systematic aggregation. There are other examples of these (’unexpected METE haul distributions’) but not yet explored.
+- Detail: Disturbance vs sampling logic: [Methods_note_for_discussion.md]. Catchability / scale offset: [H1_catchability_scaling_exploration.md]. Dominance & size homogeneity (“big shoals”) → [H1_dominance_results_summary.md]. Full exploration → [H1_dominance_size_homogeneity_exploration.md].
+
 
 We have two “extremes” of research design. 1) assume that we have enough hauls to not control for catchability at all 2) attempt to fully control for catchability.
 
@@ -33,12 +35,14 @@ H1 was tested at individual haul level (n = 12,069), comparing EEoS's parameter-
 - EEoS overprediction is not a fixed offset, but **grows with observed biomass magnitude**, from roughly 3× in the lowest quartile to over 5× in the highest, indicating the catchability-type bias scales with haul size rather than acting as a simple constant correction factor.
 - However, the **relative productivity-ratio structure Harte et al. used to validate EEoS is reproduced, in the form Harte associated with disturbed systems.**
 - “Big shoals” (hauls at the extreme of the dominance/size-homogeneity distribution) show larger overprediction than hauls with a more typical spread across species and sizes. This gradient is smaller than the biomass-magnitude effect, but it persists after conditioning on biomass magnitude, indicating a second, largely independent source of prediction failure.
+- Detail: methods: [H1_methods_draft.md], headline results: [H1_results_summary.md]
 
 H2 aggregated EEoS residual magnitude to ICES rectangle level and tested its association with Couce et al. (2020) fishing-effort data using spatial error models, with LM specification tests used to confirm an error rather than lag structure before interpreting results.
 
 - Fishing pressure does not predict EEoS residual magnitude at rectangle scale; biomass scale does:
 - Mean absolute residual magnitude scaled positively with mean observed biomass independent of fishing pressure, consistent with H1's scale dependent bias as the dominant cross-rectangle driver of residual structure.
 - Once biomass was controlled for: fishing pressure became positively associated with residual magnitude, but this too failed to survive spatial correction.
+- *Detail:** Methods (including limitations): [H2_methods_draft.md]. Short summary + key figure: [H2_results_summary.md]
 
 Working H2 explanation:
 
@@ -56,5 +60,5 @@ Broken down above / in **methods note for discussion:**
 
 H2/ H3 limitation:
 
-- Couce data has some areas missing (highlighted in H2 methods)
+- Couce data has some areas missing (Skagerrak/Kattegat and eastern English Channel) (highlighted/ map in H2 methods)
 - Couce fishing-hours data may not adequately capture disturbance - SAR data may offer a better signal (highlighted in H2 methods)
