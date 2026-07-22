@@ -51,6 +51,7 @@ Working H2 explanation:
 - However, biomass and fishing pressure are both strongly spatially autocorrelated (LM-error = 138.8, p≈0). Once modelled with the correct spatial structure (a spatial lag model, selected via robust LM tests), the direct, indirect, and total effects of fishing pressure on biomass are all consistent with depletion but no longer reach conventional significance.
 
 Therefore I am currently exploring:
+- H3 as main next step before interpreting final results. H2 currently uses between-rectangle variance (over 30 year period) but if fishing pressure isn't stable (H3 looks for this), then H2 is currently mixing spatial and temporal variance.
 - ** Biomass as a mediator ** : rather than only controlling for biomass as a confound in the H2 SEM, we now need to test whether fishing pressure's effect on residual magnitude runs through biomass (mediation), since a confound adjustment would silently remove any true fishing-pressure effect.
 
 Broken down above / in **methods note for discussion:**
