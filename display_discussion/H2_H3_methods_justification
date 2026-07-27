@@ -1,0 +1,68 @@
+Justification and explanation for methodological approach to H2/ H3
+
+**Exploratory analysis:**
+
+**Fishing pressure is varied at the rectangle level**
+
+- **Between-rectangle variance**: how much rectangles differ from each other in their *typical* (average) fishing-pressure level = 59% of the variance in fishing pressure
+- **Within-rectangle variance**: how much a single rectangle's value bounces around from year to year, around its own typical level. = 41% of the variance in fishing pressure
+
+**Spatial unit =** Individual rectangles
+
+Most rectangles are sampled only 1–2 times a year, too few to analyse independently, the random intercept below lets each rectangle borrow strength from the overall pattern rather than being treated alone.
+
+**Temporal break points:**
+
+**Phase structure**: derived from the structural-break analysis — **3 statistically
+robust breaks (1989, 2001, 2008), giving 4 phases**. A candidate 4th break (1997) had
+only marginal statistical support and no counterpart in the original visual
+inspection, and is not included in the primary phase structure.
+
+- Breaks were detected by fitting `strucchange::breakpoints()` (Bai–Perron) to the whole-area mean fishing-hours series — 31 annual points, 1985–2015, pooled across all 215 rectangles — allowing both intercept and slope to shift at each break.
+
+**Model: Mixed effects**
+
+A single model tests both hypotheses, using the within-between decomposition of
+fishing pressure (Section 2):
+
+- **H2 (spatial)**: significant `FP_between` main effect on residual, with
+rectangle-level spatial autocorrelation accounted for.
+- **H3 (temporal)**: significant `FP_within × phase` interaction — whether a
+rectangle's own year-to-year fishing-pressure fluctuation's association with its
+own residual differs across the four data-derived time phases.
+
+A rectangle enters as a random intercept (`(1 | rectangle)`),
+
+Spatial autocorrelation between neighbouring rectangles is incorporated directly into this random-effects structure, e.g. a spatial correlation function over rectangle centroids.
+
+Fishing pressure enters as a fixed-effect covariate at the rectangle-year level (its natural resolution in the Couce dataset).
+
+**Decomposition**
+
+Rectangle-year fishing pressure (`log(fishing_hours + 1)`, its natural resolution in the Couce dataset) is decomposed into a **between-rectangle** component and a **within-rectangle** component:
+
+- `FP_between` — each rectangle's own mean fishing pressure across the whole study
+period (time-invariant, one value per rectangle). This is the *spatial*
+term, and is what answers **H2**: does a rectangle's persistent fishing-pressure
+level predict its residual.
+- `FP_within` — that rectangle-year's deviation from its own rectangle's mean
+(time-varying, mean zero within each rectangle by construction). This is the *temporal* term, and is what answers **H3**: does a rectangle's own
+year-to-year fluctuation in fishing pressure track its own residual.
+
+**Exploratory analysis — for context but dropped**
+
+Explored **making the zones bigger**, so each zone has enough samples to say something reliable. Eplored two ways of doing that:
+
+- **Merging neighbouring rectangles into blocks** (e.g. 2×2 or 3×3 groups), regardless
+of anything else about them.
+
+When we merged rectangles into simple geographic blocks the ICC number dropped substantially — down to around 0.38–0.45 depending on block size.
+
+- **Grouping rectangles by how much fishing happens there**, so a "zone" is a cluster
+of rectangles that all experience similarly high (or low) fishing pressure.
+
+Grouping rectangles by similar fishing pressure ICC = 0.52–0.53, **however** prediction-error
+differences were preserved *worse* under fishing-pressure grouping than under the
+simple geographic blocks. Plus fishing-pressure zones were also very unevenly sized.
+
+- **The relationship between survey effort and fishing pressure is weak.**
