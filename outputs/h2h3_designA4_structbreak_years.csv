@@ -1,0 +1,5 @@
+break_number,obs_index,break_year,ci_lower_obs_index,ci_upper_obs_index,ci_lower_year,ci_upper_year,ci_computed
+1,5,1989,4,6,1988,1990,TRUE
+2,13,1997,12,14,1996,1998,TRUE
+3,17,2001,16,18,2000,2002,TRUE
+4,24,2008,23,25,2007,2009,TRUE

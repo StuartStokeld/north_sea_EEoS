@@ -1,0 +1,5 @@
+"flagged","n_low_cv_hauls","pct_of_low_cv_total","grouping"
+TRUE,161,13.3,"year"
+FALSE,1046,86.7,"year"
+TRUE,310,25.7,"stat_rec"
+FALSE,897,74.3,"stat_rec"

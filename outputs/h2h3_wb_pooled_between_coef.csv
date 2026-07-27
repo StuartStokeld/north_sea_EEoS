@@ -1,0 +1,2 @@
+model_id,term,term_plain,hypothesis,estimate,std_error,ci_lo,ci_hi,statistic,p_value,model_note
+wb_pooled_between_car,FP_between,Pooled FP_between (no phase interaction),H2 contrast — time-stable between-rectangle FP slope,5.863395507415275e-4,0.013363092989806735,-0.025605322709279673,0.026778001810762727,0.04387753278292555,0.9650020242913155,residual ~ FP_between + FP_within * phase + adjacency(1|stat_rec)

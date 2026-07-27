@@ -1,0 +1,3 @@
+test_id,description,statistic_chisq,df,p_value,terms
+H3_interactions_joint_zero,Joint Wald: all log_hours_total:phase interactions = 0 (no phase change in FP effect),113.0446366533977,3,2.4267562748766316e-24,log_hours_total:phase1989-2000; log_hours_total:phase2001-2007; log_hours_total:phase2008-2015
+H2_all_phase_fp_slopes_joint_zero,Joint Wald: reference FP slope and all interactions = 0 (FP effect zero in every phase),200.57609777630486,4,2.8249578509802944e-42,log_hours_total; log_hours_total:phase1989-2000; log_hours_total:phase2001-2007; log_hours_total:phase2008-2015

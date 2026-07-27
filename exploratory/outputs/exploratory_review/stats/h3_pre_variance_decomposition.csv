@@ -1,0 +1,4 @@
+variable,n_groups,n_obs,mean_n_per_group,min_n_per_group,max_n_per_group,var_between,var_within,sd_between,sd_within,icc,sd_ratio_within_over_between
+fishing_pressure_hours_total,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA
+residual_magnitude,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA
+residual_signed,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA

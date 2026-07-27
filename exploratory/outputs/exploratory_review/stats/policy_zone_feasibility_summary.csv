@@ -1,0 +1,5 @@
+scheme,parameter,n_units,n_units_with_any_data,n_units_usable_both_periods,min_hauls_per_cell,pre_mean_hauls,pre_median_hauls,pre_min_hauls,post_mean_hauls,post_median_hauls,post_min_hauls,overall_mean_hauls,overall_median_hauls,overall_min_hauls
+Scheme A (block merge),2x2,62,62,55,5,114.88709677419355,141.5,0,80.54838709677419,94.5,0,97.71774193548387,100.5,0
+Scheme A (block merge),3x3,34,34,29,5,209.5,182,0,146.88235294117646,151,2,178.19117647058823,161,0
+Scheme B (pressure zones),3-tier,22,22,21,5,287.59090909090907,41,4,191.5909090909091,30.5,0,239.5909090909091,35.5,0
+Scheme B (pressure zones),4-tier,49,49,45,5,129.12244897959184,40,0,86.0204081632653,27,0,107.57142857142857,37.5,0

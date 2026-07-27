@@ -1,8 +1,32 @@
 # North Sea EEoS (`north_sea_EEoS`)
 
-Masters project: Ecological Equation of State analysis in North Sea demersal fish communities (H1 haul-level biomass; H2 rectangle-level residuals vs fishing pressure, NS-IBTS Q1 1985–2015).
+Masters project: Ecological Equation of State analysis in North Sea demersal fish
+communities (H1 haul-level biomass; H2/H3 fishing-pressure effects on EEoS
+residuals, NS-IBTS Q1 1985–2015).
 
-Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at this level. Data, outputs, Python venv, and renv live here; code is organised in subfolders below.
+Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at this level.
+
+---
+
+## Start here (supervisor review)
+
+| Document | What it is |
+|----------|------------|
+| [`display_discussion/One page readme`](display_discussion/One%20page%20readme) | One-page project narrative + links |
+| [`display_discussion/H2_H3_methods_detailed.md`](display_discussion/H2_H3_methods_detailed.md) | H2/H3 design document (within-between CAR) |
+| [`display_discussion/H2_H3_results_interpretation.md`](display_discussion/H2_H3_results_interpretation.md) | Results interpretation note |
+| [`display_discussion/H3_results_draft.md`](display_discussion/H3_results_draft.md) / [`H2_results_draft.md`](display_discussion/H2_results_draft.md) | Results drafts |
+| [`outputs/live_pipeline_run_log.md`](outputs/live_pipeline_run_log.md) | Explicit list of **live** scripts and outputs |
+
+**Live pipeline (summary):** H1 haul-level EEoS → Couce/H2 panel build → structural-break
+phase check → **within-between decomposed, biomass-free** H2/H3 model
+(`pipeline/run_h2h3_within_between.R` + proportional-effects / presentation scripts).
+Full command list and outputs: [`pipeline/README.md`](pipeline/README.md) and the live
+pipeline run log above.
+
+**Exploratory / superseded work** (zone schemes, pre-H3 feasibility, biomass-included
+feasibility, blended-term model + GAM): [`exploratory/`](exploratory/) — full research
+history, not the default landing point.
 
 ---
 
@@ -10,60 +34,49 @@ Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at thi
 
 | Folder | Purpose |
 |--------|---------|
-| [`pipeline/`](pipeline/) | H1 and H2 analysis pipelines — run scripts, `R/`, tests, audit checklist |
-| [`outputs/`](outputs/) | Pipeline results (RDS, CSV, figures) |
-| [`display_discussion/`](display_discussion/) | Reports, briefing HTML/Rmd, review notes |
-| [`H1_results/`](H1_results/) | **Shareable H1 results package** — self-contained report + key outputs |
-| [`supplementary/`](supplementary/) | Exploratory scripts, legacy notebooks, one-off tools |
+| [`pipeline/`](pipeline/) | **Live** H1 / H2–H3 analysis scripts, helpers, tests |
+| [`outputs/`](outputs/) | Live pipeline results (RDS, CSV, figures) + live run log |
+| [`display_discussion/`](display_discussion/) | Design docs, one-pager, results drafts/summaries |
+| [`exploratory/`](exploratory/) | Superseded / exploratory scripts + outputs (see its README) |
+| [`H1_results/`](H1_results/) | Shareable H1 results package |
+| [`supplementary/`](supplementary/) | Legacy notebooks and one-off tools |
 | [`docs/`](docs/) | Thesis write-up drafts |
-| [`gis/`](gis/) | QGIS project, shapefiles, exported haul layers |
+| [`gis/`](gis/) | QGIS project, shapefiles |
 | `FishGlob_data/` | FishGlob NS-IBTS (local clone; not in this repo) |
 | `equation_of_state/` | EEoS Python implementation (local clone; not in this repo) |
-| `Unaggregated trawl and biological information_*/` | ICES HL CSV source (local; not in this repo) |
 
 ---
 
-## Results (to add to as I go)
-(H1 results)
+## Reproduce the live analysis
 
-Open the pre-knitted report:
+Run from the workspace root. Details and data prerequisites:
+[`pipeline/README.md`](pipeline/README.md).
 
-- [`H1_results/display_discussion/H1_results_summary.html`](H1_results/display_discussion/H1_results_summary.html)
-
-Or knit from [`H1_results/`](H1_results/) — see [`H1_results/SUPERVISOR_README.txt`](H1_results/SUPERVISOR_README.txt).
-
----
-
-## Reproduce the analysis
-
-**H1 (haul-level EEoS):**
+**H1:**
 
 ```bash
-cd /path/to/north_sea_eeos
 Rscript pipeline/build_datras_state_variables.R
 Rscript pipeline/build_eeos_predictions.R
 Rscript pipeline/run_h1_harte_baseline.R
 Rscript pipeline/run_h1_lne_reference.R
 Rscript pipeline/run_h1_null_model.R
 Rscript pipeline/run_pipeline_diagnostics.R
-Rscript pipeline/explore_h1_haul_dominance.R          # dominance / size-homogeneity (D, size_CV)
-Rscript pipeline/explore_h1_dominance_partial_r2.R    # partial R² follow-up
 ```
 
-**H2 (rectangle-level residuals vs fishing pressure):** run after H1 (`build_eeos_predictions.R`).
+**H2 panel + structural breaks + live H2/H3 model:**
 
 ```bash
 Rscript pipeline/import_couce_fishing_effort.R
 Rscript pipeline/build_h2_rectangle_panel.R
-Rscript pipeline/run_h2_models.R
+Rscript --vanilla pipeline/run_h2h3_structbreak_check.R
+Rscript --vanilla pipeline/run_h2h3_within_between.R
+Rscript --vanilla pipeline/run_h2h3_wb_proportional_effects.R
 ```
-
-Required external data and setup: [`pipeline/README.md`](pipeline/README.md).
-
-**H2 results summary:** [`display_discussion/H2_results_summary.md`](display_discussion/H2_results_summary.md)
 
 ---
 
 ## Citation
 
-Harte, J., Brush, J. M., Newman, E. A., & Umemura, K. (2022). An equation of state unifies biodiversity, ecosystem functioning, and biomass in ecosystems. *Communications Biology*, 5, 957.
+Harte, J., Brush, J. M., Newman, E. A., & Umemura, K. (2022). An equation of state
+unifies biodiversity, ecosystem functioning, and biomass in ecosystems.
+*Communications Biology*, 5, 957.

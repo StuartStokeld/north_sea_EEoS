@@ -1,0 +1,2 @@
+model_id,rho_estimate,rho_ci_low_boot,rho_ci_high_boot,rho_admissible_lower,rho_admissible_upper,fraction_of_range_from_lower,fraction_of_range_from_upper,boundary_pinned_flag,car_lambda_variance,nsim_bootstrap
+car_adjacency,0.1308807857102103,0.08211366077831578,0.13157569994142748,-0.26342637085145443,0.131704647429831,0.9979149657164241,0.002085034283575823,TRUE,0.006476328743914166,99

@@ -1,0 +1,5 @@
+test_id,hypothesis,statistic_chisq,df,p_value,terms
+H2_all_between_phase_slopes_joint_zero,H2 — all FP_between phase slopes jointly zero,178.28772184249394,4,1.7387985189639543e-37,FP_between; FP_between:phase1989-2000; FP_between:phase2001-2007; FP_between:phase2008-2015
+H3_all_within_phase_slopes_joint_zero,H3 — all FP_within phase slopes jointly zero,35.556141635818776,4,3.570531899683865e-7,FP_within; phase1989-2000:FP_within; phase2001-2007:FP_within; phase2008-2015:FP_within
+H3_within_phase_interactions_joint_zero,H3 — FP_within × phase interactions jointly zero (change vs reference),12.655961900491477,3,0.005442881389953936,phase1989-2000:FP_within; phase2001-2007:FP_within; phase2008-2015:FP_within
+H2_between_phase_interactions_joint_zero,H2 — FP_between × phase interactions jointly zero (change vs reference; supplementary),169.33426375922832,3,1.7716857224892455e-36,FP_between:phase1989-2000; FP_between:phase2001-2007; FP_between:phase2008-2015

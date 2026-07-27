@@ -1,8 +1,13 @@
-# North Sea EEoS — Hypothesis 1 (haul-level biomass)
+# North Sea EEoS — analysis pipeline
 
-PhD research project testing whether the Ecological Equation of State (EEoS) predicts community biomass at individual trawl haul level in the NS-IBTS Q1 survey (1985–2015).
+PhD research project testing whether the Ecological Equation of State (EEoS) predicts community biomass at individual trawl haul level in the NS-IBTS Q1 survey (1985–2015), and whether fishing pressure explains EEoS residuals spatially (H2) and temporally (H3).
 
 **EEoS implementation:** [micbru/equation_of_state](https://github.com/micbru/equation_of_state) (`biomass.py`), called from R via `reticulate`.
+
+**Live vs exploratory:** Scripts in this folder are the **live** pipeline (see
+[`../outputs/live_pipeline_run_log.md`](../outputs/live_pipeline_run_log.md)).
+Superseded zone-scheme / pre-H3 / biomass-included feasibility / blended-term work lives in
+[`../exploratory/`](../exploratory/).
 
 ---
 
@@ -79,18 +84,74 @@ Requires **spdep**, **spatialreg**, and **sf** (plus **patchwork** for the topli
 
 Also requires ICES rectangle geometry: [`gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.shp`](../gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.shp).
 
+### Exploratory / superseded H2–H3 work (moved)
+
+Pre-H3 visualisation, Scheme A/B zone scripts, biomass-included feasibility,
+blended-term results + GAM, and temporal-robustness on the blended term are under
+[`../exploratory/`](../exploratory/) (see that folder’s README). They are not part of
+the live pipeline.
+
+### Structural-break check (live — defines H2/H3 phases)
+
+| Script | Purpose | Main outputs |
+|--------|---------|--------------|
+| [`run_h2h3_structbreak_check.R`](run_h2h3_structbreak_check.R) | BIC structural breaks on annual mean fishing hours | `outputs/h2h3_designA4_structbreak_years.csv`, `outputs/figures/h2h3_designA4_structbreak_series.png`, `outputs/h2h3_designA4_structbreak_run_log.md` |
+
 ```bash
-Rscript pipeline/build_datras_state_variables.R
-Rscript pipeline/build_eeos_predictions.R
-Rscript pipeline/run_h1_harte_baseline.R
-Rscript pipeline/run_h1_lne_reference.R
-Rscript pipeline/run_h1_null_model.R
-Rscript pipeline/run_pipeline_diagnostics.R
-Rscript pipeline/run_h1_dropout_diagnosis.R
-Rscript pipeline/explore_h1_catchability_scaling.R
-Rscript pipeline/explore_h1_haul_dominance.R
-Rscript pipeline/explore_h1_dominance_partial_r2.R
+Rscript --vanilla pipeline/run_h2h3_structbreak_check.R
 ```
+
+Requires **strucchange** (ad hoc / ambient library; not in `renv.lock`). Helpers:
+`R/h2h3_structbreak_helpers.R`. Reads `outputs/h2h3_designA1_year_fishing_summary.csv`
+(kept at top-level `outputs/` as a live input; producing design-support script is under
+`exploratory/`).
+
+### H2/H3 live model — within-between decomposition (biomass-free)
+
+**This is the presented H2/H3 analysis.** Separates persistent between-rectangle fishing
+pressure (**H2**) from within-rectangle year-to-year deviations (**H3**):
+`residual ~ FP_between * phase + FP_within * phase + (1 | stat_rec)`.
+Optional CAR sensitivity with the same decomposed terms. No biomass covariate.
+
+| Script | Main outputs |
+|--------|--------------|
+| [`run_h2h3_within_between.R`](run_h2h3_within_between.R) | `outputs/h2h3_wb_primary_fixed_effects.csv`, `outputs/h2h3_wb_fp_slopes_by_phase.csv`, `outputs/h2h3_wb_wald_tests.csv`, `outputs/h2h3_wb_blended_comparison.csv`, `outputs/h2h3_wb_model_fit.csv`, `outputs/h2h3_wb_partial_pooling.csv`, `outputs/h2h3_wb_model_objects.rds`, `outputs/figures/h2h3_wb_fp_slopes_by_phase.png`, `outputs/figures/h2h3_wb_partial_pooling.png`, `outputs/h2h3_wb_run_log.md` |
+
+```bash
+Rscript --vanilla pipeline/run_h2h3_within_between.R
+```
+
+Helpers: `R/h2h3_within_between_helpers.R` (plus `R/h2h3_feasibility_helpers.R`,
+`R/h2h3_results_helpers.R`). Must use `--vanilla` (glmmTMB / spaMM ad hoc).
+
+#### Pooled FP_between contrast (discussion only)
+
+| Script | Main outputs |
+|--------|--------------|
+| [`run_h2h3_wb_pooled_between_contrast.R`](run_h2h3_wb_pooled_between_contrast.R) | `outputs/h2h3_wb_pooled_between_*.csv`, `outputs/h2h3_wb_pooled_between_run_log.md` |
+
+```bash
+Rscript --vanilla pipeline/run_h2h3_wb_pooled_between_contrast.R
+```
+
+#### Proportional effect sizes (decomposed H2/H3)
+
+| Script | Main outputs |
+|--------|--------------|
+| [`run_h2h3_wb_proportional_effects.R`](run_h2h3_wb_proportional_effects.R) | `outputs/h2h3_wb_proportional_effects_H2.csv`, `outputs/h2h3_wb_proportional_effects_H3.csv`, `outputs/figures/h2h3_wb_gap_change_by_phase.png`, `outputs/h2h3_wb_proportional_effects_run_log.md` |
+
+```bash
+Rscript --vanilla pipeline/run_h2h3_wb_proportional_effects.R
+```
+
+#### Presentation figures / raw correlations
+
+```bash
+Rscript --vanilla pipeline/run_h2h3_presentation_figures.R
+Rscript --vanilla pipeline/run_h2h3_raw_correlation_stats.R
+```
+
+Canonical live-script list: [`../outputs/live_pipeline_run_log.md`](../outputs/live_pipeline_run_log.md).
 
 **Unit tests:**
 
@@ -121,6 +182,13 @@ Rscript pipeline/tests/testthat.R
 | [`R/h2_panel_helpers.R`](R/h2_panel_helpers.R) | Rectangle-level EEoS panel |
 | [`R/h2_model_helpers.R`](R/h2_model_helpers.R) | OLS model fitting for H2 |
 | [`R/h2_spatial_helpers.R`](R/h2_spatial_helpers.R) | Spatial weights, Moran's I, SEM, figures |
+| [`R/h2h3_structbreak_helpers.R`](R/h2h3_structbreak_helpers.R) | Structural-break criterion tables / series figure helpers |
+| [`R/h2h3_feasibility_helpers.R`](R/h2h3_feasibility_helpers.R) | Phase factor, haul-level analysis dataset, CAR adjacency (still required by live within-between) |
+| [`R/h2h3_results_helpers.R`](R/h2h3_results_helpers.R) | H2/H3 term labelling, Nakagawa R², CAR slopes, Wald helpers (still required by live within-between) |
+| [`R/h2h3_within_between_helpers.R`](R/h2h3_within_between_helpers.R) | Within-between FP decomposition helpers |
+
+Exploratory-only helpers (`h3_pre_*`, `h3_policy_*`, `h2h3_design_support_*`,
+`h2h3_temporal_robustness_*`) live under [`../exploratory/pipeline/R/`](../exploratory/pipeline/R/).
 
 ---
 

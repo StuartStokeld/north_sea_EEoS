@@ -1,0 +1,6 @@
+resolution_order,resolution,n_units_constructed,n_units_with_fishing_data,n_units_with_residual_data,icc_fishing_pressure,icc_residual_magnitude,icc_residual_signed,required_n_fishing_0.7,required_n_residual_magnitude_0.7,required_n_residual_signed_0.7,required_n_fishing_0.8,required_n_residual_magnitude_0.8,required_n_residual_signed_0.8,required_n_fishing_0.9,required_n_residual_magnitude_0.9,required_n_residual_signed_0.9
+1,1. Individual ICES rectangle (relaxed rule),165,165,165,0.5893037911982144,0.22739737524796294,0.2371586747601248,2,8,8,3,14,13,7,31,29
+2,"2. Scheme A, 2x2 block",62,50,50,0.45267230132025543,0.17080647569157473,0.1746275767132882,3,12,12,5,20,19,11,44,43
+3,"3. Scheme A, 3x3 block",34,26,26,0.3771774188068275,0.13646996005997053,0.1420319942260445,4,15,15,7,26,25,15,57,55
+4,"4. Scheme B, 3-tier zone",22,22,22,0.5304256066989239,0.0979039491985633,0.10392213032690889,3,22,21,4,37,35,8,83,78
+5,"5. Scheme B, 4-tier zone",49,49,49,0.5240551911997391,0.1359306316847482,0.1424709944369846,3,15,15,4,26,25,9,58,55

@@ -1,0 +1,2 @@
+model_id,n_warnings_during_fit,warnings_text,refit_near_lower_bound_rho,refit_zero_start_rho,refit_near_upper_bound_rho,fitted_rho,robust_to_starting_value,any_na_or_infinite_fixed_effect_se
+wb_pooled_between_car,0,none,0.13128831228657675,0.1312883140328503,0.1312883143684322,0.13128830083441562,TRUE,FALSE

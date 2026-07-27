@@ -1,0 +1,4 @@
+"Year","n_hl_hauls","n_datras_state","n_fishglob_joined","n_eeos_predictions","hl_to_datras_drop","datras_to_join_drop","join_to_pred_drop","pct_pred_of_hl","spike_status"
+1998,404,404,404,404,0,0,0,100,"no_dropout_spike"
+2013,394,394,393,393,0,1,0,99.7,"DATRAS hauls without FishGlob B_obs"
+2014,342,342,340,340,0,2,0,99.4,"DATRAS hauls without FishGlob B_obs"

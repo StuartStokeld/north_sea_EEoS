@@ -1,0 +1,9 @@
+model_id,term,term_plain,hypothesis,estimate,std_error,statistic,p_value
+primary_plain_re,(Intercept),Intercept,control (intercept),-1.313535353799921,0.13240958534870179,-9.920243691880119,3.399252189624624e-23
+primary_plain_re,log_hours_total,"Fishing pressure (log(hours+1)), phase 1985-1988","H2 (FP effect, reference phase 1985-1988)",-7.895518917015865e-4,0.01412150723818573,-0.05591130453600395,0.9554124652010869
+primary_plain_re,phase1989-2000,Phase 1989-2000 (vs 1985-1988),control (phase main effect),0.002027568686434236,0.13791502502805228,0.01470157936759844,0.9882702593420872
+primary_plain_re,phase2001-2007,Phase 2001-2007 (vs 1985-1988),control (phase main effect),-0.7393676769179327,0.13649310314967011,-5.416886713368855,6.064573862245583e-8
+primary_plain_re,phase2008-2015,Phase 2008-2015 (vs 1985-1988),control (phase main effect),-0.3364126771069605,0.13377707860163018,-2.514725845589373,0.011912497715548571
+primary_plain_re,log_hours_total:phase1989-2000,FP x phase 1989-2000 (change in FP slope vs 1985-1988),H3 (FP x phase interaction vs reference),-0.004821752218734442,0.014669059104157027,-0.32870221494765256,0.742380779996924
+primary_plain_re,log_hours_total:phase2001-2007,FP x phase 2001-2007 (change in FP slope vs 1985-1988),H3 (FP x phase interaction vs reference),0.08929983411604762,0.014697230957068113,6.075963178159219,1.2324569030288663e-9
+primary_plain_re,log_hours_total:phase2008-2015,FP x phase 2008-2015 (change in FP slope vs 1985-1988),H3 (FP x phase interaction vs reference),0.05881774110767138,0.014520868200197962,4.05056641908433,5.1093803979311626e-5

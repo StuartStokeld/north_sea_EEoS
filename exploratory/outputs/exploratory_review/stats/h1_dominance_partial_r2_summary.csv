@@ -1,0 +1,4 @@
+"model","r_squared","adj_r_squared","n"
+"m0: ln_ratio ~ log(B_obs)",0.237108806896291,0.237045585615683,12069
+"m1: ln_ratio ~ log(B_obs) + D + size_CV",0.244724625162264,0.24453682357714,12069
+"m2: ln_ratio ~ log(B_obs) + D * size_CV",0.244728912733336,0.244478491285304,12069

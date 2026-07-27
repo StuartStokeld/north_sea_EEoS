@@ -1,0 +1,5 @@
+scheme,parameter,n_cells,n_hauls,min_hauls_per_cell_observed,max_hauls_per_cell_observed,var_between_cell,var_within_cell,icc,required_n_reliability_0.7,required_n_reliability_0.8,required_n_reliability_0.9
+Scheme A (block merge),2x2,117,12069,3,276,0.04243959714809724,0.19680963153220288,0.17738655786768573,11,19,42
+Scheme A (block merge),3x3,64,12069,1,497,0.03623965176531827,0.2033612084738609,0.15125009037589598,14,23,51
+Scheme B (pressure zones),3-tier,43,10498,4,2108,0.023569039221074846,0.21810976612204253,0.09752216040464656,22,38,84
+Scheme B (pressure zones),4-tier,94,10498,2,1163,0.03002434188721279,0.21016057514340114,0.12500510963969436,17,28,63
