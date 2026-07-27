@@ -15,12 +15,15 @@ Results:
 - “Big shoals” (hauls at the extreme of the dominance/size-homogeneity distribution) show larger overprediction than hauls with a more typical spread across species and sizes. This gradient is smaller than the biomass-magnitude effect, but it persists after conditioning on biomass magnitude, indicating a second, largely independent source of prediction failure.
 - Detail: methods: [H1_methods_draft.md], headline results: [H1_results_summary.md]
 
-**H2/H3 were tested using a single mixed-effects model at haul level** (n = 10,464 hauls, 158 rectangles). Rectangle-year fishing pressure was decomposed into a between-rectangle term (a rectangle's own long-run mean fishing pressure) and a within-rectangle term (that year's deviation from the rectangle's own mean). Rectangle entered as a random intercept with a CAR spatial-correlation structure. Time entered as a 4-level phase variable from the structural-break analysis (1989, 2001, 2008).
+**H2/H3 were tested using a single mixed-effects model at haul level** (n = 10,464 hauls, 158 rectangles). 
+Rectangle-year fishing pressure was decomposed into a between-rectangle term (a rectangle's own long-run mean fishing pressure) and a within-rectangle term (that year's deviation from the rectangle's own mean). 
+Rectangle entered as a random intercept with a CAR spatial-correlation structure. Time entered as a 4-level phase variable from the structural-break analysis (1989, 2001, 2008).
 
 **H2 results:**
 
 - Fishing pressure predicts residual, but the direction is not stable over time.
 - Comparing a rectangle at the 25th percentile of persistent fishing pressure to one at the 75th percentile (within the same phase), the overprediction gap (the shortfall between EEoS's predicted biomass and the observed biomass) widens by 2.4% in 1985–1988 and 2.7% in 1989–2000 (higher-fishing rectangles predict *worse*, consistent with the original disturbance hypothesis), then reverses to close by 5.5% in 2001–2007 (higher-fishing rectangles predict *better*), before showing no detectable effect in 2008–2015 (0.9% closed, not significant).
+- if fishing pressure's spatial effect on residual were assumed stable across the full study period (no phase interaction), the estimated effect is +0.0006 (95% CI [−0.026, +0.027], p = 0.97) statistically indistinguishable from zero. The phase-specific analysis was necessary to detect a real, substantial effect that exists within specific periods.
 
 **H3 results:**
 
@@ -30,6 +33,11 @@ Results:
 This partially confirms and partially contradicts the working hypothesis stated above, neither H2 nor H3 shows the single, uniform disturbance signal originally anticipated.
 
 **Fishing pressure and time period, together, explain only about 5% of why haul-level prediction error varies (marginal R² = 0.051).** The remaining ~95% is driven by something else entirely.
+
+H2/ H3 limitation:
+- The low R² (0.051) is unlikely to improve through further refinement of the spatial or temporal structure alone. Three spatial specifications (plain random intercept, continuous distance-decay, CAR) were already tested and R² barely moved (0.047–0.051), and a different time-window choice faces the same ceiling, since it's still built from the same two predictors (fishing pressure, phase). Raising R² meaningfully would need new predictors already flagged in H1: the dominance/size-CV diagnostics, environmental covariates, or a catchability correction, rather than a different model of fishing pressure and time.
+- Couce data has some areas missing (Skagerrak/Kattegat and eastern English Channel) (highlighted/ map in H2 methods)
+- Couce fishing-hours data may not adequately capture disturbance - SAR data may offer a better signal (highlighted in H2 methods)
 
 **Separating noise and bias from theory failure.**
 
@@ -53,12 +61,6 @@ We have two “extremes” of research design. 1) assume that we have enough hau
 2. The problem here is that if we control too strongly, we might obscure the signal that we are looking for or give us spurious results.
 
 I am attempting to find an informed balance between the two, accept that we cannot fully control for catchability but that there are low hanging fruit (starting with big shoals), and take reasonable steps to ensure that controlling does not end up circularly impacting our results (IE giving us a spurious result that we are “looking for”).
-
-H2/ H3 limitation:
-
-- The low R² (0.051) is unlikely to improve through further refinement of the spatial or temporal structure alone. Three spatial specifications (plain random intercept, continuous distance-decay, CAR) were already tested and R² barely moved (0.047–0.051), and a different time-window choice faces the same ceiling, since it's still built from the same two predictors (fishing pressure, phase). Raising R² meaningfully would need new predictors already flagged in H1: the dominance/size-CV diagnostics, environmental covariates, or a catchability correction, rather than a different model of fishing pressure and time.
-- Couce data has some areas missing (Skagerrak/Kattegat and eastern English Channel) (highlighted/ map in H2 methods)
-- Couce fishing-hours data may not adequately capture disturbance - SAR data may offer a better signal (highlighted in H2 methods)
 
 Broken down above / in **methods note for discussion:**
 
