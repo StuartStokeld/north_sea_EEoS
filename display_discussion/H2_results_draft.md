@@ -1,10 +1,4 @@
-# H2 results – draft
-
-*Updated July 2026: primary H2 narrative below uses the within-between decomposition (persistent between-rectangle fishing pressure, CAR-adjusted, phase-specific slopes). An earlier cross-sectional rectangle-scale analysis (OLS / SEM) is retained at the end for reference.*
-
----
-
-## H2 — does a rectangle's persistent fishing-pressure level predict its prediction error?
+## H2 — does a rectangle's fishing-pressure level predict its prediction error?
 
 | Phase | Effect | Significant? | Gap change (typical low- vs high-fishing rectangle) |
 | --- | --- | --- | --- |
