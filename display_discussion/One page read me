@@ -24,6 +24,8 @@ Temporal periods were defined using a structural-break analysis (1989, 2001, 200
 - Fishing pressure predicts residual, but the direction is not stable over time.
 - Comparing a rectangle at the 25th percentile of persistent fishing pressure to one at the 75th percentile (within the same phase), the overprediction gap (the shortfall between EEoS's predicted biomass and the observed biomass) widens by 2.4% in 1985–1988 and 2.7% in 1989–2000 (higher-fishing rectangles predict *worse*, consistent with the original disturbance hypothesis), then reverses to close by 5.5% in 2001–2007 (higher-fishing rectangles predict *better*), before showing no detectable effect in 2008–2015 (0.9% closed, not significant).
 - *sensitivity analysis* if fishing pressure's spatial effect on residual were assumed stable across the full study period (no phase interaction), the estimated effect is +0.0006 (95% CI [−0.026, +0.027], p = 0.97) statistically indistinguishable from zero. The phase-specific analysis was necessary to detect a real, substantial effect that exists within specific periods.
+- These percentages reflect the fitted relationship across all 158 rectangles in each phase, adjusted for spatial autocorrelation; the raw, unadjusted correlation between a rectangle's persistent fishing pressure and its mean residual is weak in both early phases (r = −0.07 and −0.09, r² under 1%, not significant) but strengthens substantially post-2001 (r = +0.47, r² = 22% in 2001–2007; r = +0.29, r² = 9% in 2008–2015), consistent in direction with the adjusted slopes throughout. 
+
 
 **H3 results:**
 - The within-rectangle relationship is intermittent.
