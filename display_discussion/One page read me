@@ -17,21 +17,19 @@ Results:
 
 **H2/H3 were tested using a single mixed-effects model at haul level** (n = 10,464 hauls, 158 rectangles). 
 Rectangle-year fishing pressure was decomposed into a between-rectangle term (a rectangle's own long-run mean fishing pressure) and a within-rectangle term (that year's deviation from the rectangle's own mean). 
-Rectangle entered as a random intercept with a CAR spatial-correlation structure. Time entered as a 4-level phase variable from the structural-break analysis (1989, 2001, 2008).
+Rectangle entered as a random intercept with a CAR spatial-correlation structure. 
+Temporal periods were defined using a structural-break analysis (1989, 2001, 2008), here a break also corresponds with the 2002 Common Fisheries Policy (introduced stricter fishing effort controls).
 
 **H2 results:**
-
 - Fishing pressure predicts residual, but the direction is not stable over time.
 - Comparing a rectangle at the 25th percentile of persistent fishing pressure to one at the 75th percentile (within the same phase), the overprediction gap (the shortfall between EEoS's predicted biomass and the observed biomass) widens by 2.4% in 1985–1988 and 2.7% in 1989–2000 (higher-fishing rectangles predict *worse*, consistent with the original disturbance hypothesis), then reverses to close by 5.5% in 2001–2007 (higher-fishing rectangles predict *better*), before showing no detectable effect in 2008–2015 (0.9% closed, not significant).
 - if fishing pressure's spatial effect on residual were assumed stable across the full study period (no phase interaction), the estimated effect is +0.0006 (95% CI [−0.026, +0.027], p = 0.97) statistically indistinguishable from zero. The phase-specific analysis was necessary to detect a real, substantial effect that exists within specific periods.
 
 **H3 results:**
-
 - The within-rectangle relationship is intermittent.
 - Comparing a rectangle's own lower-fishing year to its own higher-fishing year (25th vs. 75th percentile of that rectangle's year-to-year fishing-pressure fluctuation), the overprediction gap closes by 1.1% in 1985–1988 (not significant) and by 0.7% in 1989–2000 (significant) — a rectangle's own fishing-pressure rise tracks a smaller gap that same year — then widens by 0.3% in 2001–2007 (not significant), before closing again by 2.0% in 2008–2015 (significant).
 
 This partially confirms and partially contradicts the working hypothesis stated above, neither H2 nor H3 shows the single, uniform disturbance signal originally anticipated.
-
 **Fishing pressure and time period, together, explain only about 5% of why haul-level prediction error varies (marginal R² = 0.051).** The remaining ~95% is driven by something else entirely.
 
 H2/ H3 limitation:
