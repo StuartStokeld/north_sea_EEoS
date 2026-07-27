@@ -12,10 +12,10 @@ Most rectangles are sampled only 1–2 times a year, too few to analyse independ
 robust breaks (1989, 2001, 2008), giving 4 phases**. A candidate 4th break (1997) had
 only marginal statistical support and no counterpart in the original visual
 inspection, and is not included in the primary phase structure.
-
 - Breaks were detected by fitting `strucchange::breakpoints()` (Bai–Perron) to the whole-area mean fishing-hours series — 31 annual points, 1985–2015, 
 pooled across all 215 rectangles — allowing both intercept and slope to shift at each break.
 - This only quantifies breaks over the whole fishing pressure time series (not aggregated down to individual rectangle / years).
+- I also explored temporal breaks on policy changes - the 2001 break corresponds closely with the 2002 Common Fisheries Policy (introduced stricter fishing effort controls).
 
 **Model: Mixed effects**
 A single model tests both hypotheses, using the within-between decomposition of
