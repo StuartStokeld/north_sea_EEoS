@@ -1,8 +1,8 @@
 Justification and explanation for methodological approach to H2/ H3
 
 **Exploratory analysis found that fishing pressure is varied at the rectangle level**
-- **Between-rectangle variance**: how much rectangles differ from each other in their *typical* (average) fishing-pressure level = 59% of the variance in fishing pressure
-- **Within-rectangle variance**: how much a single rectangle's value bounces around from year to year, around its own typical level. = 41% of the variance in fishing pressure
+- **Between-rectangle variance**: how much rectangles differ from each other in their *typical* (average) fishing-pressure level, ICC = 59% of the variance in fishing pressure
+- **Within-rectangle variance**: how much a single rectangle's value bounces around from year to year, around its own typical level, ICC = 41% of the variance in fishing pressure
 
 **Spatial unit =** Individual rectangles
 Most rectangles are sampled only 1–2 times a year, too few to analyse independently, the random intercept below lets each rectangle borrow strength from the overall pattern rather than being treated alone.
@@ -13,11 +13,13 @@ robust breaks (1989, 2001, 2008), giving 4 phases**. A candidate 4th break (1997
 only marginal statistical support and no counterpart in the original visual
 inspection, and is not included in the primary phase structure.
 
-- Breaks were detected by fitting `strucchange::breakpoints()` (Bai–Perron) to the whole-area mean fishing-hours series — 31 annual points, 1985–2015, pooled across all 215 rectangles — allowing both intercept and slope to shift at each break.
+- Breaks were detected by fitting `strucchange::breakpoints()` (Bai–Perron) to the whole-area mean fishing-hours series — 31 annual points, 1985–2015, 
+pooled across all 215 rectangles — allowing both intercept and slope to shift at each break.
+- This only quantifies breaks over the whole fishing pressure time series (not aggregated down to individual rectangle / years).
 
 **Model: Mixed effects**
 A single model tests both hypotheses, using the within-between decomposition of
-fishing pressure (Section 2):
+fishing pressure
 
 - **H2 (spatial)**: significant `FP_between` main effect on residual, with
 rectangle-level spatial autocorrelation accounted for.
