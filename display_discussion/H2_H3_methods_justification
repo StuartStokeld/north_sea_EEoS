@@ -1,18 +1,13 @@
 Justification and explanation for methodological approach to H2/ H3
 
-**Exploratory analysis:**
-
-**Fishing pressure is varied at the rectangle level**
-
+**Exploratory analysis found that fishing pressure is varied at the rectangle level**
 - **Between-rectangle variance**: how much rectangles differ from each other in their *typical* (average) fishing-pressure level = 59% of the variance in fishing pressure
 - **Within-rectangle variance**: how much a single rectangle's value bounces around from year to year, around its own typical level. = 41% of the variance in fishing pressure
 
 **Spatial unit =** Individual rectangles
-
 Most rectangles are sampled only 1–2 times a year, too few to analyse independently, the random intercept below lets each rectangle borrow strength from the overall pattern rather than being treated alone.
 
 **Temporal break points:**
-
 **Phase structure**: derived from the structural-break analysis — **3 statistically
 robust breaks (1989, 2001, 2008), giving 4 phases**. A candidate 4th break (1997) had
 only marginal statistical support and no counterpart in the original visual
@@ -21,7 +16,6 @@ inspection, and is not included in the primary phase structure.
 - Breaks were detected by fitting `strucchange::breakpoints()` (Bai–Perron) to the whole-area mean fishing-hours series — 31 annual points, 1985–2015, pooled across all 215 rectangles — allowing both intercept and slope to shift at each break.
 
 **Model: Mixed effects**
-
 A single model tests both hypotheses, using the within-between decomposition of
 fishing pressure (Section 2):
 
@@ -32,9 +26,7 @@ rectangle's own year-to-year fishing-pressure fluctuation's association with its
 own residual differs across the four data-derived time phases.
 
 A rectangle enters as a random intercept (`(1 | rectangle)`),
-
 Spatial autocorrelation between neighbouring rectangles is incorporated directly into this random-effects structure, e.g. a spatial correlation function over rectangle centroids.
-
 Fishing pressure enters as a fixed-effect covariate at the rectangle-year level (its natural resolution in the Couce dataset).
 
 **Decomposition**
