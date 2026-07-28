@@ -1,0 +1,2 @@
+n_rectangles,min_n_hauls,median_n_hauls,max_n_hauls,min_hauls_threshold,all_meet_threshold
+26,6,59,150,5,TRUE

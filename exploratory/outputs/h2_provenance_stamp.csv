@@ -1,0 +1,2 @@
+generated_at,haul_eeos_predictions_rds,haul_eeos_predictions_mtime_utc,couce_csv,couce_csv_md5,couce_csv_mtime_utc,git_commit,spdep_version,spatialreg_version,r_version
+2026-07-19T16:37:38+0000,/Users/stuartstokeld/north_sea_eeos/outputs/haul_eeos_predictions.rds,2026-07-13T10:02:19+0000,/Users/stuartstokeld/north_sea_eeos/data/external/couce_trawling_effort/NorthSea_trawling_effort_1985to2015_REVIEW_v2.csv,069c2c3ae8f9792064f2b936fb4a1776,2026-07-05T14:49:34+0000,11c78c965527adcc717b24b59aff512c57f0efec,1.4.1,1.4.2,4.4.3

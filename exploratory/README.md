@@ -31,6 +31,7 @@ For the live pipeline and presented results, see:
 3. **Biomass-included shared-model feasibility** — `run_h2h3_shared_model_feasibility.R`, `…_round2.R`, and most `h2h3_feasibility_*` outputs.
 4. **Blended-term (undecomposed) model + GAM** — `run_h2h3_shared_model_results.R`, `run_h2h3_proportional_effects.R`, `run_h2h3_temporal_robustness.R`, and their outputs/figures.
 5. **Design-support explorations** — `run_h2h3_design_support.R` (aside from A1 / A4 inputs kept for the live structbreak script).
+6. **Step-0 / dominance / biomass H2 runs** — `run_h2_dominance_*`, `run_h2_biomass_*`, `run_h2_robustness_*`, `run_h2_sar_lag_*`, `run_missing_visuals.R` and matching outputs under `exploratory/outputs/`.
 
 A few intermediate files remain under top-level `outputs/` because the live
 within-between / structbreak scripts still read them — listed in the live pipeline

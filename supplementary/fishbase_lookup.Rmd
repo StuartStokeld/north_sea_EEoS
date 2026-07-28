@@ -1,0 +1,411 @@
+---
+title: "fishbase_lookup"
+output: html_document
+date: "2026-05-31"
+---
+
+```{r setup, include=FALSE}
+library(rfishbase)
+```
+
+```{r load-species-list}
+species_list <- all_spp
+
+# Confirm
+head(species_list$accepted_name)
+nrow(species_list)  # should be ~209
+
+# Now run the LW pull
+lw_raw <- length_weight(species_list$accepted_name)
+lw_raw <- as.data.frame(lw_raw)
+
+saveRDS(lw_raw, 
+  "/Users/stuartstokeld/north_sea_eeos/outputs/fishbase_lw_raw.rds")
+```
+
+```{r lw-from-fishbase}
+lw_raw <- length_weight(species_list$accepted_name)
+lw_raw <- as.data.frame(lw_raw)
+saveRDS(lw_raw, 
+  "/Users/stuartstokeld/north_sea_eeos/outputs/fishbase_lw_raw.rds")
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r confirm save}
+nrow(lw_raw)
+names(lw_raw)
+head(lw_raw[, c("Species", "a", "b", "Type")])
+```
+
+```{r select-best-lw-parameters}
+library(dplyr)
+
+# Step 1: For each species, determine which length types are available
+type_coverage <- lw_raw %>%
+  group_by(Species) %>%
+  summarise(
+    has_TL  = any(Type == "TL",  na.rm = TRUE),
+    has_FL  = any(Type == "FL",  na.rm = TRUE),
+    has_SL  = any(Type == "SL",  na.rm = TRUE),
+    has_other = any(Type %in% c("NG", "OT", "WD"), na.rm = TRUE),
+    has_NA  = any(is.na(Type)),
+    n_total = n()
+  )
+
+# How many species have no TL entry at all?
+no_tl <- type_coverage %>% filter(!has_TL)
+cat("Species with no TL entry:", nrow(no_tl), "\n")
+print(no_tl$Species)
+
+# Step 2: Select best parameter row per species
+# Priority: TL > FL > SL > NA type > other
+# Within each type tier, rank by sample size (Number), take highest
+lw_best <- lw_raw %>%
+  mutate(
+    type_priority = case_when(
+      Type == "TL"              ~ 1,
+      Type == "FL"              ~ 2,
+      Type == "SL"              ~ 3,
+      is.na(Type)               ~ 4,
+      Type %in% c("NG","OT","WD") ~ 5,
+      TRUE                      ~ 6
+    ),
+    sample_size = suppressWarnings(as.numeric(Number))
+  ) %>%
+  group_by(Species) %>%
+  arrange(type_priority, desc(sample_size), .by_group = TRUE) %>%
+  slice(1) %>%
+  ungroup()
+
+cat("Rows after selection (should equal nrow(species_list)):", nrow(lw_best), "\n")
+
+# Step 3: Flag entries that are not TL — these need a conversion note in methods
+lw_best <- lw_best %>%
+  mutate(
+    lw_type_flag = case_when(
+      Type == "TL"  ~ "TL_direct",
+      Type == "FL"  ~ "FL_needs_conversion",
+      Type == "SL"  ~ "SL_needs_conversion",
+      is.na(Type)   ~ "type_unknown",
+      TRUE          ~ "other_review"
+    )
+  )
+
+table(lw_best$lw_type_flag)
+```
+
+```{r lw-coverage-summary}
+# Join best parameters back to species list (which has total_N for weighting)
+lw_coverage <- species_list %>%
+  left_join(lw_best %>% select(Species, a, b, Type, lw_type_flag, 
+                                CoeffDetermination, Number, Locality),
+            by = c("accepted_name" = "Species"))
+
+# How many species got no match at all?
+no_match <- lw_coverage %>% filter(is.na(a))
+cat("Species with no LW parameters at all:", nrow(no_match), "\n")
+print(no_match$accepted_name)
+
+# N-weighted coverage by flag type
+lw_coverage <- lw_coverage %>%
+  mutate(lw_type_flag = ifelse(is.na(lw_type_flag), "MISSING", lw_type_flag))
+
+total_N <- sum(lw_coverage$total_N)
+
+lw_coverage %>%
+  group_by(lw_type_flag) %>%
+  summarise(
+    n_species = n(),
+    total_N   = sum(total_N),
+    pct_N     = round(100 * sum(total_N) / !!total_N, 3)
+  ) %>%
+  arrange(desc(pct_N))
+
+# Save
+saveRDS(lw_coverage, 
+  "/Users/stuartstokeld/north_sea_eeos/outputs/lw_coverage.rds")
+write.csv(lw_coverage,
+  "/Users/stuartstokeld/north_sea_eeos/outputs/lw_coverage.csv",
+  row.names = FALSE)
+```
+
+```{r taxonomic-fallback}
+library(dplyr)
+
+# Load taxonomy to get genus and family for unmatched species
+taxa <- load_taxa() %>% as.data.frame()
+
+# Identify unmatched species
+unmatched <- lw_coverage %>% filter(is.na(a))
+cat("Unmatched species needing fallback:", nrow(unmatched), "\n")
+
+# Get genus and family for unmatched species
+# Parse genus as first word of accepted_name
+unmatched <- unmatched %>%
+  mutate(genus = stringr::word(accepted_name, 1))
+
+# Compute genus-level mean a and b from lw_best (TL entries only where possible)
+genus_means <- lw_raw %>%
+  filter(Type == "TL" | is.na(Type)) %>%
+  mutate(genus = stringr::word(Species, 1)) %>%
+  group_by(genus) %>%
+  summarise(
+    a_genus = mean(a, na.rm = TRUE),
+    b_genus = mean(b, na.rm = TRUE),
+    n_genus = sum(!is.na(a))
+  ) %>%
+  filter(n_genus > 0)
+
+# Compute family-level mean a and b
+# Join lw_raw to taxa to get family
+lw_with_family <- lw_raw %>%
+  filter(Type == "TL" | is.na(Type)) %>%
+  left_join(taxa %>% select(Species, Family) %>% distinct(),
+            by = "Species") %>%
+  filter(!is.na(Family))
+
+family_means <- lw_with_family %>%
+  group_by(Family) %>%
+  summarise(
+    a_family = mean(a, na.rm = TRUE),
+    b_family = mean(b, na.rm = TRUE),
+    n_family = sum(!is.na(a))
+  ) %>%
+  filter(n_family > 0)
+
+# Get family for unmatched species via taxa table
+unmatched_with_family <- unmatched %>%
+  left_join(taxa %>% select(Species, Family) %>% distinct(),
+            by = c("accepted_name" = "Species"))
+
+# Apply fallback hierarchy: genus mean → family mean → MISSING
+unmatched_filled <- unmatched_with_family %>%
+  left_join(genus_means, by = "genus") %>%
+  left_join(family_means, by = "Family") %>%
+  mutate(
+    a_final = case_when(
+      !is.na(a_genus) ~ a_genus,
+      !is.na(a_family) ~ a_family,
+      TRUE ~ NA_real_
+    ),
+    b_final = case_when(
+      !is.na(b_genus) ~ b_genus,
+      !is.na(b_family) ~ b_family,
+      TRUE ~ NA_real_
+    ),
+    fallback_level = case_when(
+      !is.na(a_genus)  ~ "genus_mean",
+      !is.na(a_family) ~ "family_mean",
+      TRUE             ~ "MISSING"
+    )
+  )
+
+table(unmatched_filled$fallback_level)
+```
+
+```{r check}
+missing_spp <- unmatched_filled %>% filter(fallback_level == "MISSING")
+missing_spp %>% 
+  select(accepted_name, total_N) %>% 
+  arrange(desc(total_N)) %>%
+  mutate(pct_N = round(100 * total_N / sum(species_list$total_N), 4))
+```
+```{r assemble-final-lookup}
+# Matched species: use direct parameters
+matched <- lw_coverage %>%
+  filter(!is.na(a)) %>%
+  mutate(
+    a_final       = a,
+    b_final       = b,
+    fallback_level = lw_type_flag
+  ) %>%
+  select(accepted_name, aphia_id, total_N, a_final, b_final, 
+         Type, fallback_level)
+
+# Fallback species: use genus/family means where available
+fallback <- unmatched_filled %>%
+  select(accepted_name, aphia_id, total_N, a_final, b_final,
+         fallback_level) %>%
+  mutate(Type = NA_character_)
+
+# Bind together
+lw_final <- bind_rows(matched, fallback) %>%
+  arrange(desc(total_N))
+
+# Confirm row count and coverage
+cat("Total species in final lookup:", nrow(lw_final), "\n")
+
+# N-weighted coverage summary
+lw_final %>%
+  mutate(coverage_class = case_when(
+    fallback_level == "TL_direct"          ~ "TL_direct",
+    fallback_level == "type_unknown"        ~ "type_unknown",
+    fallback_level == "FL_needs_conversion" ~ "FL_needs_conversion",
+    fallback_level == "other_review"        ~ "other_review",
+    fallback_level == "genus_mean"          ~ "genus_mean_fallback",
+    fallback_level == "family_mean"         ~ "family_mean_fallback",
+    fallback_level == "MISSING"             ~ "MISSING",
+    TRUE                                    ~ "other"
+  )) %>%
+  group_by(coverage_class) %>%
+  summarise(
+    n_species = n(),
+    pct_N     = round(100 * sum(total_N) / sum(lw_final$total_N), 3)
+  ) %>%
+  arrange(desc(pct_N))
+
+# Save
+write.csv(lw_final,
+  "/Users/stuartstokeld/north_sea_eeos/outputs/fishbase_lw_lookup_v2.csv",
+  row.names = FALSE)
+saveRDS(lw_final,
+  "/Users/stuartstokeld/north_sea_eeos/outputs/fishbase_lw_lookup_v2.rds")
+
+cat("Saved to outputs/fishbase_lw_lookup_v2\n")
+```
+
+```{r compute-haul-mean-lengths}
+library(dplyr)
+
+# Build haul identifier — composite key matching FishGlob haul_id structure
+# Fields: Survey, Quarter, Country, Platform, HaulNumber, Year
+hl_clean <- hl %>%
+  filter(
+    Year >= 1985, Year <= 2015,
+    LengthCode != "-9",
+    length_mm > 0,
+    NumberAtLength > 0,
+    !is.na(AphiaID)
+  ) %>%
+  mutate(
+    haul_key = paste(Survey, Year, Quarter, Country, Platform, 
+                     HaulNumber, sep = "_")
+  )
+
+# Compute weighted mean length (mm) per species per haul
+# Weight = NumberAtLength (already raised count with SubsamplingFactor applied)
+haul_mean_length <- hl_clean %>%
+  group_by(haul_key, Survey, Year, Quarter, Country, Platform, 
+           HaulNumber, AphiaID, Species) %>%
+  summarise(
+    mean_length_mm = weighted.mean(length_mm, w = NumberAtLength),
+    total_n_measured = sum(NumberAtLength),
+    n_length_bins = n(),
+    .groups = "drop"
+  )
+
+cat("Species-haul combinations:", nrow(haul_mean_length), "\n")
+cat("Unique hauls:", n_distinct(haul_mean_length$haul_key), "\n")
+cat("Unique species (AphiaID):", n_distinct(haul_mean_length$AphiaID), "\n")
+cat("Years:", min(haul_mean_length$Year), "-", max(haul_mean_length$Year), "\n")
+
+# Inspect a few rows
+head(haul_mean_length)
+
+# Save
+saveRDS(haul_mean_length,
+  "/Users/stuartstokeld/north_sea_eeos/outputs/datras_haul_mean_length.rds")
+cat("Saved datras_haul_mean_length.rds\n")
+```
+
+```{r exclude-non-fish}
+# AphiaIDs for non-demersal-fish taxa to exclude from community
+# Cephalopods, crustaceans, bivalves, other invertebrates
+non_fish_aphia <- c(
+  # Cephalopods
+  153131, 138138, 140270, 138139, 140271, 11734, 11760,
+  141452, 140625, 11716, 140621, 141454, 11718, 141449,
+  140624, 140600, 138481, 138482, 138483, 141448, 141450,
+  141443, 141444, 138477, 11725, 494117, 138802, 153083,
+  11707, 11709, 138802, 1437787, 1437789, 140605,
+  # Crustaceans
+  107254, 107276, 107205, 107253, 107347, 107350, 107398, 106789,
+  # Bivalves and other invertebrates
+  140712, 140687, 658802, 167039, 167569
+)
+
+# Filter haul_mean_length to fish only before LW join
+haul_mean_length_fish <- haul_mean_length %>%
+  filter(!AphiaID %in% non_fish_aphia)
+
+cat("Species-haul rows before exclusion:", nrow(haul_mean_length), "\n")
+cat("Species-haul rows after exclusion:", nrow(haul_mean_length_fish), "\n")
+cat("Rows removed:", nrow(haul_mean_length) - nrow(haul_mean_length_fish), "\n")
+```
+
+```{r compute-haul-E}
+library(dplyr)
+
+# Load LW lookup
+lw_lookup <- read.csv(
+  "/Users/stuartstokeld/north_sea_eeos/outputs/fishbase_lw_lookup_v2.csv",
+  stringsAsFactors = FALSE
+)
+
+# Join mean lengths to LW parameters via AphiaID
+# lw_lookup has aphia_id; haul_mean_length has AphiaID
+haul_mass <- haul_mean_length_fish %>%
+  left_join(
+    lw_lookup %>% select(aphia_id, a_final, b_final, fallback_level),
+    by = c("AphiaID" = "aphia_id")
+  )
+
+# Check join coverage
+cat("Rows with LW parameters:", sum(!is.na(haul_mass$a_final)), "\n")
+cat("Rows missing LW parameters:", sum(is.na(haul_mass$a_final)), "\n")
+
+# What species are missing LW parameters?
+missing_lw <- haul_mass %>%
+  filter(is.na(a_final)) %>%
+  group_by(AphiaID, Species) %>%
+  summarise(n_hauls = n(), total_n = sum(total_n_measured), .groups = "drop") %>%
+  arrange(desc(total_n))
+print(missing_lw)
+
+# Compute mean individual mass (grams) using W = a * L^b
+# length_mm converted to cm for FishBase parameters (a, b expect cm input)
+haul_mass <- haul_mass %>%
+  filter(!is.na(a_final)) %>%
+  mutate(
+    length_cm = mean_length_mm / 10,
+    mass_g    = a_final * (length_cm ^ b_final)
+  )
+
+# Compute haul-level E = sum over species of (total_n_measured * mass_g^0.75)
+haul_E <- haul_mass %>%
+  group_by(haul_key, Survey, Year, Quarter, Country, Platform, HaulNumber) %>%
+  summarise(
+    E = sum(total_n_measured * mass_g ^ 0.75),
+    n_species_with_lw = n(),
+    .groups = "drop"
+  )
+
+cat("Hauls with E computed:", nrow(haul_E), "\n")
+summary(haul_E$E)
+
+saveRDS(haul_E,
+  "/Users/stuartstokeld/north_sea_eeos/outputs/datras_haul_E.rds")
+cat("Saved datras_haul_E.rds\n")
+```
+
+```{r check}
+list.files("/Users/stuartstokeld/north_sea_eeos/FishGlob_data/outputs/")
+list.files("/Users/stuartstukeld/north_sea_eeos/", pattern = "*.csv")
+```
+```{r check prop}
+load("/Users/stuartstokeld/north_sea_eeos/FishGlob_data/outputs/Cleaned_data/NS-IBTS_clean.RData")
+
+# See what objects were loaded
+ls()
+
+# Inspect the main object — it's likely called 'data' or 'NS-IBTS_clean'
+# Check whichever new object appeared after the load
+head(data)
+names(data)
+nrow(data)
+```

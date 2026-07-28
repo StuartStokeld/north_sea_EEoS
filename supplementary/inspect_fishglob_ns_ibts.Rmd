@@ -1,0 +1,802 @@
+---
+title: "Inspect FishGlob — NS-IBTS"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+This notebook loads **`NS-IBTS_clean.RData`** from the FishGlob cleaned outputs (North Sea International Bottom Trawl Survey) and summarizes what is inside.
+
+## Locate and load data
+
+Paths work when the notebook lives in **`north_sea_eeos`**, or when it is in a subfolder such as **`NS_EEOS`** (parent is searched automatically).
+
+```{r load}
+find_ns_ibts <- function() {
+  candidates <- c(
+    file.path("FishGlob_data", "outputs", "Cleaned_data", "NS-IBTS_clean.RData"),
+    file.path("..", "FishGlob_data", "outputs", "Cleaned_data", "NS-IBTS_clean.RData")
+  )
+  for (p in candidates) {
+    if (file.exists(p)) return(normalizePath(p))
+  }
+  stop(
+    "NS-IBTS_clean.RData not found. Expected under north_sea_eeos/FishGlob_data/outputs/Cleaned_data/."
+  )
+}
+
+path_rdata <- find_ns_ibts()
+cat("Loaded from:\n", path_rdata, "\n\n")
+
+load(path_rdata)
+# Objects: `data` (main table), `readme` (metadata)
+```
+
+## Dataset readme (`readme`)
+
+```{r readme}
+readme
+```
+
+## Table dimensions and column names
+
+```{r dims}
+cat("Rows:", nrow(data), "  Columns:", ncol(data), "\n")
+names(data)
+```
+
+## Quick structure
+
+```{r glimpse, results='asis'}
+if (requireNamespace("pillar", quietly = TRUE) && requireNamespace("tibble", quietly = TRUE)) {
+  print(tibble::as_tibble(utils::head(data, 5)))
+} else {
+  knitr::kable(utils::head(data, 5), row.names = FALSE)
+}
+```
+
+Use **`dplyr::glimpse(data)`** in the console for a full variable-wise summary if you use the tidyverse.
+
+## Time and sampling coverage
+
+```{r coverage}
+ys <- range(data$year, na.rm = TRUE)
+n_haul <- length(unique(data$haul_id))
+n_taxa <- length(unique(data$accepted_name[!is.na(data$accepted_name)]))
+cat("Year range:", ys[1], "–", ys[2], "\n")
+cat("Unique haul_id:", n_haul, "\n")
+cat("Unique accepted species names (non-NA):", n_taxa, "\n")
+```
+
+## Records per year
+
+```{r per-year}
+yr <- table(data$year)
+yr_df <- data.frame(year = as.integer(names(yr)), n_records = as.integer(yr))
+yr_df <- yr_df[order(yr_df$year), ]
+knitr::kable(utils::head(yr_df, 15), caption = "First 15 years (rows = species × haul records)")
+knitr::kable(utils::tail(yr_df, 15), caption = "Last 15 years")
+```
+
+## Top species by total catch weight (`wgt`)
+
+```{r top-species}
+agg <- aggregate(wgt ~ accepted_name, data = data, FUN = sum, na.rm = TRUE)
+names(agg)[2] <- "total_wgt"
+agg <- agg[order(agg$total_wgt, decreasing = TRUE), ]
+rownames(agg) <- NULL
+knitr::kable(utils::head(agg, 20), caption = "Top 20 species by summed wgt")
+```
+
+## Spatial snapshot (first and last years with coordinates)
+
+```{r map-table}
+xy <- data[!is.na(data$latitude) & !is.na(data$longitude), c("year", "latitude", "longitude", "haul_id")]
+xy <- unique(xy)
+if (nrow(xy) > 0) {
+  ylo <- min(xy$year)
+  yhi <- max(xy$year)
+  s1 <- xy[xy$year == ylo, ][1:min(5, sum(xy$year == ylo)), , drop = FALSE]
+  shi <- xy[xy$year == yhi, ][1:min(5, sum(xy$year == yhi)), , drop = FALSE]
+  knitr::kable(s1, caption = paste("Example hauls (first year in data:", ylo, ")"))
+  knitr::kable(shi, caption = paste("Example hauls (last year in data:", yhi, ")"))
+}
+```
+
+To plot points in R, use e.g. **`plot(data$longitude, data$latitude, pch = 16, cex = 0.2, asp = 1)`** or **`ggplot2::geom_point`** with alpha for density.
+
+---
+
+## Quarter overview
+
+How does the data split between quarters overall?
+
+```{r quarter-overview}
+library(dplyr)
+library(knitr)
+
+data %>%
+  count(quarter) %>%
+  mutate(pct = round(100 * n / sum(n), 1)) %>%
+  kable(caption = "Records by quarter (species × haul rows)")
+```
+
+---
+
+## Q1 vs Q3 — annual haul counts
+
+Number of unique hauls per year, split by quarter. This is the primary comparator for temporal consistency.
+
+```{r q1q3-hauls-year}
+hauls_by_quarter_year <- data %>%
+  filter(quarter %in% c(1, 3)) %>%
+  distinct(quarter, year, haul_id) %>%
+  count(quarter, year, name = "n_hauls")
+
+# Wide format for easy comparison
+hauls_wide <- hauls_by_quarter_year %>%
+  tidyr::pivot_wider(names_from = quarter, values_from = n_hauls,
+                     names_prefix = "Q") %>%
+  arrange(year)
+
+kable(hauls_wide, caption = "Unique hauls per year: Q1 vs Q3")
+```
+
+---
+
+## Q1 vs Q3 — species richness per year
+
+Number of unique species observed per year, by quarter.
+
+```{r q1q3-species-year}
+data %>%
+  filter(quarter %in% c(1, 3), !is.na(accepted_name)) %>%
+  group_by(quarter, year) %>%
+  summarise(n_species = n_distinct(accepted_name), .groups = "drop") %>%
+  tidyr::pivot_wider(names_from = quarter, values_from = n_species,
+                     names_prefix = "Q") %>%
+  arrange(year) %>%
+  kable(caption = "Unique species per year: Q1 vs Q3")
+```
+
+---
+
+## Q1 vs Q3 — spatial coverage per year
+
+Number of unique ICES rectangles (stat_rec) sampled per year.
+
+```{r q1q3-rects-year}
+data %>%
+  filter(quarter %in% c(1, 3), !is.na(stat_rec)) %>%
+  distinct(quarter, year, stat_rec) %>%
+  count(quarter, year, name = "n_rects") %>%
+  tidyr::pivot_wider(names_from = quarter, values_from = n_rects,
+                     names_prefix = "Q") %>%
+  arrange(year) %>%
+  kable(caption = "Unique ICES rectangles sampled per year: Q1 vs Q3")
+```
+
+---
+
+## Q1 vs Q3 — summary statistics
+
+Single-row summary comparing the two quarters across the full time series (year >= 1983).
+
+```{r q1q3-summary}
+data %>%
+  filter(quarter %in% c(1, 3), year >= 1983, !is.na(stat_rec), !is.na(accepted_name)) %>%
+  group_by(quarter, year) %>%
+  summarise(
+    n_hauls   = n_distinct(haul_id),
+    n_rects   = n_distinct(stat_rec),
+    n_species = n_distinct(accepted_name),
+    .groups   = "drop"
+  ) %>%
+  group_by(quarter) %>%
+  summarise(
+    years_with_data    = n(),
+    first_year         = min(year),
+    last_year          = max(year),
+    median_hauls_yr    = median(n_hauls),
+    sd_hauls_yr        = round(sd(n_hauls), 1),
+    median_rects_yr    = median(n_rects),
+    median_species_yr  = median(n_species),
+    .groups = "drop"
+  ) %>%
+  kable(caption = "Summary across years >= 1983: Q1 vs Q3")
+```
+
+---
+
+## Haul density per rectangle per year (Q1, year >= 1983)
+
+Distribution of hauls-per-cell-per-year — the key statistic for deciding the minimum density threshold.
+
+```{r haul-density-q1}
+density_q1 <- data %>%
+  filter(quarter == 1, year >= 1983, !is.na(stat_rec)) %>%
+  distinct(year, stat_rec, haul_id) %>%
+  count(year, stat_rec, name = "n_hauls")
+
+cat("=== Q1: hauls per rectangle per year (year >= 1983) ===\n")
+summary(density_q1$n_hauls)
+
+cat("\nDistribution of haul counts:\n")
+density_q1 %>%
+  count(n_hauls, name = "n_cell_years") %>%
+  mutate(cumulative_pct = round(100 * cumsum(n_cell_years) / sum(n_cell_years), 1)) %>%
+  kable(caption = "How often does each haul count occur across all cell-years?")
+```
+
+---
+
+## Haul density per rectangle per year (Q3, year >= 1983)
+
+Same table for Q3 — compare directly with Q1 above.
+
+```{r haul-density-q3}
+density_q3 <- data %>%
+  filter(quarter == 3, year >= 1983, !is.na(stat_rec)) %>%
+  distinct(year, stat_rec, haul_id) %>%
+  count(year, stat_rec, name = "n_hauls")
+
+cat("=== Q3: hauls per rectangle per year (year >= 1983) ===\n")
+summary(density_q3$n_hauls)
+
+cat("\nDistribution of haul counts:\n")
+density_q3 %>%
+  count(n_hauls, name = "n_cell_years") %>%
+  mutate(cumulative_pct = round(100 * cumsum(n_cell_years) / sum(n_cell_years), 1)) %>%
+  kable(caption = "How often does each haul count occur across all cell-years?")
+```
+
+---
+
+## Cells passing density thresholds (Q1 vs Q3)
+
+At various minimum haul thresholds, how many cell-years survive? Informs threshold choice.
+
+```{r density-thresholds}
+thresholds <- c(1, 2, 3, 5, 8, 10)
+
+thresh_compare <- purrr::map_dfr(thresholds, function(t) {
+  tibble(
+    min_hauls = t,
+    Q1_cell_years  = sum(density_q1$n_hauls >= t),
+    Q1_pct         = round(100 * mean(density_q1$n_hauls >= t), 1),
+    Q3_cell_years  = sum(density_q3$n_hauls >= t),
+    Q3_pct         = round(100 * mean(density_q3$n_hauls >= t), 1)
+  )
+})
+
+kable(thresh_compare,
+      caption = "Cell-years surviving each minimum haul threshold: Q1 vs Q3")
+```
+
+---
+
+## Temporal consistency per rectangle (Q1, year >= 1983)
+
+For each rectangle: how many years does it appear in Q1 with >= 3 hauls? Identifies the stable core panel.
+
+```{r rect-temporal-q1}
+rect_years_q1 <- density_q1 %>%
+  filter(n_hauls >= 3) %>%
+  count(stat_rec, name = "n_years_ge3hauls") %>%
+  arrange(desc(n_years_ge3hauls))
+
+cat("Q1 rectangles by number of years with >= 3 hauls:\n")
+rect_years_q1 %>%
+  count(n_years_ge3hauls, name = "n_rectangles") %>%
+  arrange(desc(n_years_ge3hauls)) %>%
+  mutate(cumulative_rects = cumsum(n_rectangles)) %>%
+  kable(caption = "How many rectangles have N or more years with >= 3 hauls? (Q1)")
+
+cat("\nRectangles with >= 20 years of Q1 data (>= 3 hauls/yr):", 
+    sum(rect_years_q1$n_years_ge3hauls >= 20), "\n")
+cat("Rectangles with >= 30 years of Q1 data (>= 3 hauls/yr):", 
+    sum(rect_years_q1$n_years_ge3hauls >= 30), "\n")
+```
+
+---
+
+## Temporal consistency per rectangle (Q3, year >= 1983)
+
+Same for Q3.
+
+```{r rect-temporal-q3}
+rect_years_q3 <- density_q3 %>%
+  filter(n_hauls >= 3) %>%
+  count(stat_rec, name = "n_years_ge3hauls") %>%
+  arrange(desc(n_years_ge3hauls))
+
+cat("Q3 rectangles by number of years with >= 3 hauls:\n")
+rect_years_q3 %>%
+  count(n_years_ge3hauls, name = "n_rectangles") %>%
+  arrange(desc(n_years_ge3hauls)) %>%
+  mutate(cumulative_rects = cumsum(n_rectangles)) %>%
+  kable(caption = "How many rectangles have N or more years with >= 3 hauls? (Q3)")
+
+cat("\nRectangles with >= 20 years of Q3 data (>= 3 hauls/yr):", 
+    sum(rect_years_q3$n_years_ge3hauls >= 20), "\n")
+cat("Rectangles with >= 30 years of Q3 data (>= 3 hauls/yr):", 
+    sum(rect_years_q3$n_years_ge3hauls >= 30), "\n")
+```
+
+---
+
+## Spatial coverage maps (Q1, year >= 1983)
+
+Four maps showing the spatial structure of the panel under the ≥2 hauls sub-sampling rule.
+Requires `ggplot2`, `sf`, and `rnaturalearth`.
+
+```{r spatial-maps, fig.width=10, fig.height=9}
+library(ggplot2)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+
+# ── Step 1: derive rectangle centroids from haul coordinates in the data ──────
+# Average haul lat/lon within each stat_rec — accurate to within a fraction
+# of a degree since all hauls in a rectangle share the same ~0.5° x 1° cell.
+coords <- data %>%
+  filter(quarter == 1, year >= 1983,
+         !is.na(stat_rec), !is.na(latitude), !is.na(longitude)) %>%
+  group_by(stat_rec) %>%
+  summarise(
+    lon = mean(longitude, na.rm = TRUE),
+    lat = mean(latitude,  na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# ── Step 2: Q1 cell-years with >= 2 hauls ─────────────────────────────────────
+panel_rects <- data %>%
+  filter(quarter == 1, year >= 1983, !is.na(stat_rec)) %>%
+  distinct(year, stat_rec, haul_id) %>%
+  count(year, stat_rec, name = "n_hauls") %>%
+  filter(n_hauls >= 2)
+
+# ── Step 3: rectangle-level summaries, joined to coords ───────────────────────
+rect_summary <- panel_rects %>%
+  count(stat_rec, name = "n_years") %>%
+  mutate(
+    temporal_class = case_when(
+      n_years >= 30 ~ "≥30 yrs",
+      n_years >= 20 ~ "20–29 yrs",
+      n_years >= 10 ~ "10–19 yrs",
+      TRUE          ~ "<10 yrs"
+    ),
+    temporal_class = factor(temporal_class,
+                            levels = c("≥30 yrs", "20–29 yrs", "10–19 yrs", "<10 yrs"))
+  )
+
+rect_density <- panel_rects %>%
+  group_by(stat_rec) %>%
+  summarise(mean_hauls = mean(n_hauls), .groups = "drop")
+
+rect_plot <- rect_summary %>%
+  left_join(rect_density, by = "stat_rec") %>%
+  left_join(coords, by = "stat_rec")
+
+# ── Map 1: Years in panel (temporal depth) ────────────────────────────────────
+p1 <- ggplot() +
+  geom_sf(data = coast, fill = "grey88", colour = "grey60", linewidth = 0.3) +
+  geom_tile(data = rect_plot,
+            aes(x = lon, y = lat, fill = temporal_class),
+            width = 1, height = 0.5, alpha = 0.85) +
+  scale_fill_manual(
+    values = c("≥30 yrs" = "#0C447C", "20–29 yrs" = "#378ADD",
+               "10–19 yrs" = "#85B7EB", "<10 yrs" = "#E6F1FB"),
+    name = "Years in panel"
+  ) +
+  coord_sf(xlim = ns_xlim, ylim = ns_ylim, expand = FALSE) +
+  labs(title = "Temporal depth per rectangle",
+       subtitle = "Q1, year ≥ 1983, ≥ 2 hauls/cell/year") +
+  map_theme
+
+# ── Map 2: Continuous years in panel ─────────────────────────────────────────
+p2 <- ggplot() +
+  geom_sf(data = coast, fill = "grey88", colour = "grey60", linewidth = 0.3) +
+  geom_tile(data = rect_plot,
+            aes(x = lon, y = lat, fill = n_years),
+            width = 1, height = 0.5) +
+  scale_fill_gradient(low = "#E6F1FB", high = "#042C53",
+                      name = "Years\nin panel") +
+  coord_sf(xlim = ns_xlim, ylim = ns_ylim, expand = FALSE) +
+  labs(title = "Years in panel (continuous)",
+       subtitle = "Q1, year ≥ 1983, ≥ 2 hauls/cell/year") +
+  map_theme
+
+# ── Map 3: Mean hauls per cell-year ──────────────────────────────────────────
+p3 <- ggplot() +
+  geom_sf(data = coast, fill = "grey88", colour = "grey60", linewidth = 0.3) +
+  geom_tile(data = rect_plot,
+            aes(x = lon, y = lat, fill = mean_hauls),
+            width = 1, height = 0.5) +
+  scale_fill_gradient(low = "#E1F5EE", high = "#04342C",
+                      name = "Mean\nhauls/yr") +
+  coord_sf(xlim = ns_xlim, ylim = ns_ylim, expand = FALSE) +
+  labs(title = "Mean hauls per cell-year",
+       subtitle = "Q1, year ≥ 1983, ≥ 2 hauls/cell/year") +
+  map_theme
+
+# ── Map 4: First year each rectangle enters the panel ────────────────────────
+rect_first_year <- panel_rects %>%
+  group_by(stat_rec) %>%
+  summarise(first_year = min(year), .groups = "drop") %>%
+  left_join(coords, by = "stat_rec")
+
+p4 <- ggplot() +
+  geom_sf(data = coast, fill = "grey88", colour = "grey60", linewidth = 0.3) +
+  geom_tile(data = rect_first_year,
+            aes(x = lon, y = lat, fill = first_year),
+            width = 1, height = 0.5) +
+  scale_fill_gradient(low = "#042C53", high = "#85B7EB",
+                      name = "First\nyear") +
+  coord_sf(xlim = ns_xlim, ylim = ns_ylim, expand = FALSE) +
+  labs(title = "First year rectangle enters panel",
+       subtitle = "Q1, year ≥ 1983, ≥ 2 hauls/cell/year") +
+  map_theme
+
+# ── Combine into 2x2 grid ─────────────────────────────────────────────────────
+(p1 + p2) / (p3 + p4) +
+  plot_annotation(
+    title    = "NS-IBTS Q1 panel spatial structure",
+    subtitle = "182 rectangles · 5,643 cell-years · median 34 years per rectangle",
+    theme    = theme(
+      plot.title    = element_text(size = 13, face = "bold"),
+      plot.subtitle = element_text(size = 10, colour = "grey40")
+    )
+  )
+```
+
+---
+
+## Spatial coverage — annual snapshots
+
+How does rectangle coverage shift across three decades? Useful for spotting
+whether peripheral rectangles drop in/out systematically.
+
+```{r spatial-snapshots, fig.width=11, fig.height=7}
+# Coverage in selected years
+snapshot_years <- c(1983, 1990, 1995, 2000, 2005, 2010, 2015, 2020)
+
+snap_data <- panel_rects %>%
+  filter(year %in% snapshot_years) %>%
+  left_join(coords, by = "stat_rec")
+
+ggplot() +
+  geom_sf(data = coast, fill = "grey88", colour = "grey60", linewidth = 0.2) +
+  geom_tile(data = snap_data,
+            aes(x = lon, y = lat),
+            width = 1, height = 0.5,
+            fill = "#185FA5", alpha = 0.75) +
+  coord_sf(xlim = ns_xlim, ylim = ns_ylim, expand = FALSE) +
+  facet_wrap(~ year, nrow = 2) +
+  labs(
+    title    = "Rectangle coverage in selected years (Q1, ≥ 2 hauls)",
+    subtitle = "Blue = rectangle present in panel that year"
+  ) +
+  map_theme +
+  theme(axis.text = element_text(size = 7))
+```
+
+---
+
+## Column availability — length and weight (Q1, year >= 1983)
+
+Confirms whether length and weight data are present and how well they are covered,
+which determines the feasibility of individual-level E calculation and B reliability.
+
+```{r column-availability}
+q1_83 <- data %>%
+  filter(quarter == 1, year >= 1983)
+
+cat("=== Total rows (species x haul records) ===\n")
+cat("Q1, year >= 1983:", nrow(q1_83), "\n\n")
+
+# ── Which columns exist? ───────────────────────────────────────────────────────
+length_cols <- c("length", "length_class", "ind_weight", "wgt", "wgt_cpue",
+                 "num", "num_cpue")
+present <- length_cols[length_cols %in% names(q1_83)]
+absent  <- length_cols[!length_cols %in% names(q1_83)]
+
+cat("Columns present:", paste(present, collapse = ", "), "\n")
+cat("Columns absent: ", paste(absent,  collapse = ", "), "\n\n")
+```
+
+```{r weight-coverage}
+cat("=== Weight coverage ===\n\n")
+
+# wgt: total weight per species per haul
+if ("wgt" %in% names(q1_83)) {
+  cat("wgt (total catch weight per species x haul):\n")
+  cat("  Non-NA rows:    ", sum(!is.na(q1_83$wgt)), "\n")
+  cat("  NA rows:        ", sum( is.na(q1_83$wgt)), "\n")
+  cat("  % non-NA:       ", round(100 * mean(!is.na(q1_83$wgt)), 1), "\n")
+  cat("  Zero values:    ", sum(q1_83$wgt == 0, na.rm = TRUE), "\n")
+  cat("  Positive values:", sum(q1_83$wgt  > 0, na.rm = TRUE), "\n\n")
+}
+
+# wgt_cpue: weight per unit effort
+if ("wgt_cpue" %in% names(q1_83)) {
+  cat("wgt_cpue (weight CPUE per species x haul):\n")
+  cat("  Non-NA rows:    ", sum(!is.na(q1_83$wgt_cpue)), "\n")
+  cat("  NA rows:        ", sum( is.na(q1_83$wgt_cpue)), "\n")
+  cat("  % non-NA:       ", round(100 * mean(!is.na(q1_83$wgt_cpue)), 1), "\n")
+  cat("  Zero values:    ", sum(q1_83$wgt_cpue == 0, na.rm = TRUE), "\n")
+  cat("  Positive values:", sum(q1_83$wgt_cpue  > 0, na.rm = TRUE), "\n\n")
+}
+
+# Coverage by year — are there years with poor wgt coverage?
+if ("wgt_cpue" %in% names(q1_83)) {
+  cat("wgt_cpue coverage by year (% non-NA rows per year):\n")
+  q1_83 %>%
+    group_by(year) %>%
+    summarise(
+      n_rows      = n(),
+      pct_wgt_ok  = round(100 * mean(!is.na(wgt_cpue)), 1),
+      .groups     = "drop"
+    ) %>%
+    filter(pct_wgt_ok < 95) %>%
+    { if (nrow(.) == 0) cat("  All years >= 95% coverage\n") else print(knitr::kable(., caption = "Years with < 95% wgt_cpue coverage")) }
+}
+```
+
+```{r length-coverage}
+cat("=== Length data coverage ===\n\n")
+
+# Check for any length column
+length_present <- intersect(c("length", "length_class"), names(q1_83))
+
+if (length(length_present) == 0) {
+  cat("No length or length_class column found in this dataset.\n")
+  cat("Individual-level E calculation from length data is not feasible.\n")
+  cat("E must be derived from species-mean body mass via FishBase.\n\n")
+} else {
+  for (col in length_present) {
+    cat(col, ":\n")
+    cat("  Non-NA rows:", sum(!is.na(q1_83[[col]])), "\n")
+    cat("  NA rows:    ", sum( is.na(q1_83[[col]])), "\n")
+    cat("  % non-NA:   ", round(100 * mean(!is.na(q1_83[[col]])), 1), "\n")
+    if (is.numeric(q1_83[[col]])) {
+      cat("  Range:      ", min(q1_83[[col]], na.rm=TRUE), "–",
+                            max(q1_83[[col]], na.rm=TRUE), "\n")
+    } else {
+      cat("  Unique values (first 10):",
+          paste(head(sort(unique(q1_83[[col]])), 10), collapse=", "), "\n")
+    }
+    cat("\n")
+  }
+}
+
+# ind_weight: per-individual weight if present
+if ("ind_weight" %in% names(q1_83)) {
+  cat("ind_weight (per-individual weight):\n")
+  cat("  Non-NA rows:", sum(!is.na(q1_83$ind_weight)), "\n")
+  cat("  % non-NA:   ", round(100 * mean(!is.na(q1_83$ind_weight)), 1), "\n\n")
+}
+```
+
+```{r abundance-coverage}
+cat("=== Abundance coverage (num / num_cpue) ===\n\n")
+
+if ("num_cpue" %in% names(q1_83)) {
+  cat("num_cpue (abundance CPUE per species x haul):\n")
+  cat("  Non-NA rows:    ", sum(!is.na(q1_83$num_cpue)), "\n")
+  cat("  % non-NA:       ", round(100 * mean(!is.na(q1_83$num_cpue)), 1), "\n")
+  cat("  Positive values:", sum(q1_83$num_cpue > 0, na.rm = TRUE), "\n\n")
+}
+
+# Rows where both wgt_cpue and num_cpue are positive — usable for EEoS
+if (all(c("wgt_cpue", "num_cpue") %in% names(q1_83))) {
+  both_ok <- sum(q1_83$wgt_cpue > 0 & q1_83$num_cpue > 0, na.rm = TRUE)
+  cat("Rows with both wgt_cpue > 0 AND num_cpue > 0 (fully usable for B and N):\n")
+  cat(" ", both_ok, "rows =",
+      round(100 * both_ok / nrow(q1_83), 1), "% of Q1 >= 1983 data\n\n")
+}
+
+# Species with zero wgt_cpue in all hauls — potential B reliability issue
+if ("wgt_cpue" %in% names(q1_83)) {
+  cat("Species where wgt_cpue is ALWAYS zero or NA (no usable weight data):\n")
+  species_wgt <- q1_83 %>%
+    filter(!is.na(accepted_name)) %>%
+    group_by(accepted_name) %>%
+    summarise(
+      n_records    = n(),
+      n_wgt_ok     = sum(wgt_cpue > 0, na.rm = TRUE),
+      pct_wgt_ok   = round(100 * n_wgt_ok / n_records, 1),
+      .groups      = "drop"
+    ) %>%
+    arrange(pct_wgt_ok)
+  
+  no_wgt <- species_wgt %>% filter(n_wgt_ok == 0)
+  cat("  Species with 0% weight coverage:", nrow(no_wgt), "\n")
+  if (nrow(no_wgt) > 0) print(knitr::kable(head(no_wgt, 20)))
+  
+  cat("\nSpecies with < 50% weight coverage (may affect B reliability):\n")
+  poor_wgt <- species_wgt %>% filter(pct_wgt_ok > 0, pct_wgt_ok < 50)
+  cat("  Count:", nrow(poor_wgt), "\n")
+  if (nrow(poor_wgt) > 0) print(knitr::kable(head(poor_wgt, 20)))
+}
+```
+
+---
+
+## FishBase coverage — E calculation species audit
+
+Evaluates which of the ~245 NS-IBTS species have usable length–weight parameters
+in FishBase, which are missing, and what proportion of total abundance they represent.
+Requires the `rfishbase` package (`install.packages("rfishbase")`).
+
+```{r fishbase-species-list}
+library(dplyr)
+library(knitr)
+
+# ── Step 1: species list from Q1 >= 1983 panel ────────────────────────────────
+# Use the consistent working species set: num > 0 AND wgt > 0
+species_list <- data %>%
+  filter(quarter == 1, year >= 1983,
+         !is.na(accepted_name),
+         num > 0, wgt > 0) %>%
+  group_by(accepted_name, SpecCode) %>%
+  summarise(
+    total_abundance = sum(num,       na.rm = TRUE),
+    total_records   = n(),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(total_abundance))
+
+cat("Total species in working set:", nrow(species_list), "\n")
+cat("Total individual records:    ", sum(species_list$total_records), "\n\n")
+
+# Proportion of total abundance per species
+species_list <- species_list %>%
+  mutate(pct_abundance = round(100 * total_abundance / sum(total_abundance), 3))
+
+kable(head(species_list, 20),
+      caption = "Top 20 species by total abundance in Q1 >= 1983 panel")
+```
+
+```{r fishbase-lw-lookup}
+library(rfishbase)
+
+cat("=== FishBase length-weight parameter lookup ===\n\n")
+
+# ── Step 2: query length-weight parameters ────────────────────────────────────
+# Use SpecCode (FishBase species code) for direct lookup where available
+# Fall back to accepted_name for species with missing SpecCode
+
+species_names <- species_list$accepted_name
+
+# Query length_weight table from FishBase
+lw_params <- tryCatch(
+  length_weight(species_names, fields = c("Species", "a", "b", "Type", "Number")),
+  error = function(e) { cat("rfishbase error:", conditionMessage(e), "\n"); NULL }
+)
+
+if (!is.null(lw_params) && nrow(lw_params) > 0) {
+
+  # Keep only standard length-weight relationships (Type = "TL" or "Total")
+  # and summarise to one row per species (best-available params)
+  lw_summary <- lw_params %>%
+    filter(!is.na(a), !is.na(b), b > 1, b < 5) %>%   # plausible b range
+    group_by(Species) %>%
+    summarise(
+      n_lw_records = n(),
+      a_median     = round(median(a, na.rm = TRUE), 6),
+      b_median     = round(median(b, na.rm = TRUE), 3),
+      .groups      = "drop"
+    )
+
+  cat("Species with usable L-W params:", nrow(lw_summary), "of", nrow(species_list), "\n\n")
+
+  # ── Step 3: join back to species list ─────────────────────────────────────────
+  species_audit <- species_list %>%
+    left_join(lw_summary, by = c("accepted_name" = "Species")) %>%
+    mutate(lw_available = !is.na(a_median))
+
+  # ── Step 4: coverage summary ──────────────────────────────────────────────────
+  n_with    <- sum(species_audit$lw_available)
+  n_without <- sum(!species_audit$lw_available)
+  pct_abund_covered <- round(
+    100 * sum(species_audit$total_abundance[species_audit$lw_available]) /
+          sum(species_audit$total_abundance), 1)
+
+  cat("=== Coverage summary ===\n")
+  cat("Species WITH L-W params:    ", n_with,    "(", round(100*n_with/nrow(species_audit),1), "%)\n")
+  cat("Species WITHOUT L-W params: ", n_without, "(", round(100*n_without/nrow(species_audit),1), "%)\n")
+  cat("% total abundance covered:  ", pct_abund_covered, "%\n\n")
+
+  # ── Step 5: missing species ranked by abundance ───────────────────────────────
+  missing <- species_audit %>%
+    filter(!lw_available) %>%
+    arrange(desc(total_abundance)) %>%
+    select(accepted_name, total_abundance, pct_abundance, total_records)
+
+  cat("Species missing L-W params, ranked by abundance:\n")
+  kable(missing, caption = "Species without FishBase L-W parameters")
+
+  # ── Step 6: cumulative abundance impact ───────────────────────────────────────
+  cat("\n=== Cumulative abundance of missing species ===\n")
+  cat("Top 5 missing species account for",
+      round(sum(head(missing$pct_abundance, 5)), 2), "% of total abundance\n")
+  cat("All missing species account for  ",
+      round(100 - pct_abund_covered, 2), "% of total abundance\n\n")
+
+  # ── Step 7: taxonomic fallback candidates ─────────────────────────────────────
+  cat("=== Taxonomic fallback assessment ===\n")
+  cat("For species missing L-W params, check if congeners have params:\n\n")
+
+  missing_genera <- missing %>%
+    mutate(genus = word(accepted_name, 1)) %>%
+    left_join(
+      species_audit %>%
+        filter(lw_available) %>%
+        mutate(genus = word(accepted_name, 1)) %>%
+        group_by(genus) %>%
+        summarise(n_congeners_with_lw = n(), .groups = "drop"),
+      by = "genus"
+    ) %>%
+    select(accepted_name, genus, total_abundance, pct_abundance,
+           n_congeners_with_lw) %>%
+    mutate(fallback = case_when(
+      !is.na(n_congeners_with_lw) ~ paste0("Genus mean (", n_congeners_with_lw, " congeners)"),
+      TRUE ~ "Family mean required"
+    ))
+
+  kable(missing_genera,
+        caption = "Missing species with taxonomic fallback assessment")
+
+} else {
+  cat("No L-W parameters returned. Check rfishbase connection or species name matching.\n")
+  cat("Try: validate_names(species_names) to check name harmonisation.\n")
+}
+```
+
+```{r fishbase-name-validation}
+# ── Optional: validate species name matching ──────────────────────────────────
+# Run this if the lookup above returns fewer matches than expected
+# FishBase uses specific name formats that may differ from WoRMS-harmonised names
+
+cat("=== Name validation (first 10 species) ===\n")
+test_names <- head(species_list$accepted_name, 10)
+
+validated <- tryCatch(
+  validate_names(test_names),
+  error = function(e) { cat("Validation error:", conditionMessage(e), "\n"); NULL }
+)
+
+if (!is.null(validated)) {
+  name_check <- data.frame(
+    original  = test_names,
+    validated = validated
+  ) %>%
+    mutate(match = original == validated)
+  kable(name_check, caption = "Name validation — original vs FishBase")
+  cat("\nMismatches:", sum(!name_check$match), "of", nrow(name_check), "\n")
+  cat("If mismatches are common, use SpecCode-based lookup instead.\n")
+}
+```
+
+---
+
+## Standardized file (optional)
+
+FishGlob also ships **`NS-IBTS_std_clean.RData`** (standardized metrics). To inspect it in a new chunk:
+
+```r
+# p <- sub("NS-IBTS_clean", "NS-IBTS_std_clean", path_rdata)
+# load(p)
+# # same object names: data, readme
+```
+
+---
+
+*Source: [FishGlob_data / outputs / Cleaned_data](https://github.com/fishglob/FishGlob_data/tree/main/outputs/Cleaned_data)*

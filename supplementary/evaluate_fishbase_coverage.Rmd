@@ -1,0 +1,663 @@
+---
+title: "FishBase Coverage Evaluation — NS-IBTS Species"
+subtitle: "Length–weight parameter availability for metabolic rate (E) calculation"
+author: "RFEC Project"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    theme: flatly
+    highlight: tango
+    df_print: paged
+    code_folding: show
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(rfishbase)
+library(knitr)
+library(kableExtra)
+
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE,
+  echo    = TRUE
+)
+```
+
+---
+
+## Configuration
+
+**Edit this block before knitting.** Set the path to your FishGlob file.
+Supported formats: `.csv`, `.rds`.
+
+```{r config}
+# ── USER SETTINGS ─────────────────────────────────────────────────────────────
+FISHGLOB_PATH <- "/Users/stuartstokeld/north_sea_eeos/FishGlob_data/outputs/Cleaned_data/NS-IBTS_clean.RData"
+MIN_YEAR      <- 1983
+SURVEY_FILTER <- "NS-IBTS"   # value in the 'survey' column; set NULL to skip
+QUARTER       <- 1            # Q1 only; set NULL to skip quarter filter
+OUTPUT_DIR    <- "outputs"    # directory for the exported lookup table CSV
+# ─────────────────────────────────────────────────────────────────────────────
+
+dir.create(OUTPUT_DIR, showWarnings = FALSE, recursive = TRUE)
+```
+
+---
+
+## 1 · Load FishGlob and build species list
+
+```{r load-fishglob}
+ext <- tolower(tools::file_ext(FISHGLOB_PATH))
+
+fg_raw <- if (ext == "csv") {
+  read_csv(FISHGLOB_PATH, show_col_types = FALSE)
+} else if (ext == "rds") {
+  readRDS(FISHGLOB_PATH)
+} else if (ext == "rdata") {
+  # RData can contain multiple objects — load into a temp env and extract
+  tmp <- new.env(parent = emptyenv())
+  load(FISHGLOB_PATH, envir = tmp)
+  objs    <- ls(tmp)
+  cat("Objects in RData file:", paste(objs, collapse = ", "), "\n")
+  df_objs <- objs[sapply(objs, function(x) is.data.frame(get(x, envir = tmp)))]
+  if (length(df_objs) == 0) stop("No data frames found in RData file.")
+  if (length(df_objs) > 1)  cat("Multiple data frames found; using first:", df_objs[1], "\n")
+  get(df_objs[1], envir = tmp)
+} else {
+  stop("Unrecognised file extension: ", ext, ". Use .csv, .rds, or .RData")
+}
+
+cat("Raw dimensions:", nrow(fg_raw), "rows ×", ncol(fg_raw), "cols\n\n")
+cat("Column names:\n"); print(names(fg_raw))
+```
+
+```{r filter-survey}
+survey_data <- fg_raw
+
+if (!is.null(SURVEY_FILTER) && "survey" %in% names(survey_data)) {
+  survey_data <- filter(survey_data, survey == SURVEY_FILTER)
+  cat("After survey filter:", nrow(survey_data), "rows\n")
+}
+
+if (!is.null(QUARTER) && "quarter" %in% names(survey_data)) {
+  survey_data <- filter(survey_data, quarter == QUARTER)
+  cat("After Q1 filter    :", nrow(survey_data), "rows\n")
+}
+
+if ("year" %in% names(survey_data)) {
+  survey_data <- filter(survey_data, year >= MIN_YEAR)
+  cat("After year ≥", MIN_YEAR, ":", nrow(survey_data), "rows\n")
+}
+
+cat("\nYear range:", min(survey_data$year, na.rm = TRUE), "–",
+                    max(survey_data$year, na.rm = TRUE), "\n")
+cat("Unique hauls:", n_distinct(survey_data$haul_id), "\n")
+```
+
+```{r build-species-list}
+# Detect abundance/biomass columns (FishGlob uses num_cpue / wgt_cpue)
+n_col <- intersect(c("num_cpue", "num"), names(survey_data))[1]
+b_col <- intersect(c("wgt_cpue", "wgt"), names(survey_data))[1]
+cat("Abundance column:", n_col, "| Biomass column:", b_col, "\n\n")
+
+working <- survey_data %>%
+  filter(
+    !is.na(.data[[n_col]]), .data[[n_col]] > 0,
+    !is.na(.data[[b_col]]), .data[[b_col]] > 0,
+    !is.na(accepted_name)
+  )
+
+cat("Working records (num > 0, wgt > 0):", nrow(working), "\n")
+
+species_tbl <- working %>%
+  group_by(accepted_name) %>%
+  summarise(
+    total_N = sum(.data[[n_col]], na.rm = TRUE),
+    total_B = sum(.data[[b_col]], na.rm = TRUE),
+    n_hauls = n_distinct(haul_id),
+    n_years = n_distinct(year),
+    .groups = "drop"
+  ) %>%
+  arrange(desc(total_N)) %>%
+  mutate(
+    pct_N     = 100 * total_N / sum(total_N),
+    pct_B     = 100 * total_B / sum(total_B),
+    cum_pct_N = cumsum(pct_N)
+  )
+
+cat("Total unique species:", nrow(species_tbl), "\n\n")
+
+species_tbl %>%
+  slice_head(n = 20) %>%
+  mutate(across(c(total_N, total_B), ~ round(.x, 1)),
+         across(c(pct_N, pct_B, cum_pct_N), ~ round(.x, 2))) %>%
+  kable(
+    col.names = c("Species", "Total N", "Total B", "Hauls", "Years",
+                  "% N", "% B", "Cum % N"),
+    caption = "Top 20 species by abundance — these matter most for E accuracy"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(6, bold = TRUE)
+```
+
+---
+
+## 2 · Query FishBase for length–weight parameters
+
+`W = a · L^b` (W in grams, L in cm). Median a and b taken across all valid
+FishBase entries per species (b filtered to 1–5 to exclude erroneous fits).
+
+```{r fishbase-lw, cache=TRUE}
+species_vec <- species_tbl$accepted_name
+cat("Querying FishBase for", length(species_vec), "species...\n")
+cat("(First run: ~1–3 min. Set cache=TRUE on this chunk after first knit.)\n\n")
+
+lw_raw <- rfishbase::length_weight(
+  species_vec,
+  fields = c("Species", "a", "b", "Type", "LengthMin", "LengthMax",
+             "CoeffDetermination", "Number")
+)
+
+cat("Raw LW records returned          :", nrow(lw_raw), "\n")
+cat("Species with ≥1 record           :",
+    n_distinct(lw_raw$Species[!is.na(lw_raw$a)]), "\n\n")
+
+lw_summary <- lw_raw %>%
+  filter(!is.na(a), !is.na(b), a > 0, b >= 1, b <= 5) %>%
+  group_by(Species) %>%
+  summarise(
+    n_lw_entries = n(),
+    a_median     = median(a, na.rm = TRUE),
+    b_median     = median(b, na.rm = TRUE),
+    a_cv         = sd(a, na.rm = TRUE) / mean(a, na.rm = TRUE),
+    b_cv         = sd(b, na.rm = TRUE) / mean(b, na.rm = TRUE),
+    has_TL       = any(Type == "TL", na.rm = TRUE),
+    .groups      = "drop"
+  ) %>%
+  rename(accepted_name = Species)
+
+cat("Species with usable LW parameters:", nrow(lw_summary), "of",
+    length(species_vec), "\n")
+```
+
+---
+
+## 3 · Coverage audit
+
+```{r coverage-audit}
+audit <- species_tbl %>%
+  left_join(lw_summary, by = "accepted_name") %>%
+  mutate(
+    has_lw = !is.na(a_median),
+    status = if_else(has_lw, "LW found", "Missing")
+  )
+
+coverage_summary <- audit %>%
+  group_by(status) %>%
+  summarise(
+    n_species   = n(),
+    pct_species = round(100 * n() / nrow(audit), 1),
+    pct_N       = round(sum(pct_N), 2),
+    pct_B       = round(sum(pct_B), 2),
+    .groups     = "drop"
+  )
+
+coverage_summary %>%
+  kable(
+    col.names = c("Status", "N species", "% species", "% total N", "% total B"),
+    caption   = "FishBase LW parameter coverage"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+
+pct_N_covered <- coverage_summary %>% filter(status == "LW found") %>% pull(pct_N)
+
+cat(sprintf("\n>>> %.2f%% of total N is covered by species with LW parameters.\n\n",
+            pct_N_covered))
+
+if (pct_N_covered >= 95) {
+  cat("VERDICT: ≥95% — fallback for missing species will not materially bias E.\n")
+} else if (pct_N_covered >= 90) {
+  cat("VERDICT: 90–95% — inspect missing species; some may need individual attention.\n")
+} else {
+  cat("VERDICT: <90% — several abundant species lack parameters; validate carefully.\n")
+}
+```
+
+```{r missing-species-table}
+missing <- audit %>%
+  filter(!has_lw) %>%
+  select(accepted_name, total_N, pct_N, cum_pct_N, n_hauls, n_years) %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3)))
+
+cat("Missing species (", nrow(missing), "):\n")
+
+missing %>%
+  kable(
+    col.names = c("Species", "Total N", "% N", "Cum % N", "Hauls", "Years"),
+    caption   = "Species missing LW parameters — ranked by abundance"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  row_spec(which(missing$pct_N > 1), background = "#fff3cd")
+```
+
+---
+
+## 4 · Name mismatch diagnostic
+
+FishGlob uses WoRMS-harmonised names; FishBase may use different synonyms.
+Species returning zero records are checked via `validate_names()`.
+
+```{r name-validation, cache=TRUE}
+matched_names <- unique(lw_raw$Species)
+zero_match    <- setdiff(species_vec, matched_names)
+
+cat("Species with zero FishBase records:", length(zero_match), "\n\n")
+
+if (length(zero_match) > 0) {
+  cat("Running validate_names()...\n")
+  validated <- rfishbase::validate_names(zero_match)
+
+  name_check <- tibble(
+    fishglob_name = zero_match,
+    fishbase_name = validated
+  ) %>%
+    left_join(species_tbl %>% select(accepted_name, pct_N, total_N),
+              by = c("fishglob_name" = "accepted_name")) %>%
+    mutate(
+      note = case_when(
+        !is.na(fishbase_name) & fishglob_name != fishbase_name ~
+          "Name mismatch — re-query using fishbase_name",
+        is.na(fishbase_name) ~
+          "Not in FishBase — manual lookup needed",
+        TRUE ~
+          "Names match — LW params simply absent"
+      )
+    ) %>%
+    arrange(desc(total_N)) %>%
+    mutate(across(c(pct_N, total_N), ~ round(.x, 3)))
+
+  name_check %>%
+    select(fishglob_name, fishbase_name, pct_N, note) %>%
+    kable(
+      col.names = c("FishGlob name", "FishBase name", "% N", "Note"),
+      caption   = "Name validation for species with zero FishBase records"
+    ) %>%
+    kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE)
+
+  # Re-query under canonical names where a mismatch was found
+  rematch <- name_check %>% filter(note == "Name mismatch — re-query using fishbase_name") %>%
+    pull(fishbase_name)
+
+  if (length(rematch) > 0) {
+    cat("\nRe-querying", length(rematch), "species under canonical names...\n")
+    lw_rematch <- rfishbase::length_weight(rematch, fields = c("Species","a","b","Type")) %>%
+      filter(!is.na(a), !is.na(b), a > 0, b >= 1, b <= 5)
+    cat("Additional LW records recovered:", nrow(lw_rematch), "\n")
+    cat("Additional species covered     :", n_distinct(lw_rematch$Species), "\n")
+  }
+
+} else {
+  cat("All species matched by name — no mismatches.\n")
+}
+```
+
+---
+
+## 5 · Taxonomic fallback assessment
+
+For each species still missing parameters, check whether a genus- or
+family-level mean (from species in the dataset that *do* have parameters)
+can be assigned as a fallback.
+
+```{r fallback-assessment, cache=TRUE}
+# ── Fetch taxonomy via load_taxa() — the authoritative FishBase taxonomy table
+# species() often returns empty Family; load_taxa() is reliable for Genus/Family
+cat("Loading FishBase taxonomy via load_taxa()...\n")
+fb_taxa <- rfishbase::load_taxa() %>%
+  as_tibble() %>%
+  select(Species, Genus, Family, Order) %>%
+  distinct()
+
+cat("FishBase taxonomy rows loaded:", nrow(fb_taxa), "\n\n")
+
+# ── Build a species→Genus/Family map for the full species_vec ─────────────────
+# Strategy:
+#   1. Direct species match (binomial names in species_vec)
+#   2. For genus-only names (single word): match on Genus column
+#   3. For family-only names (ends in -idae): match on Family column
+#   4. Anything else: derive Genus from first word of name
+
+is_binomial  <- function(x) str_count(x, "\\s+") >= 1
+is_genus_only<- function(x) str_count(x, "\\s+") == 0 & !str_ends(tolower(x), "idae")
+is_family    <- function(x) str_ends(tolower(x), "idae")
+
+# Map 1: binomial → direct lookup in FishBase
+binomials <- species_vec[is_binomial(species_vec)]
+tax_binomial <- fb_taxa %>%
+  filter(Species %in% binomials) %>%
+  rename(accepted_name = Species)
+
+# Map 2: genus-only → take Genus + any Family from that genus
+genus_only_names <- species_vec[is_genus_only(species_vec)]
+tax_genus_only <- fb_taxa %>%
+  filter(Genus %in% genus_only_names) %>%
+  group_by(Genus) %>%
+  slice(1) %>%
+  ungroup() %>%
+  mutate(accepted_name = Genus, Species = Genus) %>%
+  select(accepted_name, Genus, Family, Order)
+
+# Map 3: family-only → take Family column match
+family_only_names <- species_vec[is_family(species_vec)]
+tax_family_only <- fb_taxa %>%
+  filter(Family %in% family_only_names) %>%
+  group_by(Family) %>%
+  slice(1) %>%
+  ungroup() %>%
+  mutate(accepted_name = Family, Species = Family) %>%
+  select(accepted_name, Genus, Family, Order)
+
+# Combine all taxonomy mappings
+taxonomy <- bind_rows(tax_binomial, tax_genus_only, tax_family_only) %>%
+  distinct(accepted_name, .keep_all = TRUE)
+
+cat("Taxonomy mapped for", nrow(taxonomy), "of", length(species_vec), "names\n")
+unmatched <- setdiff(species_vec, taxonomy$accepted_name)
+if (length(unmatched) > 0) {
+  cat("Still unmatched (Genus derived from name string):", length(unmatched), "\n")
+  cat(paste(" -", unmatched, collapse = "\n"), "\n\n")
+}
+
+# ── Join taxonomy to audit; fall back to first-word genus for anything unmatched
+audit_tax <- audit %>%
+  left_join(taxonomy, by = "accepted_name") %>%
+  mutate(
+    Genus  = if_else(is.na(Genus),  word(accepted_name, 1), Genus),
+    Family = if_else(is.na(Family), NA_character_, Family)
+  )
+
+# ── Compute genus and family means from species that DO have LW params ─────────
+reference <- audit_tax %>% filter(has_lw)
+
+cat("Species with LW params used as reference for fallback means:",
+    nrow(reference), "\n\n")
+
+genus_means <- reference %>%
+  group_by(Genus) %>%
+  summarise(n_genus = n(),
+            a_genus = median(a_median, na.rm = TRUE),
+            b_genus = median(b_median, na.rm = TRUE),
+            .groups = "drop")
+
+family_means <- reference %>%
+  filter(!is.na(Family)) %>%
+  group_by(Family) %>%
+  summarise(n_family = n(),
+            a_family = median(a_median, na.rm = TRUE),
+            b_family = median(b_median, na.rm = TRUE),
+            .groups = "drop")
+
+cat("Genus-level means available for", nrow(genus_means), "genera\n")
+cat("Family-level means available for", nrow(family_means), "families\n\n")
+
+# ── Assign fallback ────────────────────────────────────────────────────────────
+fallback_tbl <- audit_tax %>%
+  filter(!has_lw) %>%
+  left_join(genus_means,  by = "Genus") %>%
+  left_join(family_means, by = "Family") %>%
+  mutate(
+    fallback_level = case_when(
+      !is.na(a_genus)  ~ "genus",
+      !is.na(a_family) ~ "family",
+      TRUE             ~ "none"
+    ),
+    fallback_detail = case_when(
+      !is.na(a_genus)  ~ paste0("Genus: ",  Genus,  " (n=", n_genus,  ")"),
+      !is.na(a_family) ~ paste0("Family: ", Family, " (n=", n_family, ")"),
+      TRUE             ~ "No fallback available"
+    )
+  ) %>%
+  arrange(desc(pct_N))
+
+fallback_tbl %>%
+  select(accepted_name, Genus, Family, pct_N, fallback_level, fallback_detail) %>%
+  mutate(pct_N = round(pct_N, 3)) %>%
+  kable(
+    col.names = c("Species", "Genus", "Family", "% N", "Fallback", "Source"),
+    caption   = "Taxonomic fallback for species missing LW parameters"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  row_spec(which(fallback_tbl$fallback_level == "none"), background = "#f8d7da")
+
+cat("\nFallback level summary:\n")
+fallback_tbl %>% count(fallback_level) %>%
+  mutate(pct = round(100 * n / nrow(fallback_tbl), 1)) %>%
+  kable(col.names = c("Level", "N species", "%")) %>%
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+
+no_fallback <- fallback_tbl %>% filter(fallback_level == "none")
+if (nrow(no_fallback) > 0) {
+  cat("\n>>> Species with NO fallback after genus and family checks:\n")
+  print(no_fallback %>% select(accepted_name, Genus, Family, pct_N, n_hauls) %>%
+          mutate(pct_N = round(pct_N, 4)))
+} else {
+  cat("\n>>> All missing species have at least a family-level fallback.\n")
+}
+```
+
+---
+
+## 6 · Final lookup table
+
+Complete a/b table for all species. Priority: FishBase direct → genus mean
+→ family mean. Exported as CSV for use in the E calculation pipeline.
+
+```{r final-lookup}
+final_params <- audit_tax %>%
+  left_join(genus_means,  by = "Genus") %>%
+  left_join(family_means, by = "Family") %>%
+  mutate(
+    a_final = case_when(
+      has_lw          ~ a_median,
+      !is.na(a_genus)  ~ a_genus,
+      !is.na(a_family) ~ a_family,
+      TRUE             ~ NA_real_
+    ),
+    b_final = case_when(
+      has_lw          ~ b_median,
+      !is.na(b_genus)  ~ b_genus,
+      !is.na(b_family) ~ b_family,
+      TRUE             ~ NA_real_
+    ),
+    param_source = case_when(
+      has_lw          ~ "FishBase direct",
+      !is.na(a_genus)  ~ paste0("Genus mean (",  Genus,  ")"),
+      !is.na(a_family) ~ paste0("Family mean (", Family, ")"),
+      TRUE             ~ "MISSING"
+    )
+  ) %>%
+  mutate(
+    # For family-level FishGlob records (e.g. "Gobiidae", "Triglidae"), the
+    # load_taxa() join populates Genus with an arbitrary representative genus
+    # from that family. Replace with NA so the Genus column is not misleading.
+    Genus = if_else(
+      str_ends(tolower(accepted_name), "idae"),
+      NA_character_,
+      Genus
+    )
+  ) %>%
+  select(accepted_name, Genus, Family, total_N, pct_N,
+         a_final, b_final, param_source, n_lw_entries) %>%
+  arrange(desc(total_N))
+
+# Summary
+n_direct  <- sum(final_params$param_source == "FishBase direct",  na.rm = TRUE)
+n_genus   <- sum(str_starts(final_params$param_source, "Genus"),  na.rm = TRUE)
+n_family  <- sum(str_starts(final_params$param_source, "Family"), na.rm = TRUE)
+n_miss    <- sum(final_params$param_source == "MISSING",          na.rm = TRUE)
+pct_final <- final_params %>% filter(param_source != "MISSING") %>%
+  summarise(s = sum(pct_N)) %>% pull(s)
+
+cat("======================================================\n")
+cat("  FINAL PARAMETER COVERAGE\n")
+cat("======================================================\n")
+cat(sprintf("  FishBase direct       : %3d species\n", n_direct))
+cat(sprintf("  Genus-level fallback  : %3d species\n", n_genus))
+cat(sprintf("  Family-level fallback : %3d species\n", n_family))
+cat(sprintf("  No fallback (MISSING) : %3d species\n", n_miss))
+cat(sprintf("  %% total N with params : %.2f%%\n",     pct_final))
+cat("======================================================\n\n")
+
+final_params %>%
+  mutate(across(c(a_final, b_final), ~ round(.x, 5)),
+         pct_N = round(pct_N, 3)) %>%
+  kable(
+    col.names = c("Species", "Genus", "Family", "Total N", "% N",
+                  "a", "b", "Source", "N FB entries"),
+    caption = "Complete LW lookup table — white = FishBase, yellow = fallback, red = missing"
+  ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"),
+                full_width = TRUE, font_size = 11) %>%
+  row_spec(which(final_params$param_source == "MISSING"),
+           background = "#f8d7da") %>%
+  row_spec(which(str_starts(final_params$param_source, "Genus") |
+                   str_starts(final_params$param_source, "Family")),
+           background = "#fff3cd")
+
+# Export
+out_path <- file.path(OUTPUT_DIR, "fishbase_lw_lookup.csv")
+write_csv(final_params, out_path)
+cat("Lookup table saved to:", out_path, "\n")
+```
+
+``` {r DATRAS}
+library(icesDatras)
+
+# Pull a single year of NS-IBTS Q1 data to inspect structure
+hh <- getDATRAS("HH", survey = "NS-IBTS", years = 2010, quarters = 1)
+hl <- getDATRAS("HL", survey = "NS-IBTS", years = 2010, quarters = 1)
+ca <- getDATRAS("CA", survey = "NS-IBTS", years = 2010, quarters = 1)
+
+# Field names and dimensions
+cat("=== HH ===\n"); cat("Dims:", dim(hh), "\n"); cat(names(hh), "\n\n")
+cat("=== HL ===\n"); cat("Dims:", dim(hl), "\n"); cat(names(hl), "\n\n")
+cat("=== CA ===\n"); cat("Dims:", dim(ca), "\n"); cat(names(ca), "\n\n")
+
+# A few rows of HL to see the bin structure
+print(head(hl[, c("Year","Quarter","Ship","HaulNo","SpecCode","LngtCode","LngtClass","HLNoAtLngt")], 20))
+```
+``` {r DATRAS 2}
+# 1. Confirm what LngtCode values actually appear in NS-IBTS HL
+table(hl$LngtCode)
+
+# 2. Check whether the blank HLNoAtLngt on row 20 is NA or 0
+sum(is.na(hl$HLNoAtLngt))
+sum(hl$HLNoAtLngt == 0, na.rm = TRUE)
+
+# 3. Check TotalNo and NoMeas in HL - these may tell us 
+#    total catch count vs number actually measured for length
+hl_sample <- hl[hl$HaulNo == 68 & hl$SpecCode == 126438, 
+                c("TotalNo","NoMeas","SubFactor","HLNoAtLngt","LngtClass")]
+print(hl_sample)
+
+# 4. Check what StatRec looks like in HH - confirm it matches FishGlob stat_rec format
+head(hh[, c("Year","Quarter","Ship","HaulNo","StatRec","ShootLat","ShootLong","HaulDur","Distance")], 5)
+
+# 5. Check CA - does it have individual weights?
+# (IndWgt column was in the field list)
+sum(!is.na(ca$IndWgt)) / nrow(ca)   # proportion with individual weight recorded
+head(ca[!is.na(ca$IndWgt), c("SpecCode","LngtClass","IndWgt","CANoAtLngt")], 10)
+```
+
+``` {r DATRAS 3}
+# Check if icesDatras has a built-in code lookup
+# What species have non-NA LenMeasType and what codes do they use?
+hl %>%
+  filter(!is.na(LenMeasType)) %>%
+  group_by(SpecCode, LenMeasType) %>%
+  summarise(n_rows = n(), .groups = "drop") %>%
+  arrange(LenMeasType, desc(n_rows))
+
+# Cross-reference SpecCodes against your FishGlob species list
+# to get accepted names
+species_lookup <- data %>%
+  select(accepted_name, aphia_id) %>%
+  distinct()
+
+# Get Valid_Aphia to accepted_name mapping via your FishGlob data
+hl %>%
+  filter(!is.na(LenMeasType)) %>%
+  group_by(Valid_Aphia, LenMeasType) %>%
+  summarise(n_rows = n(), .groups = "drop") %>%
+  left_join(species_lookup, by = c("Valid_Aphia" = "aphia_id")) %>%
+  arrange(LenMeasType, desc(n_rows))
+```
+``` {r DATRAS 4}
+# Check LenMeasType specifically for the five FL-candidate species
+# Clupea harengus (126417), Sprattus sprattus (126425),
+# Sardina pilchardus (126421), Alosa (125715), 
+# Engraulis encrasicolus (126426)
+
+fl_candidates <- c(126417, 126425, 126421, 125715, 126426)
+
+hl %>%
+  filter(SpecCode %in% fl_candidates) %>%
+  group_by(SpecCode, LenMeasType) %>%
+  summarise(n_rows = n(), .groups = "drop") %>%
+  mutate(LenMeasType_label = case_when(
+    LenMeasType == 1  ~ "Total Length",
+    LenMeasType == 2  ~ "Standard Length",
+    is.na(LenMeasType) ~ "NA",
+    TRUE ~ as.character(LenMeasType)
+  ))
+```
+``` {r DATRAS 5}
+hl %>%
+  filter(SpecCode == 127023) %>%
+  select(LenMeasType, LngtCode) %>%
+  table()
+```
+
+``` {r EEoSREPO}
+library(httr)
+
+# Try alternative paths
+r2 <- GET("https://raw.githubusercontent.com/micbru/equation_of_state/master/src/equation_of_state.py")
+cat(content(r2, "text"))
+
+# Or list the repo structure
+r3 <- GET("https://api.github.com/repos/micbru/equation_of_state/git/trees/master?recursive=1")
+cat(content(r3, "text"))
+```
+
+
+``` {r fishbase}
+# Check C_Code and Locality for herring
+lw <- as.data.frame(length_weight("Clupea harengus"))
+
+# C_Code coverage
+cat("C_Code non-NA:", sum(!is.na(lw$C_Code)), "/", nrow(lw), "\n")
+print(table(lw$C_Code, useNA="always"))
+
+# Locality coverage and content
+cat("\nLocality non-NA:", sum(!is.na(lw$Locality)), "/", nrow(lw), "\n")
+print(lw$Locality)
+
+# Month fields - may be in a different table
+# Check popgrowth which sometimes has season info
+# Also check if Month1/Month2 exist under different names
+cat("\nAll column names again:\n")
+print(names(lw))
+
+# Look at a few full rows to understand the data
+print(lw[1:3, c("Locality", "C_Code", "LengthMin", "LengthMax", 
+                  "Number", "a", "b", "CoeffDetermination", "Comment")])
+```
+---
+
+*RFEC project pipeline. FishBase chunks set `cache=TRUE` — delete cache folder
+to force a fresh query.*

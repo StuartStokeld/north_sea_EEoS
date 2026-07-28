@@ -1,0 +1,5 @@
+stage,n_rectangles,n_dropped_this_stage,note
+"raw (any n_hauls, pooled period)",197,0,
+after min-hauls threshold (cross-sectional),187,10,provisional threshold = 5 hauls/rectangle
+after requiring Couce fishing-hours join (cross-sectional),161,26,rectangles with no Couce coverage
+after min-years threshold (temporal / H3 case),192,5,provisional threshold = 3 distinct years

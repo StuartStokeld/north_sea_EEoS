@@ -1,0 +1,150 @@
+H1 Results
+
+Does the Ecological Equation of State predict haul-level community biomass?
+
+Hypothesis 1 asks whether the Ecological Equation of State (EEoS) can predict community biomass at the level of individual trawl hauls in the North Sea International Bottom Trawl Survey (NS-IBTS), quarter 1, 1985–2015. After joining DATRAS length data to FishGlob catch biomass and applying the project’s standard filters, 12,069 hauls entered the analysis. For each haul, three state variables are observed or derived: species richness (S), abundance (N), and normalised metabolic rate (E). EEoS returns a parameter-free biomass prediction, B_pred, from (S, N, E). That prediction is compared with observed catch biomass, B_obs, without any post-hoc calibration fitted to this dataset.
+
+The framing of the test matters as much as the numbers. Prior EEoS validations (Harte et al. 2022) did not ask whether a regression trained on the same data could recover biomass. They asked whether predicted biomass was equivalent to productivity under a direct, unfitted one-to-one map — “equivalent to what you get from a one-to-one map… with productivity, not to a fit model.” H1 therefore leads with that same style of comparison. Fitted alternatives are reported later, and only as extended context, because they answer a different and easier question.
+
+
+Test 1 — Absolute biomass prediction against an unfitted 1:1 line
+
+Comparison structure
+
+For each haul, predicted and observed biomass are compared on a log–log plot against the identity line (prediction = observation). No slope or intercept is fitted. The same unfitted 1:1 test is run for two quantities:
+
+1. EEoS: log(B_pred) versus log(B_obs), both in grams. B_pred is obtained as B_pred_norm × m_min, where m_min is the mass of the smallest individual in the haul. That conversion uses the same independently derived smallest-individual convention that defines normalised E; it is not fitted to observed catch biomass.
+
+2. Productivity 1:1 baseline: log(E × m_min) versus log(B_obs). Here E is the same normalised metabolic rate passed into the EEoS biomass function, and m_min is the same mass used to put B_pred into grams. This keeps the baseline on the same dimensional footing as EEoS and preserves the unfitted character of the comparison. (An earlier E_raw-based map is retained only as a diagnostic and is not the headline baseline.)
+
+Both models are therefore evaluated on the same footing: unfitted, parameter-free with respect to B_obs, and judged against the same 1:1 line.
+
+
+Primary statistic: log_r2 (coefficient of determination on the log scale)
+
+The primary metric is log_r2 = 1 − SS_res / SS_tot, computed on log biomass. In plain terms, this asks: how much better is this prediction than simply guessing the average log biomass for every haul?
+
+A value of 1 means perfect prediction.
+A value of 0 means the model is no better than predicting the mean.
+A negative value means the model is worse than predicting the mean: the systematic mistakes are large enough that a constant guess would have done better.
+
+This is the only headline metric that properly penalises absolute scale error. A prediction that is always several times too high can still look orderly on a scatterplot and can still achieve a high correlation, while failing badly on log_r2. That distinction is central to reading the H1 result.
+
+Result for Test 1
+
+EEoS fails on absolute haul-level biomass prediction. Its log_r2 is −0.22. That is worse than predicting the mean log biomass for every haul.
+
+The unfitted productivity 1:1 baseline succeeds on the same footing. Its log_r2 is +0.74.
+
+EEoS therefore leaves substantially more unexplained log-scale variance than the simple productivity map. The ratio of residual sums of squares (EEoS SS_res / productivity 1:1 SS_res) is 4.6×. Under the Harte-style criterion that EEoS residual error should be less than half the reference residual error, the criterion is not met.
+
+The EEoS prediction cloud also sits systematically above the 1:1 line. The median ratio of predicted to observed biomass is 4.1×. In other words, for a typical haul, EEoS predicts about four times more biomass than was caught in the survey haul. Both sides of that ratio are in grams, so this is not a unit-conversion artefact.
+
+Taken together, Test 1 says that at haul scale on NS-IBTS, EEoS does not deliver absolute biomass prediction, while a simple unfitted productivity proxy does much better under identical rules.
+
+
+Supporting statistics for Test 1, and what each one adds
+
+cor² (correlation squared)
+
+Squared Pearson correlation of log(B_obs) and log(B_pred) measures rank agreement: whether larger predicted hauls tend to be larger observed hauls, regardless of whether the absolute scale is correct.
+
+For EEoS, cor² is 0.93.
+For productivity 1:1, cor² is 0.90.
+
+Both are high. The important point is the contrast with log_r2. EEoS can look strong on correlation while failing on coefficient of determination. That combination — a tight cloud that is consistently too high — is the signature of a systematic scale offset, not of unstructured noise. Correlation alone would make a 4× overprediction look like success. For that reason, cor² is reported as a diagnostic, not as the H1 test statistic.
+
+log RMSE
+
+Log-scale root mean squared error summarises the typical size of prediction error on the log scale. Lower is better.
+
+EEoS log RMSE is 1.41.
+Productivity 1:1 log RMSE is 0.65.
+
+This agrees with the log_r2 ranking: the productivity map is substantially closer to the observations in absolute log-scale terms.
+
+Median predicted / observed ratio
+
+The median B_pred / B_obs ratio for EEoS is 4.1×. That quantifies the direction of the failure: overprediction, not symmetric scatter around the 1:1 line. The productivity baseline’s median ratio is about 0.67× — closer to one, and if anything slightly low rather than systematically several-fold high.
+
+Overprediction by biomass quartile
+
+The EEoS overprediction is not a fixed multiplicative constant across all hauls. When hauls are split into quartiles of observed biomass, the median predicted/observed ratio increases from the smallest to the largest hauls (on the order of roughly 3× in the lowest quartile to over 5× in the highest). That matters for later work: if fishing pressure correlates with biomass, a naive constant catchability correction could confound tests that relate residuals to fishing. It is carried forward as a design consideration for H2, not as a claim that H1 has already identified the mechanism.
+
+
+Interpretation of Test 1 relative to prior EEoS work
+
+Prior validations reported that EEoS-predicted biomass was effectively equivalent to productivity under a direct 1:1 comparison. On NS-IBTS Q1 hauls that equivalence does not hold. The unfitted productivity map alone (log_r2 = +0.74) outperforms EEoS (log_r2 = −0.22), even though EEoS uses all three state variables through the full partition function. At absolute haul-level biomass scale, the equation of state adds structure that worsens prediction relative to treating calibrated productivity (E × m_min) as a direct proxy.
+
+This is direct evidence that the marine trawl data behave differently from the terrestrial and arthropod systems emphasised in prior EEoS work — established on the same unfitted metric footing, before any fitted alternative is introduced.
+
+
+Why the productivity baseline can be strong (without rescuing EEoS)
+
+The productivity 1:1 baseline is strong in part because E × m_min is close, by construction, to an allometric biomass proxy. Under a single-mass approximation, biomass scales like metabolic sum times mass to the one-quarter power; multiplying normalised E by m_min implements that independent scale bridge using the same smallest-individual convention used for EEoS. With real size diversity the proxy is not exact, but it remains a close cousin of total catch mass. A high unfitted log_r2 for productivity is therefore mechanistically unsurprising. What matters for H1 is the comparative claim: under the same fair rules, that simple map outperforms the full equation of state.
+
+
+Test 2 — Relative productivity ratio (Harte Fig 2)
+
+Comparison structure
+
+Test 2 asks a different question from Test 1. Instead of absolute biomass in grams, it compares the ratio E / B^(3/4) for predicted and observed biomass:
+
+observed ratio = E / B_obs^(3/4)
+predicted ratio = E / B_pred^(3/4)
+
+using the same B_pred as Test 1 and the same normalised E that enters the biomass function. Following the Harte et al. plotting code exactly, an unweighted linear association is evaluated on the raw (unlogged) ratios, and the Pearson R² (correlation squared) is the statistic annotated on their Figure 2 (their published reference value: 0.600).
+
+Why this test exists
+
+Test 1 failure could, in principle, coexist with an approximately constant E:B^(3/4) relationship across hauls, in which case S and N would carry little additional explanatory weight in ratio space. Reproducing Figure 2 checks whether the relative-ratio pattern holds and whether it is comparable in spirit to Harte’s original plots.
+
+Leverage caveat required before reporting
+
+Harte’s original ratios spanned a relatively narrow range. NS-IBTS ratios span far more, with heavy right skew. Pearson R² on raw ratios is then highly sensitive to a few extreme hauls. High-leverage points are ranked by the product of predicted and observed ratios; Pearson R² is recomputed after excluding the top two. Those hauls are not dropped from the H1 dataset or from Test 1; the diagnostic is scoped to the Test 2 ratio-space summary only.
+
+Result for Test 2
+
+Across all hauls, Pearson R² on the raw ratios is 0.964. After excluding the two highest-leverage hauls, Pearson R² falls to 0.853 (Harte et al. 2022 reference: 0.600). The trimmed value is the primary number for reporting: it is less distorted by extremes that have little counterpart in Harte’s narrow-range plots. The all-hauls value should not be reported alone.
+
+An additional absolute-scale diagnostic on the same ratios — coefficient of determination on the raw ratio values — is much lower (about 0.35). That reinforces the broader pattern already seen in Test 1: strong association or ranking can coexist with weaker absolute-scale performance. Log-scale RMSE on the ratios is reported in supplementary multi-metric tables for completeness; it is not the Harte-comparable headline.
+
+Caveat on shared structure
+
+Both axes of the Figure 2 comparison share the same per-haul E in the numerator. Predicted and observed ratios differ only through the B^(3/4) denominator. A substantial part of the Pearson R² therefore reflects shared-E covariation across hauls that span orders of magnitude in E. That is also true of Harte’s original Figure 2, which is why Test 2 is best read as a like-for-like parity check rather than as independent proof that S and N explain the ratio. Read Test 2 beside Test 1: even after trimming, relative-ratio agreement remains stronger than absolute biomass-scale performance.
+
+
+Null check — structured residuals, not random noise
+
+A null permutation holds B_pred fixed and randomises B_obs under two schemes (including a primary null that respects the peaked shape of log biomass). Observed EEoS log_r2 sits far above the null distributions (one-sided p < 0.001 under both schemes examined). This does not mean EEoS predicts accurately — log_r2 remains negative. It does mean the haul-specific mapping from (S, N, E) to B_pred carries structure relative to observed biomass. That is a necessary but not sufficient condition for moving to H2/H3, which ask whether residual magnitude tracks fishing pressure.
+
+
+Extended comparison — fitted ln(E) OLS (not the primary baseline)
+
+After the unfitted tests, a fitted correlative model is reported for context: lm(log B_obs ~ log E) on the same hauls. That model achieves log_r2 of about 0.60, with a fitted slope near 0.71.
+
+This is not on the same footing as Test 1. Ordinary least squares chooses slope and intercept to minimise residuals on this dataset. It therefore absorbs the very scale offset that the unfitted 1:1 comparison penalises. Closeness of that fitted R² to the unfitted productivity 1:1 result should not be read as a like-for-like contest: one is fitted on normalised E; the other is an unfitted map of E × m_min. Neither validates EEoS; both bypass the equation of state. The fitted model is secondary narrative only.
+
+
+What the H1 results show overall
+
+First, absolute haul-level biomass prediction fails for EEoS on NS-IBTS. The primary coefficient of determination is negative (−0.22), the typical prediction is several times too high (median 4.1×), and EEoS leaves about 4.6 times more unexplained log-scale variance than an unfitted productivity baseline.
+
+Second, that failure is not “no signal.” Correlation remains high (cor² ≈ 0.93), and null tests indicate structured residuals. The leading description is therefore: good ranking, wrong scale.
+
+Third, under the same unfitted rules used in prior EEoS papers, a simple productivity map outperforms the full equation of state. The claim that EEoS-predicted biomass is equivalent to productivity under a direct 1:1 comparison does not hold for these marine trawl hauls.
+
+Fourth, relative-ratio structure (Test 2) can look comparatively strong even where absolute grams fail. That is useful parity information, but it does not overturn the Test 1 absolute-scale result.
+
+Fifth, these findings motivate the shift in question for H2 and H3: not “does EEoS predict absolute biomass at haul scale?” — it does not — but “do EEoS residuals track fishing pressure?” The natural dependent variable for that next step is residual magnitude (mean absolute log residual), not a claim that H1 already established accurate absolute prediction.
+
+
+Guidance for presenting these results
+
+Lead with Test 1, unfitted, like-for-like: EEoS versus productivity 1:1 on the same 1:1 figure. Make log_r2 the headline metric. State the median overprediction (4.1×) and the residual-error ratio / Harte criterion (4.6×; not met). Use cor² only to explain why a visually orderly cloud can still be a failed absolute prediction.
+
+Present Test 2 second, with trimmed Pearson R² as primary and all-hauls R² alongside it. Do not cite the all-hauls figure alone.
+
+Present fitted ln(E) OLS last, explicitly labelled as a different comparison.
+
+One concise statement of the result: on North Sea trawl hauls, EEoS does not predict catch biomass on an absolute scale — even though it ranks hauls well — and under the same fair one-to-one rules used in prior papers, a simple productivity map outperforms the full equation of state by a wide margin.

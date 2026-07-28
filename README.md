@@ -44,6 +44,10 @@ history, not the default landing point.
 | [`gis/`](gis/) | QGIS project, shapefiles |
 | `FishGlob_data/` | FishGlob NS-IBTS (local clone; not in this repo) |
 | `equation_of_state/` | EEoS Python implementation (local clone; not in this repo) |
+| [`local_env_upload_28-7/`](local_env_upload_28-7/) | **Local env archive (28 Jul 2026)** — download scripts, missing-data list, restore notes |
+| [`AGENT_ONBOARDING.md`](AGENT_ONBOARDING.md) | **For agents:** clone → status → live pipeline → what to fetch |
+
+**External data not in git?** Run `bash local_env_upload_28-7/download_scripts/download_all.sh` — see [`local_env_upload_28-7/README.md`](local_env_upload_28-7/README.md).
 
 ---
 

@@ -1,0 +1,3 @@
+test,statistic,p_value,df,notes
+lm_residual_autocorrelation_builtin,2.092248432147026,0.14804803932470928,1,Built-in summary.Sarlm() LM test for residual autocorrelation given the fitted rho.
+morans_i_sar_residuals,0.03654121607640853,0.1583075006757454,NA,"Explicit Moran's I on SAR residuals, same queen-contiguity weights as the fit, for corroboration."
