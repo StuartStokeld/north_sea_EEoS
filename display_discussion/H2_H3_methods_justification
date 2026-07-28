@@ -13,7 +13,8 @@ Fishing pressure is not evenly distributed spatially, showing clear clusters of 
 **Spatial unit =** Individual rectangles
 Most rectangles are sampled only 1–2 times a year, too few to analyse independently, the random intercept below lets each rectangle borrow strength from the overall pattern rather than being treated alone.
 
-Haul count is also not distributed evenly spatially
+Haul count is also not distributed evenly spatially, this is accounted for in the modelling approach using partial pooling
+/Users/stuartstokeld/north_sea_eeos/outputs/figures/h2h3_haulcount_by_phase_rectangles.png
 
 **Temporal break points:**
 **Phase structure**: derived from the structural-break analysis — **3 statistically
