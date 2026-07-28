@@ -4,17 +4,25 @@ Justification and explanation for methodological approach to H2/ H3 based on exp
 - **Between-rectangle variance**: how much rectangles differ from each other in their *typical* (average) fishing-pressure level, ICC = 59% of the variance in fishing pressure
 - **Within-rectangle variance**: how much a single rectangle's value bounces around from year to year, around its own typical level, ICC = 41% of the variance in fishing pressure
 
-Fishing pressure shows clear temporal trend changes over ~10 year periods
-/Users/stuartstokeld/north_sea_eeos/exploratory/outputs/figures/h3_pre_D1_fishing_pressure_timeseries.png
+Fishing pressure shows clear temporal trend changes over ~10 year periods:
 
-Fishing pressure is not evenly distributed spatially, showing clear clusters of high / low pressure, and change within ~10 year periods
-/Users/stuartstokeld/north_sea_eeos/outputs/figures/h3_pre_D2_fishing_pressure_maps_by_decade.png
+![Fishing pressure time series](../exploratory/outputs/figures/h3_pre_D1_fishing_pressure_timeseries.png)
+
+Fishing pressure is not evenly distributed spatially, showing clear clusters of high / low pressure, and change within ~10 year periods:
+
+![Fishing pressure maps by decade](../exploratory/outputs/figures/h3_pre_D2_fishing_pressure_maps_by_decade.png)
 
 **Spatial unit =** Individual rectangles
-Most rectangles are sampled only 1–2 times a year, too few to analyse independently, the random intercept below lets each rectangle borrow strength from the overall pattern rather than being treated alone.
 
-Haul count is also not distributed evenly spatially, this is accounted for in the modelling approach using partial pooling
-/Users/stuartstokeld/north_sea_eeos/outputs/figures/h2h3_haulcount_by_phase_rectangles.png
+Most rectangles are sampled only 1–2 times a year, too few to analyse independently. Survey coverage is also uneven across the map and across the four analysis phases (structural breaks at 1989, 2001, 2008):
+
+![Haul count per ICES rectangle by analysis phase](figures/h2h3_haulcount_by_phase_rectangles.png)
+
+*Individual ICES rectangles (no 2×2 / 3×3 block merge). Live H2/H3 analysis universe; phases match the fitted model.*
+
+Haul count is also not distributed evenly spatially; this is accounted for in the modelling approach using **partial pooling**. The random intercept lets each rectangle borrow strength from the overall pattern rather than being treated alone: rectangles with many hauls keep intercepts closer to their own data, while sparsely sampled rectangles are shrunk toward the shared mean — so well-sampled areas carry more weight without discarding poorly sampled ones.
+
+![Partial pooling: rectangle random intercepts vs haul count](figures/h2h3_wb_partial_pooling.png)
 
 **Temporal break points:**
 **Phase structure**: derived from the structural-break analysis — **3 statistically
