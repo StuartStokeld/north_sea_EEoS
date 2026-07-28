@@ -18,8 +18,6 @@ Most rectangles are sampled only 1–2 times a year, too few to analyse independ
 
 ![Haul count per ICES rectangle by analysis phase](figures/h2h3_haulcount_by_phase_rectangles.png)
 
-*Individual ICES rectangles (no 2×2 / 3×3 block merge). Live H2/H3 analysis universe; phases match the fitted model.*
-
 Haul count is also not distributed evenly spatially; this is accounted for in the modelling approach using **partial pooling**. The random intercept lets each rectangle borrow strength from the overall pattern rather than being treated alone: rectangles with many hauls keep intercepts closer to their own data, while sparsely sampled rectangles are shrunk toward the shared mean — so well-sampled areas carry more weight without discarding poorly sampled ones.
 
 ![Partial pooling: rectangle random intercepts vs haul count](figures/h2h3_wb_partial_pooling.png)
