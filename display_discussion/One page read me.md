@@ -1,8 +1,8 @@
 Our hypotheses move from establishing whether the EEoS baseline is reachable in this system, to detecting a spatial disturbance signal, to detecting a temporal one. **The challenge is isolated these signals from noise.**
 
-- H1 - Can EEoS be used to predict biomass using the state variables from the haul data.
-- H2 - Do failures in EEoS prediction correlate with disturbance spatially.
-- H3 - Do failures in EEoS prediction correlate with disturbance temporally.
+- H1 - EEoS predicts observed biomass B from (S, N, E) better than chance at the haul level
+- H2 - Rectangles with higher fishing pressure show larger EEoS residuals
+- H3 - Within rectangles, periods of higher fishing pressure are associated with larger EEoS residuals
 
 H1 was tested at individual haul level (n = 12,069), comparing EEoS's parameter-free biomass prediction from observed S, N, and E directly against observed catch biomass with no fitting.
 
