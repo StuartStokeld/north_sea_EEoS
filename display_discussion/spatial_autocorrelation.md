@@ -91,11 +91,11 @@ distribution.
 
 **spatially confounded** = YES if the observed coefficient falls outside the null distribution's 95% interval
 
-This is not uniform across periods. This is interesting - there is a potential 
+This is not uniform across periods.
 
 #### **4. Next step** - Use something more ecologically relevant.
 
-**Planned test:** GEBCO bathymetry (depth, depth gradient)
+**Test:** GEBCO bathymetry (depth, depth gradient)
 extracted per rectangle
 
 does spatial correlation in our model residuals run stronger along the shelf than across it? Could this be used as a more environmentally informed distance metric? (rather than a more complex covariance structure)
@@ -119,15 +119,13 @@ No evidence that shelf-geometry-based direction explains the earlier unidentifie
 
 Residual-correlation direction does **not** align with local shelf geometry. That argues against “geographic distance was the wrong metric” as the explanation for the earlier unidentified decay range. The result is instead consistent with a **borderless spatial field** or **confounding from the fixed-effect spatial trend,** but it does not distinguish between those two.
 
-1. Test an approach used in the same study zone / data
+#### 5. Test an approach used in the same study zone / data
 
 https://www.researchgate.net/publication/283210413_Spatio-temporal_Bayesian_network_models_with_latent_variables_for_revealing_trophic_dynamics_and_functional_networks_in_fisheries_ecology#pf2 
 
 "we enforce three parent nodes that represent the average biomass... from the spatial neighbourhood (the three or four nearest neighbours) of the current area” : citing Aderhold et al. (2012) for the technique itself
 
 for each area, compute the mean of a variable across its k nearest neighbours, and add that mean as an ordinary covariate on the right-hand side.
-
-Trifonova et al. is precedent for "neighbouring rectangles' biomass predicts this rectangle's biomass," not for "neighbouring rectangles' fishing pressure predicts this rectangle's outcome.”
 
 **What the model does:**
 
