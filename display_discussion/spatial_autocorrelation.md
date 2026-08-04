@@ -139,7 +139,7 @@ Both previously-flagged phases (2002–2007, 2008–2015) now fall inside the nu
 
 Moran's I moved negligibly **0.552** to ****0.532 is a small, likely negligible movement (Δ = −0.018, ~3% relative reduction), residual spatial structure remains strong. 
 
-`primary_model_v2` remains the primary model. Spec A is reported as a confirmed mechanism finding and robustness check on H2
+(1 | rectangle) remains the primary model. Spec A is reported as a confirmed mechanism finding and robustness check on H2
 
 fishing-effort displacement between neighbouring rectangles explains the 2002–2015 confounding in H2.
 
