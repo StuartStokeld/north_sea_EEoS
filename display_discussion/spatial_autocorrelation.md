@@ -8,6 +8,7 @@ Aim - self critique my models approach to spatial autocorrelation
     - Yes but not uniformly - first two phases are not confounded, second two are
 4. Test using a more ecologically relevant spatial structure
     - Use GEBCO bathymetry data - test whether spatial correlation run stronger along the shelf than across it? Could this be used as a more environmentally informed distance metric?
+5. Test an approach used in the same study zone / data
 
 #### 1. Diagnostics: raw spatial structure of my inputs (rectangles are highly similar)
 
@@ -43,7 +44,11 @@ There finite decay scale "correlation dies off after X distance" visible in the 
 
 **B) CAR (correlation only between direct neighbours) - used as sensitivity**
 
-The *adjacency structure* (queen contiguity) is close to explaining all the between-rectangle variance on its own: knowing which rectangles are next-door neighbours explains almost as much of the between-rectangle differences as just letting every rectangle have its own separate intercept `(1|rectangle)`
+The *adjacency structure* (queen contiguity) is close to explaining all the between-rectangle variance on its own: 
+
+- **rectangle intercepts (BLUPs) at 0.55**, and **model residuals at 0.47–0.48**
+
+knowing which rectangles are next-door neighbours explains almost as much of the between-rectangle differences as just letting every rectangle have its own separate intercept `(1|rectangle)`
 
 **Primary model**
 
@@ -101,3 +106,45 @@ The goal is to decide between two explanations for the unidentified decay range:
 the fixed-effect spatial trend, or a borderless field).
 2. Correlation has a real, finite range, but geographic (Euclidean lon/lat) distance is
 the wrong metric to detect it, shelf geometry is a better one.
+
+**Test - targets model residual spatial structure**
+
+For each of 158 ICES rectangles, we derived **local along-shelf direction** from GEBCO bathymetry (depth gradient rotated 90°), and **residual-correlation direction** from where nearby pairs showed the strongest similarity in residuals. The confirmatory check was a **circular–circular correlation** (Jammalamadaka–Sarma): do those two directions align? Confirmed if **p < 0.05**.
+
+Result:
+
+**Anisotropy not confirmed** (ρ = 0.05, p = 0.55).
+
+No evidence that shelf-geometry-based direction explains the earlier unidentified decay range. Consistent with either a genuinely borderless spatial field or confounding with the fixed-effect spatial trend, does not distinguish between these two.
+
+Residual-correlation direction does **not** align with local shelf geometry. That argues against “geographic distance was the wrong metric” as the explanation for the earlier unidentified decay range. The result is instead consistent with a **borderless spatial field** or **confounding from the fixed-effect spatial trend,** but it does not distinguish between those two.
+
+1. Test an approach used in the same study zone / data
+
+https://www.researchgate.net/publication/283210413_Spatio-temporal_Bayesian_network_models_with_latent_variables_for_revealing_trophic_dynamics_and_functional_networks_in_fisheries_ecology#pf2 
+
+"we enforce three parent nodes that represent the average biomass... from the spatial neighbourhood (the three or four nearest neighbours) of the current area” : citing Aderhold et al. (2012) for the technique itself
+
+for each area, compute the mean of a variable across its k nearest neighbours, and add that mean as an ordinary covariate on the right-hand side.
+
+Trifonova et al. is precedent for "neighbouring rectangles' biomass predicts this rectangle's biomass," not for "neighbouring rectangles' fishing pressure predicts this rectangle's outcome.”
+
+**What the model does:**
+
+a mixed-effects regression predicting EEoS prediction error (`residual`, the gap between predicted and observed biomass) from a rectangle's own long-run fishing pressure (`FP_between`), that same pressure's year-to-year fluctuation (`FP_within`), and policy-era phase — with one addition: a new term, `FP_between_lag`, representing the average long-run fishing pressure of each rectangle's four nearest neighbours.
+
+**What it tests:** whether the spatial confounding already found in `FP_between` (its coefficient behaving inconsistently across phases, especially post-2002, in a way tied to rectangles' spatial arrangement rather than fishing pressure itself) is explained by fishing effort spilling over between adjacent rectangles
+
+Results:
+
+Both previously-flagged phases (2002–2007, 2008–2015) now fall inside the null 95% under the new step 5 model
+
+Moran's I moved negligibly **0.552** to ****0.532 is a small, likely negligible movement (Δ = −0.018, ~3% relative reduction), residual spatial structure remains strong. 
+
+`primary_model_v2` remains the primary model. Spec A is reported as a confirmed mechanism finding and robustness check on H2
+
+fishing-effort displacement between neighbouring rectangles explains the 2002–2015 confounding in H2.
+
+whatever's driving the general spatial clustering in residuals is *not* primarily about fishing pressure's spatial arrangement
+
+- the primary model's core assumption (rectangle differences are exchangeable) remains empirically false after every fix attempted so far (distance decay unidentified, CAR non-identifiable, `FP_between_lag` moves BLUPs by only ~3% relative)
