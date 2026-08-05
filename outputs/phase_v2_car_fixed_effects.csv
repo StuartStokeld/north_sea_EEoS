@@ -1,0 +1,13 @@
+model_id,term,estimate,std_error,statistic,p_value,hypothesis,hypothesis_group,term_plain
+wb_car_v2,(Intercept),-0.6652891626170043,0.15384112871662847,-4.324520810312373,1.52863774197158e-5,control (intercept),control,Intercept
+wb_car_v2,FP_between,-0.06279682776253351,0.015917241896318147,-3.945207855203808,7.97307867544237e-5,"H2 (between-rectangle FP, reference phase 1985-1988)",H2_spatial_between,"Between-rectangle FP (rectangle mean log(hours+1)), phase 1985-1988"
+wb_car_v2,phase_v21992-2001,-0.4084373856756293,0.1134130019903809,-3.601327700595306,3.1659621265164525e-4,control (phase main effect),control,phase_v21992-2001
+wb_car_v2,phase_v22002-2007,-1.2397444689870754,0.1263383303050602,-9.81289261931476,9.908665441167506e-23,control (phase main effect),control,phase_v22002-2007
+wb_car_v2,phase_v22008-2015,-0.48025987316986657,0.12010560765748438,-3.9986465456256255,6.370573215776118e-5,control (phase main effect),control,phase_v22008-2015
+wb_car_v2,FP_within,0.027264811149100183,0.014786282045672483,1.8439260839799687,0.06519391312968649,"H3 (within-rectangle FP deviation, reference phase 1985-1988)",H3_temporal_within,"Within-rectangle FP deviation (year - rectangle mean), phase 1985-1988"
+wb_car_v2,FP_between:phase_v21992-2001,0.038444633044989955,0.01213568207494769,3.1679004779099462,0.0015354407253478858,H2 (between-rectangle FP x phase interaction vs reference),H2_spatial_between,FP_between:phase_v21992-2001
+wb_car_v2,FP_between:phase_v22002-2007,0.1469089673571229,0.013632420365770462,10.776440530398803,4.447648885022998e-27,H2 (between-rectangle FP x phase interaction vs reference),H2_spatial_between,FP_between:phase_v22002-2007
+wb_car_v2,FP_between:phase_v22008-2015,0.07605242350341226,0.012803008722625712,5.940199304012894,2.8467576860862376e-9,H2 (between-rectangle FP x phase interaction vs reference),H2_spatial_between,FP_between:phase_v22008-2015
+wb_car_v2,phase_v21992-2001:FP_within,0.0189385112680706,0.022497652586270386,0.8417994364277889,0.3999002274556778,H3 (within-rectangle FP x phase interaction vs reference),H3_temporal_within,phase_v21992-2001:FP_within
+wb_car_v2,phase_v22002-2007:FP_within,-0.031533136434031425,0.02368895267955324,-1.3311325688639994,0.18314539414174552,H3 (within-rectangle FP x phase interaction vs reference),H3_temporal_within,phase_v22002-2007:FP_within
+wb_car_v2,phase_v22008-2015:FP_within,0.02944064336716671,0.020056497300784484,1.4678855896744831,0.14213530313781828,H3 (within-rectangle FP x phase interaction vs reference),H3_temporal_within,phase_v22008-2015:FP_within

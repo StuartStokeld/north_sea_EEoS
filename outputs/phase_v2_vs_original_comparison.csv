@@ -1,0 +1,8 @@
+quantity,note,original_phase,revised_phase_v2
+FP_between_coef,reference-phase main effect (orig 1985-1988; v2 1985-1991),-0.005958374138312478,-0.024729005795125835
+FP_between_SE,SE of FP_between reference-phase main effect,0.017987740401687,0.015504901278215844
+FP_within_coef,reference-phase main effect (orig 1985-1988; v2 1985-1991),0.03174240634994792,0.02687809293344614
+FP_within_SE,SE of FP_within reference-phase main effect,0.01817407393762439,0.014844273301556408
+AIC,Akaike information criterion (REML),13252.774146455571,13256.711852936955
+BIC,Bayesian information criterion (REML),13354.353891487328,13358.291597968711
+rectangle_RE_variance,VarCorr (1|stat_rec) intercept variance,0.02873191334067905,0.028632109638285472

@@ -14,7 +14,7 @@ Fishing pressure is not evenly distributed spatially, showing clear clusters of 
 
 **Spatial unit =** Individual rectangles
 
-Most rectangles are sampled only 1–2 times a year, too few to analyse independently. Survey coverage is also uneven across the map and across the four analysis phases (structural breaks at 1989, 2001, 2008):
+Most rectangles are sampled only 1–2 times a year, too few to analyse independently. Survey coverage is also uneven across the map and across the four analysis phases (primary: policy-anchored `phase_v2` at 1992 / 2002 / 2008; haul-count map below still shows the earlier data-driven phase windows):
 
 ![Haul count per ICES rectangle by analysis phase](figures/h2h3_haulcount_by_phase_rectangles.png)
 
@@ -22,25 +22,34 @@ Haul count is also not distributed evenly spatially; this is accounted for in th
 
 ![Partial pooling: rectangle random intercepts vs haul count](figures/h2h3_wb_partial_pooling.png)
 
+**Haul count vs residual metrics (supervisor diagnostic):** Partial pooling addresses unequal *information* for inference; separately we screened whether rectangle residual metrics themselves trend with *n* hauls (`pipeline/run_h2_n_hauls_metric_diagnostics.R`; full write-up [H2_n_hauls_metric_check.md](H2_n_hauls_metric_check.md)). A wedge-shaped reduction in metric SE with increasing *n* is expected as averages converge and does not indicate bias. Overall rectangle means showed no linear association with haul count (|Spearman| &lt; 0.25). A phase-specific association in 2001–2007 triggered weighted / drop-low-*n* sensitivities of residual ~ `FP_between`; slopes kept the same sign and similar magnitude, so the primary within–between model was left unchanged.
+
+![Residual metrics vs haul count](figures/h2_n_hauls_vs_metric.png)
+
+![SE wedge vs haul count](figures/h2_n_hauls_wedge_sd.png)
+
 **Temporal break points:**
-**Phase structure**: derived from the structural-break analysis — **3 statistically
-robust breaks (1989, 2001, 2008), giving 4 phases**. A candidate 4th break (1997) had
-only marginal statistical support and no counterpart in the original visual
-inspection, and is not included in the primary phase structure.
+**Primary phase structure (`phase_v2`):** policy-anchored breakpoints at **1992 / 2002 / 2008**,
+giving phases 1985–1991 / 1992–2001 / 2002–2007 / 2008–2015 (CFP reforms; 2008 LTMP / MSFD).
+
+**Design history / sensitivity:** a structural-break analysis located **3 statistically
+robust breaks (1989, 2001, 2008)**. A candidate 4th break (1997) had only marginal
+statistical support and is not used. Those data-driven phases informed early design;
+they are not the presented primary.
 - Breaks were detected by fitting `strucchange::breakpoints()` (Bai–Perron) to the whole-area mean fishing-hours series — 31 annual points, 1985–2015, 
 pooled across all 215 rectangles — allowing both intercept and slope to shift at each break.
 - This only quantifies breaks over the whole fishing pressure time series (not aggregated down to individual rectangle / years).
-- I also explored temporal breaks on policy changes - the 2001 break corresponds closely with the 2002 Common Fisheries Policy (introduced stricter fishing effort controls).
+- The 2001 Bai–Perron break overlaps the 2002 CFP reform window — useful corroboration that a mid-study transition is real in the fishing-hours series, even though the primary model now uses the policy dates directly.
 
 **Model: Mixed effects**
 A single model tests both hypotheses, using the within-between decomposition of
 fishing pressure
 
-- **H2 (spatial)**: significant `FP_between` main effect on residual, with
+- **H2 (spatial)**: `FP_between × phase_v2` (CAR between slopes for reporting), with
 rectangle-level spatial autocorrelation accounted for.
-- **H3 (temporal)**: significant `FP_within × phase` interaction — whether a
+- **H3 (temporal)**: significant `FP_within × phase_v2` interaction — whether a
 rectangle's own year-to-year fishing-pressure fluctuation's association with its
-own residual differs across the four data-derived time phases.
+own residual differs across the four policy-anchored time phases.
 
 A rectangle enters as a random intercept (`(1 | rectangle)`),
 Spatial autocorrelation between neighbouring rectangles is incorporated directly into this random-effects structure, e.g. a spatial correlation function over rectangle centroids.

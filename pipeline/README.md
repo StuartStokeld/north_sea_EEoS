@@ -116,13 +116,25 @@ Optional CAR sensitivity with the same decomposed terms. No biomass covariate.
 | Script | Main outputs |
 |--------|--------------|
 | [`run_h2h3_within_between.R`](run_h2h3_within_between.R) | `outputs/h2h3_wb_primary_fixed_effects.csv`, `outputs/h2h3_wb_fp_slopes_by_phase.csv`, `outputs/h2h3_wb_wald_tests.csv`, `outputs/h2h3_wb_blended_comparison.csv`, `outputs/h2h3_wb_model_fit.csv`, `outputs/h2h3_wb_partial_pooling.csv`, `outputs/h2h3_wb_model_objects.rds`, `outputs/figures/h2h3_wb_fp_slopes_by_phase.png`, `outputs/figures/h2h3_wb_partial_pooling.png`, `outputs/h2h3_wb_run_log.md` |
+| [`run_h2h3_phase_v2_refit.R`](run_h2h3_phase_v2_refit.R) | Policy-anchored primary: `outputs/primary_model_v2.rds`, `outputs/phase_v2_vs_original_comparison.csv`, `outputs/phase_v2_blup_diagnostic.csv`, `outputs/phase_v2_refit_run_log.md` |
+| [`run_h2h3_phase_v2_reporting.R`](run_h2h3_phase_v2_reporting.R) | phase_v2 slopes + CAR + pooled contrast + proportional effects + presentation figures (`outputs/phase_v2_*`) |
 
 ```bash
 Rscript --vanilla pipeline/run_h2h3_within_between.R
+Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R
+Rscript --vanilla pipeline/run_h2h3_phase_v2_reporting.R
 ```
 
 Helpers: `R/h2h3_within_between_helpers.R` (plus `R/h2h3_feasibility_helpers.R`,
 `R/h2h3_results_helpers.R`). Must use `--vanilla` (glmmTMB / spaMM ad hoc).
+spaMM may live in project-local `.R_libs/` (gitignored); the reporting script
+prepends that path when present.
+
+`phase_v2` breakpoints (policy-anchored; original `phase` retained): 1985–1991 /
+1992–2001 / 2002–2007 / 2008–2015. Formula:
+`residual ~ FP_between * phase_v2 + FP_within * phase_v2 + (1 | stat_rec)`.
+H2 proportional effects use CAR between slopes; H3 uses primary within slopes
+(same convention as the original-phase reporting stack).
 
 #### Pooled FP_between contrast (discussion only)
 
@@ -133,6 +145,60 @@ Helpers: `R/h2h3_within_between_helpers.R` (plus `R/h2h3_feasibility_helpers.R`,
 ```bash
 Rscript --vanilla pipeline/run_h2h3_wb_pooled_between_contrast.R
 ```
+
+#### FP_between spatial confounding bootstrap (supporting diagnostic)
+
+Rectangle-level permutation of `FP_between` under the current primary within-between
+fit: tests whether presented H2 slopes depend on the spatial arrangement of fishing
+pressure relative to `(1 | stat_rec)`. Does not change the primary model.
+
+Prefers `outputs/primary_model_v2.rds` (`phase_v2`: 1985–1991 / 1992–2001 /
+2002–2007 / 2008–2015); falls back to legacy `h2h3_wb_model_objects.rds` if v2
+is absent.
+
+| Script | Main outputs |
+|--------|--------------|
+| [`run_h2h3_fp_between_confounding_bootstrap.R`](run_h2h3_fp_between_confounding_bootstrap.R) | `outputs/fp_between_confounding_bootstrap_results.csv`, `outputs/fp_between_confounding_bootstrap_summary.md`, `outputs/figures/fp_between_confounding_bootstrap_null.png`, `outputs/fp_between_confounding_bootstrap_run_log.md` |
+
+```bash
+Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R   # if primary_model_v2.rds missing
+Rscript --vanilla pipeline/run_h2h3_fp_between_confounding_bootstrap.R
+# optional: N_BOOT=1000 SEED=42 N_CORES=1
+```
+
+Requires **glmmTMB** (`--vanilla`; ad hoc / ambient library). Default `N_CORES=1`
+(sequential; TMB is unsafe under forked `mclapply`). ~6 min for 1000 refits.
+
+#### Spec A — k-NN lagged `FP_between` (mechanism probe)
+
+Single-change refit of the primary: adds `FP_between_lag * phase_v2` using
+row-standardised k-NN (k=4) weights. Does **not** replace the primary model.
+
+```bash
+Rscript --vanilla pipeline/build_knn_spatial_weights.R
+Rscript --vanilla pipeline/run_h2h3_spec_a_lag_refit.R
+Rscript --vanilla pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R
+```
+
+| Script | Main outputs |
+|--------|--------------|
+| [`build_knn_spatial_weights.R`](build_knn_spatial_weights.R) | `outputs/knn_listw_k4.rds`, `outputs/knn_listw_k4_audit.csv` |
+| [`run_h2h3_spec_a_lag_refit.R`](run_h2h3_spec_a_lag_refit.R) | `outputs/primary_model_v2_spec_a.rds`, `outputs/fp_between_lag_rectangle.rds`, VIF + BLUP Moran |
+| [`run_h2h3_fp_between_confounding_bootstrap_spec_a.R`](run_h2h3_fp_between_confounding_bootstrap_spec_a.R) | `outputs/fp_between_confounding_bootstrap_spec_a_*.{csv,md,rds}` |
+
+#### Spec B — k-NN lagged outcome (`B_lag_neighbour`)
+
+Contemporaneous k-NN mean of neighbours' rectangle-year mean `ln_B_obs`
+(pooled main effect). Spec B alone and Spec A+B joint; Moran's I on BLUPs and
+rectangle-mean residuals.
+
+```bash
+Rscript --vanilla pipeline/run_h2h3_spec_b_lag_refit.R
+```
+
+| Script | Main outputs |
+|--------|--------------|
+| [`run_h2h3_spec_b_lag_refit.R`](run_h2h3_spec_b_lag_refit.R) | `outputs/b_lag_neighbour_rectangle_year.rds`, `outputs/primary_model_v2_spec_b.rds`, `outputs/primary_model_v2_spec_ab.rds`, `outputs/spec_b_spatial_diagnostic.csv`, `outputs/spec_b_coefficient_comparison.csv` |
 
 #### Proportional effect sizes (decomposed H2/H3)
 

@@ -1,8 +1,23 @@
 # H2/H3 results — interpretation note (biomass-free primary model)
 
+> **SUPERSEDED (Aug 2026).** This note describes the earlier **blended** model
+> `residual ~ log(hours+1) × phase + (1 | stat_rec)` with data-driven phases
+> (1989 / 2001 / 2008). It is **not** the presented primary.
+>
+> **Current primary:** within-between decomposition with policy-anchored `phase_v2`
+> (1992 / 2002 / 2008) — see
+> [`H2_results_draft.md`](H2_results_draft.md),
+> [`H3_results_draft.md`](H3_results_draft.md),
+> [`One page read me.md`](One%20page%20read%20me.md), and
+> `outputs/phase_v2_*` artifacts from `pipeline/run_h2h3_phase_v2_reporting.R`.
+>
+> Kept below as a historical plain-language reading of the blended-term run only.
+> Sign-convention material in §0 remains useful; phase-specific slopes and R² in
+> later sections do not match the current primary.
+
 **Audience:** Stuart + supervisors  
-**Source run:** `pipeline/run_h2h3_shared_model_results.R` (no-biomass re-run)  
-**Primary model:** `residual ~ log(hours+1) × phase + (1 | stat_rec)`  
+**Source run:** `pipeline/run_h2h3_shared_model_results.R` (no-biomass re-run) — superseded  
+**Primary model (this note only):** `residual ~ log(hours+1) × phase + (1 | stat_rec)`  
 **Data:** 10,464 hauls, 158 ICES rectangles, 1985–2015  
 
 This note translates the coefficient tables into plain language. It does **not** offer ecological mechanism.

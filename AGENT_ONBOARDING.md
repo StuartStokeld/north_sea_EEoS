@@ -70,11 +70,12 @@ Complete table: [`local_env_upload_28-7/README.md`](local_env_upload_28-7/README
 |------------|--------|
 | **H1** | Complete — EEoS fails unfitted 1:1 at haul level; dominance/catchability explored as diagnostics |
 | **H2 (rectangle SEM)** | Complete — fishing pressure not robust after spatial correction; biomass confound documented |
-| **H2/H3 (shared model)** | **Primary results:** within-between decomposed, biomass-free CAR/RE model; phases 1989/2001/2008 |
+| **H2/H3 (shared model)** | **Primary results:** within-between decomposed, biomass-free CAR/RE model; policy-anchored `phase_v2` (1992/2002/2008) |
 | Exploratory zone schemes | Superseded — in `exploratory/` |
 | Blended-term + GAM model | Superseded — in `exploratory/` |
 
-Results drafts: `display_discussion/H2_results_draft.md`, `H3_results_draft.md`, `H2_H3_results_interpretation.md`.
+Results drafts: `display_discussion/H2_results_draft.md`, `H3_results_draft.md`, `One page read me.md`.
+(`H2_H3_results_interpretation.md` is superseded — blended-term era.)
 
 ---
 

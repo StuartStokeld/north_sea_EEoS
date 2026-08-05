@@ -51,12 +51,35 @@ Primary inference is the **within-between** decomposition (not the earlier blend
 
 | Script | Role |
 |--------|------|
-| `pipeline/run_h2h3_within_between.R` | Primary: `FP_between * phase + FP_within * phase + (1\|stat_rec)`; CAR sensitivity |
+| `pipeline/run_h2h3_within_between.R` | Original primary: `FP_between * phase + FP_within * phase + (1\|stat_rec)` (data-driven phases 1989/2001/2008); CAR sensitivity |
+| `pipeline/run_h2h3_phase_v2_refit.R` | **Current primary:** same within-between formula with policy-anchored `phase_v2` (1992/2002/2008); comparison + BLUP Moran/Geary |
+| `pipeline/run_h2h3_phase_v2_reporting.R` | phase_v2 slopes, CAR + pooled contrast, proportional effects, presentation figures |
 | `pipeline/R/h2h3_within_between_helpers.R` | Decomposition helpers |
 | `pipeline/run_h2h3_wb_proportional_effects.R` | Proportional / gap-change effect sizes (H2 & H3) |
 | `pipeline/run_h2h3_wb_pooled_between_contrast.R` | Optional pooled-between CAR contrast (discussion) |
+| `pipeline/run_h2h3_fp_between_confounding_bootstrap.R` | Supporting: rectangle-level `FP_between` spatial permutation null for H2 |
+| `pipeline/build_knn_spatial_weights.R` | Spec A: k-NN (k=4) weights for lagged `FP_between` |
+| `pipeline/run_h2h3_spec_a_lag_refit.R` | Spec A: primary + `FP_between_lag * phase_v2`; VIF; BLUP Moran |
+| `pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R` | Spec A: confounding bootstrap with lag recomputed per shuffle |
+| `pipeline/run_h2h3_spec_b_lag_refit.R` | Spec B / A+B: lagged neighbour `ln_B_obs`; VIF; BLUP+residual Moran; H2/H3 coef comparison |
+| `pipeline/R/h2h3_knn_spatial_helpers.R` | Spec A/B helpers (k-NN, lag, VIF) |
 | `pipeline/run_h2h3_presentation_figures.R` | Presentation figures from live wb outputs |
 | `pipeline/run_h2h3_raw_correlation_stats.R` | Raw correlation companion stats |
+| `pipeline/run_h2_n_hauls_metric_diagnostics.R` | Haul-count vs metric screen (wedge + mean-trend; sensitivity if flagged) |
+| `pipeline/run_h2h3_haulcount_by_phase_map.R` | Haul-count choropleth by phase |
+
+### H2/H3 — spatial residual diagnostics (supporting)
+
+| Script | Role |
+|--------|------|
+| `pipeline/run_h2h3_primary_spatial_autocorr_check.R` | Moran/Geary on BLUPs + rectangle-mean residuals |
+| `pipeline/run_h2h3_bathymetry_anisotropy_check.R` | Bathymetry anisotropy diagnostic (directional variogram + Jammalamadaka–Sarma alignment) |
+
+Bathymetry anisotropy (2026-08-04): verdict **not_confirmed** (primary ρ_JS ≈ 0.05, p ≈ 0.55).
+Outputs: `outputs/bathymetry_anisotropy_verdict.md`,
+`outputs/bathymetry_by_rectangle.csv`, `outputs/bearing_alignment_test.csv`,
+`outputs/directional_variogram_*.png`, `outputs/h2h3_bathymetry_anisotropy_run_log.md`.
+Design: `display_discussion/Design_bathymetry_spatial_anisotropy.md`.
 
 Shared helpers still required by the live H2/H3 scripts (also used historically by
 exploratory runs): `pipeline/R/h2h3_feasibility_helpers.R`,
@@ -64,6 +87,21 @@ exploratory runs): `pipeline/R/h2h3_feasibility_helpers.R`,
 
 Headline outputs: `outputs/h2h3_wb_*.csv`, `outputs/h2h3_wb_run_log.md`,
 `outputs/figures/h2h3_wb_*.png`, `outputs/figures/h2h3_presentation_*.png`.
+Policy-anchored primary: `outputs/primary_model_v2.rds`,
+`outputs/phase_v2_vs_original_comparison.csv`,
+`outputs/phase_v2_blup_diagnostic.csv`, `outputs/phase_v2_refit_run_log.md`.
+Reporting stack: `outputs/phase_v2_fp_slopes_by_phase.csv`,
+`outputs/phase_v2_proportional_effects_H{2,3}.csv`,
+`outputs/phase_v2_pooled_between_coef.csv`,
+`outputs/phase_v2_reporting_model_objects.rds`,
+`outputs/figures/phase_v2_presentation_H{2,3}_gap_change_by_phase.png`,
+`outputs/phase_v2_reporting_run_log.md`.
+Haul-count diagnostic: `outputs/h2_n_hauls_metric_*.csv`,
+`outputs/figures/h2_n_hauls_*.png`, discussion note
+`display_discussion/H2_n_hauls_metric_check.md`.
+FP_between spatial confounding bootstrap (supporting): 
+`outputs/fp_between_confounding_bootstrap_*.csv|md|rds`,
+`outputs/figures/fp_between_confounding_bootstrap_null.png`.
 
 ---
 

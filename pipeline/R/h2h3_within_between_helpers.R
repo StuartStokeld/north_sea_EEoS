@@ -103,16 +103,29 @@ annotate_wb_fixed_effects <- function(fe_table) {
 
 #' Resolve the interaction coefficient name for `term_name` × phase level,
 #' accepting either `term:phaseX` or `phaseX:term`.
-find_fp_phase_interaction_name <- function(beta_names, term_name, phase) {
+#'
+#' Supports both the original `phase` factor and policy-anchored `phase_v2`.
+#' If `phase_var` is NULL, auto-detects from `beta_names` (`phase_v2` preferred
+#' when present).
+find_fp_phase_interaction_name <- function(beta_names, term_name, phase,
+                                           phase_var = NULL) {
+  if (is.null(phase_var)) {
+    phase_var <- if (any(grepl("phase_v2", beta_names, fixed = TRUE))) {
+      "phase_v2"
+    } else {
+      "phase"
+    }
+  }
   candidates <- c(
-    paste0(term_name, ":phase", phase),
-    paste0("phase", phase, ":", term_name)
+    paste0(term_name, ":", phase_var, phase),
+    paste0(phase_var, phase, ":", term_name)
   )
   hit <- intersect(candidates, beta_names)
   if (length(hit) == 0L) {
     stop(
       "Expected interaction term not found for ", term_name, " × ", phase,
-      ". Looked for: ", paste(candidates, collapse = " / "),
+      " (phase_var = ", phase_var, "). Looked for: ",
+      paste(candidates, collapse = " / "),
       ". Available: ", paste(beta_names, collapse = ", ")
     )
   }
@@ -121,13 +134,23 @@ find_fp_phase_interaction_name <- function(beta_names, term_name, phase) {
 
 #' Per-phase slopes for a named FP component (FP_between or FP_within)
 #' from a glmmTMB fit, with delta-method SE / 95% CI.
-extract_wb_phase_slopes <- function(fit, term_name, model_id, hypothesis_group) {
+#'
+#' `phases` defaults to the original data-driven breakpoints. Pass the
+#' policy-anchored levels for `phase_v2` models
+#' (`c("1985-1991", "1992-2001", "2002-2007", "2008-2015")`).
+extract_wb_phase_slopes <- function(fit, term_name, model_id, hypothesis_group,
+                                    phases = c("1985-1988", "1989-2000",
+                                               "2001-2007", "2008-2015")) {
   b <- glmmTMB::fixef(fit)$cond
   V <- stats::vcov(fit)$cond
+  parse_bounds <- function(ph) {
+    parts <- strsplit(ph, "-", fixed = TRUE)[[1]]
+    c(year_start = as.integer(parts[[1]]), year_end = as.integer(parts[[2]]))
+  }
   bounds <- data.frame(
-    phase = c("1985-1988", "1989-2000", "2001-2007", "2008-2015"),
-    year_start = c(1985L, 1989L, 2001L, 2008L),
-    year_end = c(1988L, 2000L, 2007L, 2015L),
+    phase = phases,
+    year_start = vapply(phases, function(ph) parse_bounds(ph)[["year_start"]], integer(1)),
+    year_end = vapply(phases, function(ph) parse_bounds(ph)[["year_end"]], integer(1)),
     stringsAsFactors = FALSE
   )
   ref_phase <- bounds$phase[1]
@@ -168,13 +191,22 @@ extract_wb_phase_slopes <- function(fit, term_name, model_id, hypothesis_group) 
 }
 
 #' Same as extract_wb_phase_slopes but for a spaMM CAR fit.
-extract_wb_phase_slopes_spamm <- function(fit, term_name, model_id, hypothesis_group) {
+#'
+#' `phases` defaults to the original data-driven breakpoints. Pass the
+#' policy-anchored levels for `phase_v2` models.
+extract_wb_phase_slopes_spamm <- function(fit, term_name, model_id, hypothesis_group,
+                                          phases = c("1985-1988", "1989-2000",
+                                                     "2001-2007", "2008-2015")) {
   b <- spaMM::fixef(fit)
   V <- as.matrix(stats::vcov(fit))
+  parse_bounds <- function(ph) {
+    parts <- strsplit(ph, "-", fixed = TRUE)[[1]]
+    c(year_start = as.integer(parts[[1]]), year_end = as.integer(parts[[2]]))
+  }
   bounds <- data.frame(
-    phase = c("1985-1988", "1989-2000", "2001-2007", "2008-2015"),
-    year_start = c(1985L, 1989L, 2001L, 2008L),
-    year_end = c(1988L, 2000L, 2007L, 2015L),
+    phase = phases,
+    year_start = vapply(phases, function(ph) parse_bounds(ph)[["year_start"]], integer(1)),
+    year_end = vapply(phases, function(ph) parse_bounds(ph)[["year_end"]], integer(1)),
     stringsAsFactors = FALSE
   )
   ref_phase <- bounds$phase[1]

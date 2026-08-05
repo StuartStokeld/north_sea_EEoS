@@ -14,13 +14,13 @@ Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at thi
 |----------|------------|
 | [`display_discussion/One page readme`](display_discussion/One%20page%20readme) | One-page project narrative + links |
 | [`display_discussion/H2_H3_methods_detailed.md`](display_discussion/H2_H3_methods_detailed.md) | H2/H3 design document (within-between CAR) |
-| [`display_discussion/H2_H3_results_interpretation.md`](display_discussion/H2_H3_results_interpretation.md) | Results interpretation note |
+| [`display_discussion/H2_H3_results_interpretation.md`](display_discussion/H2_H3_results_interpretation.md) | **Superseded** blended-term interpretation (see banner); use H2/H3 drafts + One-pager |
 | [`display_discussion/H3_results_draft.md`](display_discussion/H3_results_draft.md) / [`H2_results_draft.md`](display_discussion/H2_results_draft.md) | Results drafts |
 | [`outputs/live_pipeline_run_log.md`](outputs/live_pipeline_run_log.md) | Explicit list of **live** scripts and outputs |
 
 **Live pipeline (summary):** H1 haul-level EEoS → Couce/H2 panel build → structural-break
-phase check → **within-between decomposed, biomass-free** H2/H3 model
-(`pipeline/run_h2h3_within_between.R` + proportional-effects / presentation scripts).
+phase check → within-between model → **policy-anchored `phase_v2` primary**
+(`pipeline/run_h2h3_phase_v2_refit.R` + `run_h2h3_phase_v2_reporting.R`).
 Full command list and outputs: [`pipeline/README.md`](pipeline/README.md) and the live
 pipeline run log above.
 
@@ -74,6 +74,8 @@ Rscript pipeline/import_couce_fishing_effort.R
 Rscript pipeline/build_h2_rectangle_panel.R
 Rscript --vanilla pipeline/run_h2h3_structbreak_check.R
 Rscript --vanilla pipeline/run_h2h3_within_between.R
+Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R
+Rscript --vanilla pipeline/run_h2h3_phase_v2_reporting.R
 Rscript --vanilla pipeline/run_h2h3_wb_proportional_effects.R
 ```
 

@@ -7,6 +7,7 @@
 .Rhistory
 .Rapp.history
 .Rproj.user/
+.R_libs/
 Rplots.pdf
 
 # renv: keep renv.lock, activate.R, settings.json (see renv/.gitignore for the rest)
