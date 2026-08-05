@@ -8,7 +8,7 @@ Aim - self critique my models approach to spatial autocorrelation
     - Yes but not uniformly - first two phases are not confounded, second two (2002-2015) are
 4. Test an approach used in the same study zone / data (KNN)
     - fishing-effort displacement between neighbouring rectangles explains the 2002–2015 confounding in H2.
-5. Attempt a bathymetry informed spatial structure
+5. Attempt a bathymetry informed spatial structure (not mentioned in writeup as inconclusive but retained here for posterity)
     - No evidence that shelf-geometry-based direction explains the earlier unidentified decay range.
 
 #### 1. Diagnostics: raw spatial structure of my inputs (rectangles are highly similar)
