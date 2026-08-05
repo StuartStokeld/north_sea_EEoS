@@ -122,7 +122,7 @@ whatever's driving the general spatial clustering in residuals is *not* primaril
 
 - the primary model's core assumption (rectangle differences are exchangeable) remains empirically false after every fix attempted so far (distance decay unidentified, CAR non-identifiable, `FP_between_lag` moves BLUPs by only ~3% relative)
 
-5. #### **4. Next step** - Attempt something more ecologically relevant.
+#### 5. Attempt something more ecologically relevant.
 
 **Test:** GEBCO bathymetry (depth, depth gradient)
 extracted per rectangle
