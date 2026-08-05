@@ -38,7 +38,7 @@ Comparing a rectangle at the 25th percentile of persistent fishing pressure to o
 
 Comparing a rectangle's own lower-fishing year to its own higher-fishing year (25th vs. 75th percentile of that rectangle's year-to-year fishing-pressure fluctuation), the overprediction gap closes by 0.9% in 1985–1991 (not significant) and by 0.6% in 1992–2001 (significant) — a rectangle's own fishing-pressure rise tracks a smaller gap that same year — then widens by 0.05% in 2002–2007 (not significant), before closing again by 2.0% in 2008–2015 (significant).
 
-This partially confirms and partially contradicts the working hypothesis stated above, neither H2 nor H3 shows the single, uniform disturbance signal originally anticipated. **Fishing pressure and time period, together, explain only about 5% of why haul-level prediction error varies (marginal R² = 0.051).** The remaining ~95% is driven by something else entirely.
+This partially confirms and partially contradicts the working hypothesis stated above, neither H2 nor H3 shows the single, uniform disturbance signal originally anticipated.
 
 **Fishing pressure and time period, together, explain only about 5% of why haul-level prediction error varies (marginal R² = 0.051).** The remaining ~95% is driven by something else entirely.
 
