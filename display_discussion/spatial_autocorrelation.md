@@ -5,10 +5,11 @@ Aim - self critique my models approach to spatial autocorrelation
 2. Review how my model attempts to address this 
     - a plain rectangle random intercept, treating rectangles as independent of one another (no distance or neighbour weighting: which were tested but not incorporated).
 3. Are the H2 results biased? use bootstrapping sensitivity analysis to destroy the spatial structure
-    - Yes but not uniformly - first two phases are not confounded, second two are
-4. Test using a more ecologically relevant spatial structure
-    - Use GEBCO bathymetry data - test whether spatial correlation run stronger along the shelf than across it? Could this be used as a more environmentally informed distance metric?
-5. Test an approach used in the same study zone / data
+    - Yes but not uniformly - first two phases are not confounded, second two (2002-2015) are
+4. Test an approach used in the same study zone / data (KNN)
+    - fishing-effort displacement between neighbouring rectangles explains the 2002–2015 confounding in H2.
+5. Attempt a bathymetry informed spatial structure
+    - No evidence that shelf-geometry-based direction explains the earlier unidentified decay range.
 
 #### 1. Diagnostics: raw spatial structure of my inputs (rectangles are highly similar)
 
@@ -93,33 +94,7 @@ distribution.
 
 This is not uniform across periods.
 
-#### **4. Next step** - Use something more ecologically relevant.
-
-**Test:** GEBCO bathymetry (depth, depth gradient)
-extracted per rectangle
-
-does spatial correlation in our model residuals run stronger along the shelf than across it? Could this be used as a more environmentally informed distance metric? (rather than a more complex covariance structure)
-
-The goal is to decide between two explanations for the unidentified decay range:
-
-1. Correlation genuinely has no finite spatial range at this resolution (confounded with
-the fixed-effect spatial trend, or a borderless field).
-2. Correlation has a real, finite range, but geographic (Euclidean lon/lat) distance is
-the wrong metric to detect it, shelf geometry is a better one.
-
-**Test - targets model residual spatial structure**
-
-For each of 158 ICES rectangles, we derived **local along-shelf direction** from GEBCO bathymetry (depth gradient rotated 90°), and **residual-correlation direction** from where nearby pairs showed the strongest similarity in residuals. The confirmatory check was a **circular–circular correlation** (Jammalamadaka–Sarma): do those two directions align? Confirmed if **p < 0.05**.
-
-Result:
-
-**Anisotropy not confirmed** (ρ = 0.05, p = 0.55).
-
-No evidence that shelf-geometry-based direction explains the earlier unidentified decay range. Consistent with either a genuinely borderless spatial field or confounding with the fixed-effect spatial trend, does not distinguish between these two.
-
-Residual-correlation direction does **not** align with local shelf geometry. That argues against “geographic distance was the wrong metric” as the explanation for the earlier unidentified decay range. The result is instead consistent with a **borderless spatial field** or **confounding from the fixed-effect spatial trend,** but it does not distinguish between those two.
-
-#### 5. Test an approach used in the same study zone / data
+#### 4. Test an approach used in the same study zone / data
 
 https://www.researchgate.net/publication/283210413_Spatio-temporal_Bayesian_network_models_with_latent_variables_for_revealing_trophic_dynamics_and_functional_networks_in_fisheries_ecology#pf2 
 
@@ -146,3 +121,30 @@ fishing-effort displacement between neighbouring rectangles explains the 2002–
 whatever's driving the general spatial clustering in residuals is *not* primarily about fishing pressure's spatial arrangement
 
 - the primary model's core assumption (rectangle differences are exchangeable) remains empirically false after every fix attempted so far (distance decay unidentified, CAR non-identifiable, `FP_between_lag` moves BLUPs by only ~3% relative)
+
+5. #### **4. Next step** - Attempt something more ecologically relevant.
+
+**Test:** GEBCO bathymetry (depth, depth gradient)
+extracted per rectangle
+
+does spatial correlation in our model residuals run stronger along the shelf than across it? Could this be used as a more environmentally informed distance metric? (rather than a more complex covariance structure)
+
+The goal is to decide between two explanations for the unidentified decay range:
+
+1. Correlation genuinely has no finite spatial range at this resolution (confounded with
+the fixed-effect spatial trend, or a borderless field).
+2. Correlation has a real, finite range, but geographic (Euclidean lon/lat) distance is
+the wrong metric to detect it, shelf geometry is a better one.
+
+**Test - targets model residual spatial structure**
+
+For each of 158 ICES rectangles, we derived **local along-shelf direction** from GEBCO bathymetry (depth gradient rotated 90°), and **residual-correlation direction** from where nearby pairs showed the strongest similarity in residuals. The confirmatory check was a **circular–circular correlation** (Jammalamadaka–Sarma): do those two directions align? Confirmed if **p < 0.05**.
+
+Result:
+
+**Anisotropy not confirmed** (ρ = 0.05, p = 0.55).
+
+No evidence that shelf-geometry-based direction explains the earlier unidentified decay range. Consistent with either a genuinely borderless spatial field or confounding with the fixed-effect spatial trend, does not distinguish between these two.
+
+Residual-correlation direction does **not** align with local shelf geometry. That argues against “geographic distance was the wrong metric” as the explanation for the earlier unidentified decay range. The result is instead consistent with a **borderless spatial field** or **confounding from the fixed-effect spatial trend,** but it does not distinguish between those two.
+
