@@ -1,4 +1,5 @@
 Methods
+
 Study system and data
 
 We used haul-level data from the ICES North Sea International Bottom Trawl Survey (Maureaud et al., 2024), combined with reconstructed trawling effort (otter and beam, summed) from Couce et al. (2020). For each haul we calculated species richness (S), total abundance (N), and total metabolic energy (E = Σ n·mass^0.75 across length bins, normalised by the haul's minimum observed individual mass, m_min^0.75), the state variables required by the Ecological Equation of State (EEoS; Harte et al., 2022), alongside observed community biomass (B_obs).
