@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2/H3 proportional effect sizes for the WITHIN-BETWEEN decomposed slopes
 #
 # PURPOSE: re-express already-fitted FP_between (H2) and FP_within (H3) phase

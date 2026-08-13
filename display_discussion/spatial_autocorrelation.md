@@ -80,9 +80,23 @@ arrangement while leaving everything else in the data untouched), the full model
 1000 times, and the observed coefficient(s) compared against the resulting null
 distribution.
 
-**Result:**
+Originally run against the exchangeable RE model `(1 | stat_rec)`. Re-run (2026-08-06)
+against the **CAR** primary used for reported H2 spatial contrasts
+(`adjacency(1 | stat_rec)`, same queen adjMatrix as `run_h2h3_phase_v2_reporting.R`).
+RE results retained below for comparison; current check is the CAR table.
 
-| Phase | H2 (`FP_between`) coefficient | Spatially confounded? |
+**Result (CAR — current):**
+
+| Phase | H2 (`FP_between`) coefficient — CAR | Spatially confounded? |
+| --- | --- | --- |
+| 1985–1991 (reference) | −0.063 | **Yes** |
+| 1992–2001 | −0.024 | **Yes** |
+| 2002–2007 | +0.084 | **Yes** |
+| 2008–2015 | +0.013 | No |
+
+**Result (RE — archived sensitivity):**
+
+| Phase | H2 (`FP_between`) coefficient — RE | Spatially confounded? |
 | --- | --- | --- |
 | 1985–1991 (reference) | −0.025 | No |
 | 1992–2001 | +0.014 | No |
@@ -91,7 +105,20 @@ distribution.
 
 **spatially confounded** = YES if the observed coefficient falls outside the null distribution's 95% interval
 
-This is not uniform across periods.
+Null-width comparison (CAR null is modestly narrower than RE; SD ratio CAR/RE ≈ 0.70–0.93):
+
+| Phase | RE null SD | CAR null SD | RE null IQR | CAR null IQR |
+| --- | --- | --- | --- | --- |
+| 1985–1991 | 0.0158 | 0.0147 | 0.0214 | 0.0198 |
+| 1992–2001 | 0.0152 | 0.0111 | 0.0199 | 0.0153 |
+| 2002–2007 | 0.0198 | 0.0139 | 0.0254 | 0.0190 |
+| 2008–2015 | 0.0168 | 0.0126 | 0.0228 | 0.0164 |
+
+Scripts/outputs: `pipeline/permutation_bootstrap_FP_between_CAR.R`,
+`outputs/permutation_bootstrap_FP_between_CAR_summary.md`; archived RE at
+`exploratory/pipeline/permutation_bootstrap_FP_between_RE.R`.
+
+This is not uniform across periods (and the phase pattern differs between RE and CAR).
 
 #### **4. Next step** - Use something more ecologically relevant.
 
@@ -129,20 +156,25 @@ for each area, compute the mean of a variable across its k nearest neighbours, a
 
 **What the model does:**
 
-a mixed-effects regression predicting EEoS prediction error (`residual`, the gap between predicted and observed biomass) from a rectangle's own long-run fishing pressure (`FP_between`), that same pressure's year-to-year fluctuation (`FP_within`), and policy-era phase — with one addition: a new term, `FP_between_lag`, representing the average long-run fishing pressure of each rectangle's four nearest neighbours.
+The primary H2 specification is CAR (`adjacency(1 | stat_rec)`). Spec A adds one term: `FP_between_lag` — the average long-run fishing pressure of each rectangle's four nearest neighbours (k-NN, k=4) — interacted with `phase_v2`, alongside the existing `FP_between` / `FP_within` phase structure.
 
-**What it tests:** whether the spatial confounding already found in `FP_between` (its coefficient behaving inconsistently across phases, especially post-2002, in a way tied to rectangles' spatial arrangement rather than fishing pressure itself) is explained by fishing effort spilling over between adjacent rectangles
+**What it tests:** whether the spatial confounding already found in `FP_between` under CAR (phases 1985–1991, 1992–2001, and 2002–2007 outside the spatial-permutation null; 2008–2015 clean) is explained by fishing effort spilling over between adjacent rectangles.
 
-Results:
+**Identifiability (Task 1):** a single CAR+lag fit cleared the gate — ρ essentially unchanged vs primary CAR (0.131292 → 0.131287), `|cor(FP_between_lag, CAR BLUPs)| ≈ 0.32` (below the 0.7 flag), lag SEs not inflated vs RE Spec A or vs `FP_between` in the same model, clean convergence.
 
-Both previously-flagged phases (2002–2007, 2008–2015) now fall inside the null 95% under the new step 5 model
+**Results (Task 2, CAR+lag permutation; lag recomputed each shuffle):**
 
-Moran's I moved negligibly **0.552** to ****0.532 is a small, likely negligible movement (Δ = −0.018, ~3% relative reduction), residual spatial structure remains strong. 
+| Phase | CAR-alone confounded? | CAR+lag confounded? | CAR+lag `FP_between` |
+|-------|------------------------|---------------------|----------------------|
+| 1985–1991 | Yes | **No** | +0.010 |
+| 1992–2001 | Yes | **No** | −0.002 |
+| 2002–2007 | Yes | **No** | −0.022 |
+| 2008–2015 | No | No | −0.018 |
 
-(1 | rectangle) remains the primary model. Spec A is reported as a confirmed mechanism finding and robustness check on H2
+All three CAR-flagged phases fall inside the null 95% once neighbour fishing pressure is in the mean structure. Spec A is reported as a **confirmed mechanism / sensitivity check on the primary CAR H2 model**: fishing-effort displacement between neighbouring rectangles explains the **1985–2007** confounding in H2 under CAR (not the earlier RE-era “2002–2015” claim).
 
-fishing-effort displacement between neighbouring rectangles explains the 2002–2015 confounding in H2.
+Historical note: Spec A was first tested against the superseded RE `(1 | stat_rec)` baseline, where it cleared the RE-flagged 2002–2007 / 2008–2015 pattern. That RE-scoped result is retained as the development path; the **current claim** is the CAR-scoped result above.
 
-whatever's driving the general spatial clustering in residuals is *not* primarily about fishing pressure's spatial arrangement
+Moran's I on RE BLUPs moved only negligibly when lag was added there (0.552 → 0.532). Whatever drives general residual spatial clustering is *not* primarily about fishing pressure's spatial arrangement. Spec B (lagged neighbour biomass) was explored for that question and is **archived** under `exploratory/` (not in the live methods model list).
 
-- the primary model's core assumption (rectangle differences are exchangeable) remains empirically false after every fix attempted so far (distance decay unidentified, CAR non-identifiable, `FP_between_lag` moves BLUPs by only ~3% relative)
+- the primary CAR model's residual spatial structure is not erased by `FP_between_lag`; Spec A is a mechanism account for H2 coefficient confounding, not a cure for exchangeability failure

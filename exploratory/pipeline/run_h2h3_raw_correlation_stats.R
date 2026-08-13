@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Supplementary raw correlation & range statistics for H2/H3.
 #
 # Descriptive only — no model fitting. Reuses decomposed haul-level data from

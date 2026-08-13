@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2 corollary: rectangle-level biomass vs. fishing-pressure correlation test
 #
 # Standalone check of whether mean rectangle-level log observed biomass is

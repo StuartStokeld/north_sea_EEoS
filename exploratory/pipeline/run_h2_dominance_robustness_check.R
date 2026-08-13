@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Step 0 ROBUSTNESS CHECK — is the D-vs-fishing-pressure cross-sectional
 # correlation (r = 0.183, R2 = 0.033, p = 0.020, n = 161) a stable signal or
 # an artefact of a few high-leverage rectangles / biased missingness?

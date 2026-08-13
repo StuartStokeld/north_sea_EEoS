@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2/H3 shared hierarchical model — FEASIBILITY CHECK (Section 4 design proposal)
 #
 # PURPOSE: check whether the proposed shared H2/H3 model converges and behaves

@@ -1,0 +1,22 @@
+R version 4.6.1 (2026-06-24)
+Platform: aarch64-apple-darwin24.6.0
+Running under: macOS Sequoia 15.7.7
+
+Matrix products: default
+BLAS:   /opt/homebrew/Cellar/openblas/0.3.34/lib/libopenblasp-r0.3.34.dylib 
+LAPACK: /opt/homebrew/Cellar/r/4.6.1/lib/R/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+locale:
+[1] C
+
+time zone: Europe/London
+tzcode source: internal
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] zoo_1.9-0        compiler_4.6.1   gstat_2.1-6      tools_4.6.1     
+ [5] xts_0.14.2       sp_2.2-3         spacetime_1.3-3  circular_0.5-2  
+ [9] mvtnorm_1.4-2    grid_4.6.1       FNN_1.1.4.1      boot_1.3-32     
+[13] intervals_0.15.5 lattice_0.22-9  

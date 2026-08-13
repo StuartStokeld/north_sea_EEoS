@@ -1,0 +1,4 @@
+"test","n","rho_js","statistic","p_value","alpha","significant","verdict"
+"primary_resid",152,0.0482592397812694,0.594359114720588,0.552271948051901,0.05,FALSE,"not_confirmed"
+"robustness_blup",152,0.0172650609898154,0.215686316757091,0.829232267833855,0.05,FALSE,NA
+"sensitivity_resid_tid25",158,0.037114944540053,0.466230887211899,0.641050242837585,0.05,FALSE,NA

@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H3 strategy feasibility — policy-period split x coarse spatial zones.
 # See CURSOR_BRIEFING "H3 Strategy Feasibility — Policy-Period Split x Coarse
 # Spatial Zones" (chat-supplied, not a repo file) for the full spec this

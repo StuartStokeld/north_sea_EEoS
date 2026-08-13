@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Quantitative support for the H2/H3 design decision (temporal phasing +
 # spatial-unit definition). See CURSOR_BRIEFING "Quantitative Support for
 # H2/H3 Design Decision" (chat-supplied, not a repo file) for the full spec

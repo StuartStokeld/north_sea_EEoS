@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2/H3 proportional effect-size reporting (supplementary)
 #
 # PURPOSE: re-express already-fitted primary-model phase slopes on

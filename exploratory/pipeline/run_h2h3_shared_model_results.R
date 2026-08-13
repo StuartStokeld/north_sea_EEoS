@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2/H3 shared hierarchical model — RESULTS RUN (finalised design)
 #
 # PURPOSE: produce the substantive H2/H3 results under the corrected model

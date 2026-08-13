@@ -1,3 +1,8 @@
+# ARCHIVED (exploratory): Bai–Perron / BIC structural-break discovery for the
+# original data-driven phases. Not part of current primary (phase_v2) or
+# sensitivity reporting. Re-run only intentionally:
+#   Rscript --vanilla exploratory/pipeline/run_h2h3_structbreak_check.R
+#
 # Structural-break check — fishing-pressure time series.
 # See CURSOR_BRIEFING "Structural Break Check — Fishing Pressure Time Series"
 # (chat-supplied, not a repo file) for the full spec this script implements.
@@ -30,7 +35,7 @@ script_dir <- if (length(file_arg) > 0L) {
 } else if (dir.exists("R")) {
   normalizePath(getwd(), winslash = "/", mustWork = TRUE)
 } else {
-  stop("Run from pipeline/ or Rscript pipeline/run_h2h3_structbreak_check.R")
+  stop("Run: Rscript --vanilla exploratory/pipeline/run_h2h3_structbreak_check.R")
 }
 source(file.path(script_dir, "R", "h1_common.R"))
 ctx <- load_pipeline_context()
@@ -47,16 +52,17 @@ STRUCCHANGE_H <- 0.15                       # strucchange::breakpoints() package
 CANDIDATE_BREAKS_MIN_REQUIRED <- 5L         # brief requires reporting >=0-5 breaks; actual max reported is whatever STRUCCHANGE_H allows (see run log)
 
 # ---------------------------------------------------------------------------
-# Paths
+# Paths (archived under exploratory/; live input A1 stays at top-level outputs/)
 # ---------------------------------------------------------------------------
+out_root <- file.path(project_root, "exploratory", "outputs")
 path_in_A1 <- file.path(project_root, "outputs", "h2h3_designA1_year_fishing_summary.csv")
-fig_dir <- file.path(project_root, "outputs", "figures")
+fig_dir <- file.path(out_root, "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
-path_out_criterion <- file.path(project_root, "outputs", "h2h3_designA4_structbreak_criterion.csv")
-path_out_years <- file.path(project_root, "outputs", "h2h3_designA4_structbreak_years.csv")
+path_out_criterion <- file.path(out_root, "h2h3_designA4_structbreak_criterion.csv")
+path_out_years <- file.path(out_root, "h2h3_designA4_structbreak_years.csv")
 path_out_fig <- file.path(fig_dir, "h2h3_designA4_structbreak_series.png")
-path_out_run_log <- file.path(project_root, "outputs", "h2h3_designA4_structbreak_run_log.md")
+path_out_run_log <- file.path(out_root, "h2h3_designA4_structbreak_run_log.md")
 
 stopifnot(file.exists(path_in_A1))
 

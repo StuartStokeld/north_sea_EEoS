@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Step 0 diagnostic — dominance (D) / size-homogeneity (size_CV) vs Couce et
 # al. (2020) fishing pressure. See CURSOR_BRIEFING "Step 0 Diagnostic —
 # Dominance/Size-Homogeneity vs Fishing Pressure" (chat-supplied, not a repo

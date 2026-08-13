@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Step 0 robustness FOLLOW-UPS — three loose ends before the nested H2 model:
 #   1. Re-report the linear-vs-loess max deviation (verify it wasn't actually
 #      missing, rather than silently re-running with different parameters)

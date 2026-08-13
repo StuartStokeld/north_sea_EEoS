@@ -1,0 +1,4 @@
+model_id,framework,estimation,aic,bic,role
+linear_gam_ml,mgcv::gam,ML,12942.879214110291,14055.271441701285,linearity null (same RE as primary)
+smooth_gam_ml,mgcv::gam,ML,12918.967450051628,14087.290103120646,flexible H2 dose-response by phase
+production_glmmTMB_reml,glmmTMB,REML,13256.711852936955,NA,production primary <e2><80><94> AIC not used for gate

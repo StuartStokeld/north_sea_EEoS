@@ -1,127 +1,91 @@
 # Live pipeline — record for supervisor review
 
-This file states which scripts currently produce the **presented** results.
-Superseded / exploratory work lives under [`exploratory/`](../exploratory/) and is
-not part of this list.
+Scripts that produce **presented** results (methods model list).
+Superseded work: [`exploratory/`](../exploratory/).
 
-Generated: 2026-07-27 (repo reorganization; no new analysis).
+Updated: 2026-08-13 (repo restructure to match final methods model list).
 
 ---
 
-## Live pipeline
-
-### H1 — haul-level EEoS
+## H1 — haul-level EEoS
 
 | Script | Role |
 |--------|------|
-| `pipeline/build_datras_state_variables.R` | State variables (S, N, E, m_min) |
+| `pipeline/build_datras_state_variables.R` | S, N, E_raw, m_min |
 | `pipeline/build_eeos_predictions.R` | FishGlob join + EEoS B_pred + residuals |
-| `pipeline/run_h1_harte_baseline.R` | Harte unfitted baseline (Tests 1–2) |
+| `pipeline/run_h1_harte_baseline.R` | Unfitted EEoS + productivity 1:1 + Harte Fig. 2 |
+| `pipeline/run_h1_presentation_figures.R` | Presentation figures |
 | `pipeline/run_h1_lne_reference.R` | ln(E) OLS + model comparison |
-| `pipeline/run_h1_null_model.R` | B-only null permutations |
-| `pipeline/run_pipeline_diagnostics.R` | Pipeline audit |
-| `pipeline/run_h1_dropout_diagnosis.R` | Dropout funnel / spike years |
+| `pipeline/run_h1_null_model.R` | Uniform-draw null |
+| `pipeline/explore_h1_catchability_scaling.R` | Quartile ratios / scalar reject |
+| `pipeline/explore_h1_haul_dominance.R` | D + size_CV |
+| `pipeline/explore_h1_dominance_partial_r2.R` | Partial R² beyond biomass |
+| `pipeline/run_pipeline_diagnostics.R` | Audit |
+| `pipeline/run_h1_dropout_diagnosis.R` | Dropout funnel |
 
-Supporting H1 diagnostics (still under `pipeline/`, not superseded):
-`explore_h1_catchability_scaling.R`, `explore_h1_haul_dominance.R`,
-`explore_h1_dominance_partial_r2.R`.
+---
 
-### H2 inputs (rectangle panel + fishing effort)
-
-| Script | Role |
-|--------|------|
-| `pipeline/import_couce_fishing_effort.R` | Couce fishing hours |
-| `pipeline/build_h2_rectangle_panel.R` | Rectangle-level residual panel |
-
-### Structural-break check (phase boundaries for H2/H3)
+## H2 inputs
 
 | Script | Role |
 |--------|------|
-| `pipeline/run_h2h3_structbreak_check.R` | BIC structural breaks → phases 1989 / 2001 / 2008 |
-| `pipeline/R/h2h3_structbreak_helpers.R` | Helpers |
+| `pipeline/import_couce_fishing_effort.R` | Couce hours |
+| `pipeline/build_h2_rectangle_panel.R` | Rectangle panel |
 
-Outputs: `outputs/h2h3_designA4_structbreak_*.csv`,
-`outputs/figures/h2h3_designA4_structbreak_series.png`,
-`outputs/h2h3_designA4_structbreak_run_log.md`.
+---
 
-### H2/H3 — final within-between decomposed model (biomass-free)
-
-Primary inference is the **within-between** decomposition (not the earlier blended
-`log_hours_total` term). Biomass covariate excluded.
+## H2/H3 — primary (`phase_v2`) + methods robustness
 
 | Script | Role |
 |--------|------|
-| `pipeline/run_h2h3_within_between.R` | Original primary: `FP_between * phase + FP_within * phase + (1\|stat_rec)` (data-driven phases 1989/2001/2008); CAR sensitivity |
-| `pipeline/run_h2h3_phase_v2_refit.R` | **Current primary:** same within-between formula with policy-anchored `phase_v2` (1992/2002/2008); comparison + BLUP Moran/Geary |
-| `pipeline/run_h2h3_phase_v2_reporting.R` | phase_v2 slopes, CAR + pooled contrast, proportional effects, presentation figures |
-| `pipeline/R/h2h3_within_between_helpers.R` | Decomposition helpers |
-| `pipeline/run_h2h3_wb_proportional_effects.R` | Proportional / gap-change effect sizes (H2 & H3) |
-| `pipeline/run_h2h3_wb_pooled_between_contrast.R` | Optional pooled-between CAR contrast (discussion) |
-| `pipeline/run_h2h3_fp_between_confounding_bootstrap.R` | Supporting: rectangle-level `FP_between` spatial permutation null for H2 |
-| `pipeline/build_knn_spatial_weights.R` | Spec A: k-NN (k=4) weights for lagged `FP_between` |
-| `pipeline/run_h2h3_spec_a_lag_refit.R` | Spec A: primary + `FP_between_lag * phase_v2`; VIF; BLUP Moran |
-| `pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R` | Spec A: confounding bootstrap with lag recomputed per shuffle |
-| `pipeline/run_h2h3_spec_b_lag_refit.R` | Spec B / A+B: lagged neighbour `ln_B_obs`; VIF; BLUP+residual Moran; H2/H3 coef comparison |
-| `pipeline/R/h2h3_knn_spatial_helpers.R` | Spec A/B helpers (k-NN, lag, VIF) |
-| `pipeline/run_h2h3_presentation_figures.R` | Presentation figures from live wb outputs |
-| `pipeline/run_h2h3_raw_correlation_stats.R` | Raw correlation companion stats |
-| `pipeline/run_h2_n_hauls_metric_diagnostics.R` | Haul-count vs metric screen (wedge + mean-trend; sensitivity if flagged) |
-| `pipeline/run_h2h3_haulcount_by_phase_map.R` | Haul-count choropleth by phase |
+| `pipeline/run_h2h3_within_between.R` | Prerequisite: original-phase stack → `h2h3_wb_model_objects.rds` |
+| `pipeline/run_h2h3_phase_v2_refit.R` | **Primary RE** `wb_primary_v2` (H3 slopes) |
+| `pipeline/run_h2h3_phase_v2_reporting.R` | **Primary CAR** `wb_car_v2` (H2 slopes) + proportional effects + pooled contrast + figs |
+| `pipeline/run_h2h3_h2_multiplicity_subsampling.R` | Bonferroni m=4 for H2 and H3 families |
+| `pipeline/permutation_bootstrap_FP_between_CAR.R` | FP_between spatial permutation (CAR) |
+| `pipeline/run_h2h3_rectangle_subsampling_refit.R` | Rectangle subsample RE (H3 write-up) |
+| `pipeline/run_h2h3_rectangle_subsampling_car_refit.R` | Rectangle subsample CAR (H2 write-up) |
+| `pipeline/build_knn_spatial_weights.R` | k-NN k=4 weights (Spec A) |
+| `pipeline/run_h2h3_spec_a_car_identifiability.R` | Spec A on CAR |
+| `pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R` | Spec A permutation |
 
-### H2/H3 — spatial residual diagnostics (supporting)
+Helpers: `pipeline/R/h2h3_within_between_helpers.R`, `h2h3_feasibility_helpers.R`,
+`h2h3_results_helpers.R`, `h2h3_knn_spatial_helpers.R`, `h2h3_spatial_autocorr_helpers.R`.
 
-| Script | Role |
-|--------|------|
-| `pipeline/run_h2h3_primary_spatial_autocorr_check.R` | Moran/Geary on BLUPs + rectangle-mean residuals |
-| `pipeline/run_h2h3_bathymetry_anisotropy_check.R` | Bathymetry anisotropy diagnostic (directional variogram + Jammalamadaka–Sarma alignment) |
+### Headline outputs
 
-Bathymetry anisotropy (2026-08-04): verdict **not_confirmed** (primary ρ_JS ≈ 0.05, p ≈ 0.55).
-Outputs: `outputs/bathymetry_anisotropy_verdict.md`,
-`outputs/bathymetry_by_rectangle.csv`, `outputs/bearing_alignment_test.csv`,
-`outputs/directional_variogram_*.png`, `outputs/h2h3_bathymetry_anisotropy_run_log.md`.
-Design: `display_discussion/Design_bathymetry_spatial_anisotropy.md`.
-
-Shared helpers still required by the live H2/H3 scripts (also used historically by
-exploratory runs): `pipeline/R/h2h3_feasibility_helpers.R`,
-`pipeline/R/h2h3_results_helpers.R`.
-
-Headline outputs: `outputs/h2h3_wb_*.csv`, `outputs/h2h3_wb_run_log.md`,
-`outputs/figures/h2h3_wb_*.png`, `outputs/figures/h2h3_presentation_*.png`.
-Policy-anchored primary: `outputs/primary_model_v2.rds`,
-`outputs/phase_v2_vs_original_comparison.csv`,
-`outputs/phase_v2_blup_diagnostic.csv`, `outputs/phase_v2_refit_run_log.md`.
-Reporting stack: `outputs/phase_v2_fp_slopes_by_phase.csv`,
-`outputs/phase_v2_proportional_effects_H{2,3}.csv`,
-`outputs/phase_v2_pooled_between_coef.csv`,
-`outputs/phase_v2_reporting_model_objects.rds`,
-`outputs/figures/phase_v2_presentation_H{2,3}_gap_change_by_phase.png`,
-`outputs/phase_v2_reporting_run_log.md`.
-Haul-count diagnostic: `outputs/h2_n_hauls_metric_*.csv`,
-`outputs/figures/h2_n_hauls_*.png`, discussion note
-`display_discussion/H2_n_hauls_metric_check.md`.
-FP_between spatial confounding bootstrap (supporting): 
-`outputs/fp_between_confounding_bootstrap_*.csv|md|rds`,
-`outputs/figures/fp_between_confounding_bootstrap_null.png`.
+- `outputs/primary_model_v2.rds` (`primary_model_v2`, `fit_wb_car_v2`)
+- `outputs/phase_v2_fp_slopes_by_phase.csv`
+- `outputs/phase_v2_proportional_effects_H{2,3}.csv`
+- `outputs/phase_v2_pooled_between_coef.csv`
+- `outputs/figures/phase_v2_presentation_H{2,3}_gap_change_by_phase.png`
+- `outputs/h2_multiplicity_correction_*`, `outputs/h3_multiplicity_correction_*`
+- `outputs/permutation_bootstrap_FP_between_CAR_*`
+- `outputs/h2h3_glmm_subsampling_*`, `outputs/h2h3_car_subsampling_*`
+- `outputs/primary_model_v2_spec_a_car.rds`, `outputs/spec_a_car_*`
+- `outputs/permutation_bootstrap_FP_between_CAR_spec_a_*`
 
 ---
 
 ## Intermediate inputs kept at top-level `outputs/`
 
-These files were produced by scripts now under `exploratory/`, but the live
-within-between / structbreak scripts still read them (paths unchanged):
+Live scripts still read:
 
-- `outputs/h2h3_designA1_year_fishing_summary.csv` (structbreak input)
-- `outputs/h2h3_results_model_objects.rds` (analysis data reuse)
-- `outputs/h2h3_results_fp_slopes_by_phase.csv` (blended comparison table)
-- `outputs/h2h3_feasibility_round2_model_objects.rds` (CAR adjacency matrix)
+- `outputs/h2h3_wb_model_objects.rds` (phase_v2 refit base)
+- `outputs/h2h3_feasibility_round2_model_objects.rds` (CAR `adjMatrix`)
+- `outputs/h2h3_results_model_objects.rds` / related historical inputs where referenced
 
 ---
 
 ## Not live (see `exploratory/`)
 
-- Zone-scheme scripts (Scheme A block-merge, Scheme B pressure-tier)
-- Pre-H3 feasibility / visualisation script
-- Biomass-included shared-model feasibility runs
-- Blended-term (undecomposed) results model and its GAM / proportional-effects tables
-- Temporal-robustness check on the blended term
-- Design-support zone / ICC explorations beyond the structbreak A4 outputs
+Archived 2026-08-13 (plus earlier moves):
+
+- Early rectangle SEM (`run_h2_models.R`)
+- Blended-term / zones / GAM / Bai–Perron structbreak / dose-response GAM
+- RE Spec A + RE Spec A permutation; Spec B / A+B
+- RE FP_between permutation
+- OLS residual-proxy rectangle subsampling
+- Bathymetry anisotropy / BYM smoothness / n_hauls metric / haul-count maps
+- Original-phase standalone proportional / pooled / presentation / raw-correlation scripts
+- Superseded results note `H2_H3_results_interpretation.md` (blended-term era)

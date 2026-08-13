@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2 robustness checks and provenance (diagnostic layer — not core pipeline)
 # Run after build_h2_rectangle_panel.R and run_h2_models.R
 #

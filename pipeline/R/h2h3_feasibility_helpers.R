@@ -8,7 +8,7 @@ suppressPackageStartupMessages({
 })
 
 #' 4-level phase factor from the 3 statistically robust structural breaks
-#' (1989, 2001, 2008; see outputs/h2h3_designA4_structbreak_years.csv). The
+#' (1989, 2001, 2008; see exploratory/outputs/h2h3_designA4_structbreak_years.csv). The
 #' marginal 1997 break is excluded from this variable per the brief.
 #' CONVENTION (a modelling choice, not verified against strucchange's exact
 #' segment-boundary indexing): each break year is treated as the FIRST year

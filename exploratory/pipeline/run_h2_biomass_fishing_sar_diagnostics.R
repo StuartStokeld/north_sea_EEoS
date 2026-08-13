@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2 corollary follow-up: SAR (spatial lag) diagnostics for the
 # biomass-vs-fishing-pressure bivariate test.
 #

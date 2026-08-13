@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Haul-count choropleth by analysis phase — individual ICES rectangles.
 #
 # Replaces the exploratory Scheme A 2x2 pre/post 2003 map for presentation in

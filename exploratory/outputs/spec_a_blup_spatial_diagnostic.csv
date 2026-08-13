@@ -1,0 +1,3 @@
+model,variable,morans_i,geary_c,p_moran,p_geary,n,delta_morans_i_vs_v2,note
+primary_v2,(1|stat_rec) intercepts,0.5502646647487459,0.4422094246319926,4.567493278418376e-39,1.6821361115748363e-37,158,0,baseline primary_model_v2 (archived Moran I <e2><89><88> 0.552)
+spec_a,(1|stat_rec) intercepts,0.5318096457808171,0.46192431416325946,1.5246531956015017e-36,4.900524271690479e-35,158,-0.018455018967928782,Spec A with FP_between_lag * phase_v2

@@ -35,8 +35,9 @@ EEoS Python implementation: [micbru/equation_of_state](https://github.com/micbru
 Neither H2 nor H3 shows a single uniform disturbance signal. Marginal R² ≈ **0.051**. Fishing pressure × phase effects flip direction across periods.
 
 Narrative one-pager: `display_discussion/One page read me.md`  
-Results drafts: `display_discussion/H2_results_draft.md`, `H3_results_draft.md`  
-(`H2_H3_results_interpretation.md` is superseded — blended-term era only)
+Live script / output list: `outputs/live_pipeline_run_log.md`  
+Hypothesis notes: `display_discussion/H2_results_draft.md`, `H3_results_draft.md`  
+(Blended-term interpretation archived: `exploratory/display_discussion/H2_H3_results_interpretation.md`)
 
 ---
 
@@ -75,25 +76,28 @@ Rscript pipeline/run_h1_null_model.R
 Rscript pipeline/run_pipeline_diagnostics.R
 ```
 
-### H2 panel → phases → primary H2/H3 model
+### H2/H3 primary + methods robustness
 
 ```bash
 Rscript pipeline/import_couce_fishing_effort.R
 Rscript pipeline/build_h2_rectangle_panel.R
-Rscript --vanilla pipeline/run_h2h3_structbreak_check.R
-Rscript --vanilla pipeline/run_h2h3_within_between.R          # original data-driven phase
-Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R          # PRIMARY (policy-anchored phase_v2)
-Rscript --vanilla pipeline/run_h2h3_phase_v2_reporting.R      # slopes / CAR / proportional / figures
-Rscript --vanilla pipeline/run_h2h3_wb_proportional_effects.R # original-phase proportional (archive)
+Rscript --vanilla pipeline/run_h2h3_within_between.R       # prerequisite original-phase objects
+Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R       # PRIMARY RE (H3)
+Rscript --vanilla pipeline/run_h2h3_phase_v2_reporting.R   # PRIMARY CAR (H2) + effects/figures
+Rscript --vanilla pipeline/run_h2h3_h2_multiplicity_subsampling.R
+Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR.R
+Rscript --vanilla pipeline/run_h2h3_rectangle_subsampling_refit.R
+Rscript --vanilla pipeline/run_h2h3_rectangle_subsampling_car_refit.R
+Rscript --vanilla pipeline/build_knn_spatial_weights.R
+Rscript --vanilla pipeline/run_h2h3_spec_a_car_identifiability.R
+Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R
 ```
 
-Primary H2/H3 model: `residual ~ FP_between * phase_v2 + FP_within * phase_v2 + (1 | stat_rec)` 
-(with optional CAR sensitivity). **No biomass covariate.** Policy-anchored `phase_v2`
-(1992/2002/2008); original data-driven `phase` retained in artifacts for comparison.
-Artifact: `outputs/primary_model_v2.rds`.
+Primary H2/H3: `residual ~ FP_between * phase_v2 + FP_within * phase_v2` with RE
+`(1|stat_rec)` for **H3** and CAR `adjacency(1|stat_rec)` for **H2**.
+Artifact: `outputs/primary_model_v2.rds`. Full table: `pipeline/README.md`.
 
-Use `Rscript --vanilla` for glmmTMB / spaMM / strucchange scripts (packages may be outside `renv.lock`).
-Full step table and helpers: `pipeline/README.md`.
+Archived (SEM, Spec B, RE Spec A, anisotropy, etc.): `exploratory/`.
 
 ---
 
@@ -166,7 +170,7 @@ Details: `local_env_upload_28-7/README.md`.
 ## Agent conventions
 
 1. Run scripts from **repo root**: `Rscript pipeline/...`
-2. Treat `pipeline/` + `outputs/live_pipeline_run_log.md` as source of truth for presented work.
+2. Treat `outputs/live_pipeline_run_log.md` + `pipeline/` as source of truth for presented work.
 3. Do **not** present `exploratory/` as current results.
 4. Prefer editing live scripts/docs over resurrecting superseded paths.
 5. Do not delete git history; reorganize visibility only.
@@ -181,7 +185,7 @@ Details: `local_env_upload_28-7/README.md`.
 2. `display_discussion/One page read me.md`
 3. `outputs/live_pipeline_run_log.md`
 4. `pipeline/README.md` (if running or editing code)
-5. `display_discussion/H2_H3_methods_detailed.md` + `H2_H3_results_interpretation.md`
+5. `display_discussion/H2_H3_methods_detailed.md`
 6. `AGENT_ONBOARDING.md` (clone/restore specifics)
 
 ---

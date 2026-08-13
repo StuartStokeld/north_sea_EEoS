@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Missing Visuals — Haul Map & Composition Figures.
 # See CURSOR_BRIEFING "Missing Visuals — Haul Map & Composition Figures"
 # (chat-supplied, not a repo file) for the full spec this script implements.

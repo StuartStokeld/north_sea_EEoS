@@ -14,19 +14,15 @@ Public GitHub repo: **`north_sea_EEoS`**. Open **`north_sea_eeos.Rproj`** at thi
 |----------|------------|
 | [`display_discussion/One page readme`](display_discussion/One%20page%20readme) | One-page project narrative + links |
 | [`display_discussion/H2_H3_methods_detailed.md`](display_discussion/H2_H3_methods_detailed.md) | H2/H3 design document (within-between CAR) |
-| [`display_discussion/H2_H3_results_interpretation.md`](display_discussion/H2_H3_results_interpretation.md) | **Superseded** blended-term interpretation (see banner); use H2/H3 drafts + One-pager |
-| [`display_discussion/H3_results_draft.md`](display_discussion/H3_results_draft.md) / [`H2_results_draft.md`](display_discussion/H2_results_draft.md) | Results drafts |
+| [`display_discussion/H3_results_draft.md`](display_discussion/H3_results_draft.md) / [`H2_results_draft.md`](display_discussion/H2_results_draft.md) | Hypothesis results notes |
 | [`outputs/live_pipeline_run_log.md`](outputs/live_pipeline_run_log.md) | Explicit list of **live** scripts and outputs |
 
-**Live pipeline (summary):** H1 haul-level EEoS → Couce/H2 panel build → structural-break
-phase check → within-between model → **policy-anchored `phase_v2` primary**
-(`pipeline/run_h2h3_phase_v2_refit.R` + `run_h2h3_phase_v2_reporting.R`).
-Full command list and outputs: [`pipeline/README.md`](pipeline/README.md) and the live
-pipeline run log above.
+**Live pipeline (summary):** H1 haul-level EEoS → Couce/H2 panel → within-between
+prerequisite → **policy-anchored `phase_v2` primary** (RE for H3, CAR for H2) →
+Bonferroni / permutation / subsampling / Spec A. Full list:
+[`pipeline/README.md`](pipeline/README.md) and the live pipeline run log above.
 
-**Exploratory / superseded work** (zone schemes, pre-H3 feasibility, biomass-included
-feasibility, blended-term model + GAM): [`exploratory/`](exploratory/) — full research
-history, not the default landing point.
+**Exploratory / superseded work** (SEM, Spec B, RE Spec A, blended-term, zones, anisotropy, etc.): [`exploratory/`](exploratory/).
 
 ---
 
@@ -67,17 +63,25 @@ Rscript pipeline/run_h1_null_model.R
 Rscript pipeline/run_pipeline_diagnostics.R
 ```
 
-**H2 panel + structural breaks + live H2/H3 model:**
+**H2/H3 primary + methods robustness:**
 
 ```bash
 Rscript pipeline/import_couce_fishing_effort.R
 Rscript pipeline/build_h2_rectangle_panel.R
-Rscript --vanilla pipeline/run_h2h3_structbreak_check.R
 Rscript --vanilla pipeline/run_h2h3_within_between.R
 Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R
 Rscript --vanilla pipeline/run_h2h3_phase_v2_reporting.R
-Rscript --vanilla pipeline/run_h2h3_wb_proportional_effects.R
+Rscript --vanilla pipeline/run_h2h3_h2_multiplicity_subsampling.R
+Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR.R
+Rscript --vanilla pipeline/run_h2h3_rectangle_subsampling_refit.R
+Rscript --vanilla pipeline/run_h2h3_rectangle_subsampling_car_refit.R
+Rscript --vanilla pipeline/build_knn_spatial_weights.R
+Rscript --vanilla pipeline/run_h2h3_spec_a_car_identifiability.R
+Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R
 ```
+
+Structural-break discovery and the H2 dose-response GAM check are under
+[`exploratory/`](exploratory/) (historical; not part of the main pipeline).
 
 ---
 

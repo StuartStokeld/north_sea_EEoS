@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Final presentation figures — one standalone figure per hypothesis (H2, H3).
 #
 # Reads already-computed proportional effect tables only; no model refitting.

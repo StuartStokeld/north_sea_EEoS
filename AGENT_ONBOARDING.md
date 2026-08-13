@@ -22,10 +22,10 @@ Read this after `git clone` to understand layout, what is complete, and what is 
 
 | Path | Status |
 |------|--------|
-| `pipeline/` | **Live** H1 + H2/H3 scripts (structbreak, within-between model) |
+| `pipeline/` | **Live** H1 + H2/H3 scripts (within-between / phase_v2 primary) |
 | `outputs/` | Live pipeline results (RDS, CSV, figures) |
 | `display_discussion/` | Design docs, results drafts, presentation figures |
-| `exploratory/` | Superseded work (zone schemes, blended-term model, biomass runs, step-0 diagnostics) |
+| `exploratory/` | Superseded work (SEM, Spec B, RE Spec A, blended-term, zones, anisotropy, …) |
 | `H1_results/` | Shareable H1 package |
 | `supplementary/` | Legacy notebooks and one-off tools |
 | `local_env_upload_28-7/` | **Restore scripts + list of data not in git** |
@@ -36,7 +36,7 @@ Read this after `git clone` to understand layout, what is complete, and what is 
 
 **H1:** `build_datras_state_variables.R` → `build_eeos_predictions.R` → Harte baseline / ln(E) / null / diagnostics.
 
-**H2/H3:** `import_couce_fishing_effort.R` → `build_h2_rectangle_panel.R` → `run_h2h3_structbreak_check.R` → **`run_h2h3_within_between.R`** (primary, biomass-free, FP_between/FP_within decomposition) → proportional effects / presentation figures.
+**H2/H3:** Couce/panel → within-between prerequisite → **`phase_v2` RE (H3) + CAR (H2)** → Bonferroni, CAR permutation, rectangle subsampling, Spec A.
 
 Full command list: [`outputs/live_pipeline_run_log.md`](outputs/live_pipeline_run_log.md).
 
@@ -75,7 +75,6 @@ Complete table: [`local_env_upload_28-7/README.md`](local_env_upload_28-7/README
 | Blended-term + GAM model | Superseded — in `exploratory/` |
 
 Results drafts: `display_discussion/H2_results_draft.md`, `H3_results_draft.md`, `One page read me.md`.
-(`H2_H3_results_interpretation.md` is superseded — blended-term era.)
 
 ---
 

@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # Pre-H3 exploratory visualisation & variance decomposition.
 # See CURSOR_BRIEFING "Pre-H3 Exploratory Visualisation & Variance
 # Decomposition" (chat-supplied, not a repo file) for the full spec this

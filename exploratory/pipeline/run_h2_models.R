@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2 statistical models: OLS, spatial autocorrelation, spatial error model
 # Run after build_h2_rectangle_panel.R
 

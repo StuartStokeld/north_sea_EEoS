@@ -1,3 +1,7 @@
+# ARCHIVED (exploratory) — not part of the live methods model list.
+# Re-run only intentionally from exploratory/pipeline/.
+# Historical outputs live under exploratory/outputs/ (update write paths before re-running).
+#
 # H2 spatial lag (SAR) models — compare with existing SEM fits
 # Run after build_h2_rectangle_panel.R (uses min10 panel + same weights as primary SEM)
 #
