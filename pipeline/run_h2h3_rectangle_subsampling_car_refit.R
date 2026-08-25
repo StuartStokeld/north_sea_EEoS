@@ -1,27 +1,27 @@
-# H2 CAR rectangle sub-sampling sensitivity (canonical H2 model)
+# H2/H3 CAR rectangle sub-sampling sensitivity (canonical shared CAR model)
 #
-# PURPOSE: refit the presented H2 CAR specification on the same global rectangle
-# subsamples used by the RE Part B script, and check sign / significance
-# stability of the four phase-specific FP_between IQR contrasts.
+# PURPOSE: refit the presented CAR specification on the same global rectangle
+# subsamples used by the companion RE script, and check sign / significance
+# stability of the four phase-specific FP_between (H2) and FP_within (H3)
+# IQR contrasts.
 #
 # Model (matches run_h2h3_phase_v2_reporting.R):
 #   residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)
 #   spaMM::fitme(..., method = "REML")
 #
-# Scope: H2 only for deliverables. H3 CAR slopes may be logged to the iterations
-# CSV as diagnostic-only (h3_car_diagnostic_only = TRUE); no H3 summary/figures.
-#
-# Paired with RE Part B: same SEED blocks and rectangle order as
+# Paired with RE companion: same SEED blocks and rectangle order as
 #   pipeline/run_h2h3_rectangle_subsampling_refit.R
 #
-# IQR convention: fixed full-sample IQR(FP_between) + fixed phase baselines
-# (same as phase_v2 reporting and RE Part B).
+# IQR convention: fixed full-sample IQR(FP_between) + fixed phase-specific
+# IQR(FP_within) + fixed phase baselines (same as phase_v2 reporting).
 #
 # Prerequisite: outputs/primary_model_v2.rds,
-#   outputs/h2h3_feasibility_round2_model_objects.rds$adjMatrix
+#   outputs/h2h3_feasibility_round2_model_objects.rds$adjMatrix,
+#   outputs/phase_v2_proportional_effects_H{2,3}.csv (wb_car_v2)
 #
 # Run: Rscript --vanilla pipeline/run_h2h3_rectangle_subsampling_car_refit.R
-# Optional: N_ITER=1000 SEED=42
+# Optional: N_ITER=1000 SEED=42 SKIP_REFIT=1
+#   SKIP_REFIT=1 summarises existing iterations CSV (no new CAR fits).
 
 suppressPackageStartupMessages({
   library(dplyr)
@@ -68,6 +68,9 @@ path_round2 <- file.path(
 path_prop_h2 <- file.path(
   project_root, "outputs", "phase_v2_proportional_effects_H2.csv"
 )
+path_prop_h3 <- file.path(
+  project_root, "outputs", "phase_v2_proportional_effects_H3.csv"
+)
 path_slopes <- file.path(
   project_root, "outputs", "phase_v2_fp_slopes_by_phase.csv"
 )
@@ -81,6 +84,9 @@ path_out_iter <- file.path(
 path_out_sum_h2 <- file.path(
   project_root, "outputs", "h2h3_car_subsampling_summary_H2.csv"
 )
+path_out_sum_h3 <- file.path(
+  project_root, "outputs", "h2h3_car_subsampling_summary_H3.csv"
+)
 path_out_conv <- file.path(
   project_root, "outputs", "h2h3_car_subsampling_convergence_by_retention.csv"
 )
@@ -89,6 +95,9 @@ path_out_sum_md <- file.path(
 )
 path_out_fig_h2 <- file.path(
   fig_dir, "h2_car_subsampling_contrast_histograms.png"
+)
+path_out_fig_h3 <- file.path(
+  fig_dir, "h3_car_subsampling_contrast_histograms.png"
 )
 path_out_run_log <- file.path(
   project_root, "outputs", "h2h3_car_subsampling_run_log.md"
@@ -106,6 +115,7 @@ ALPHA <- 0.05
 
 N_ITER <- as.integer(Sys.getenv("N_ITER", unset = "1000"))
 SEED <- as.integer(Sys.getenv("SEED", unset = "42"))
+SKIP_REFIT <- identical(Sys.getenv("SKIP_REFIT", unset = "0"), "1")
 
 run_log <- character(0)
 logmsg <- function(...) {
@@ -357,8 +367,7 @@ logmsg("")
 logmsg(
   "Refit `adjacency(1|stat_rec)` CAR on global rectangle subsamples ",
   "(retention 80/60/40%; ", N_ITER, " iterations each). ",
-  "Paired seeds with RE Part B. Deliverable = H2 only; H3 CAR slopes logged ",
-  "as diagnostic-only in iterations CSV."
+  "Paired seeds with RE companion. Deliverable = H2 and H3 from the shared CAR fit."
 )
 logmsg("")
 logmsg("## Session")
@@ -423,8 +432,11 @@ phase_baseline <- dat %>%
   ) %>%
   transmute(phase = as.character(phase_v2), r0, iqr_within, n_rect)
 
-# Canonical H2 reference from reporting artifacts (wb_car_v2)
+# Canonical H2/H3 reference from reporting artifacts (wb_car_v2)
 prop_h2 <- read_csv(path_prop_h2, show_col_types = FALSE) %>%
+  mutate(phase = factor(as.character(phase), levels = PHASE_V2)) %>%
+  arrange(phase)
+prop_h3 <- read_csv(path_prop_h3, show_col_types = FALSE) %>%
   mutate(phase = factor(as.character(phase), levels = PHASE_V2)) %>%
   arrange(phase)
 slopes <- read_csv(path_slopes, show_col_types = FALSE)
@@ -432,11 +444,21 @@ h2_car_slopes <- slopes %>%
   filter(model_id == "wb_car_v2", component == "FP_between") %>%
   mutate(phase = factor(as.character(phase), levels = PHASE_V2)) %>%
   arrange(phase)
+h3_car_slopes <- slopes %>%
+  filter(model_id == "wb_car_v2", component == "FP_within") %>%
+  mutate(phase = factor(as.character(phase), levels = PHASE_V2)) %>%
+  arrange(phase)
 if (nrow(h2_car_slopes) != 4L || nrow(prop_h2) != 4L) {
   stop("Expected 4 CAR H2 slopes and 4 proportional H2 rows.")
 }
+if (nrow(h3_car_slopes) != 4L || nrow(prop_h3) != 4L) {
+  stop("Expected 4 CAR H3 slopes and 4 proportional H3 rows.")
+}
 if (!identical(unique(as.character(prop_h2$model_id)), "wb_car_v2")) {
   stop("phase_v2_proportional_effects_H2.csv is not wb_car_v2 — refusing.")
+}
+if (!identical(unique(as.character(prop_h3$model_id)), "wb_car_v2")) {
+  stop("phase_v2_proportional_effects_H3.csv is not wb_car_v2 — refusing.")
 }
 
 ref_h2 <- tibble::tibble(
@@ -448,7 +470,30 @@ ref_h2 <- tibble::tibble(
   full_sample_gap_direction = prop_h2$gap_direction_iqr
 )
 
-# Sanity: recompute gap from slope × fixed IQR should match prop table
+ref_h3 <- tibble::tibble(
+  phase = as.character(prop_h3$phase),
+  fp_slope = h3_car_slopes$fp_slope,
+  full_sample_p = h3_car_slopes$p_value,
+  full_sample_sig = h3_car_slopes$p_value < ALPHA,
+  full_sample_contrast = prop_h3$pct_gap_change_iqr,
+  full_sample_gap_direction = prop_h3$gap_direction_iqr
+)
+
+# Sanity: recompute H3 gap from slope × phase IQR should match prop table
+recheck_h3 <- vapply(seq_len(4L), function(i) {
+  ph <- as.character(h3_car_slopes$phase[i])
+  pct_gap_change_from_slope(
+    h3_car_slopes$fp_slope[i],
+    phase_baseline$iqr_within[phase_baseline$phase == ph],
+    phase_baseline$r0[phase_baseline$phase == ph]
+  )
+}, numeric(1))
+if (max(abs(recheck_h3 - ref_h3$full_sample_contrast)) > 1e-6) {
+  stop(
+    "Recomputed CAR IQR gap-change does not match proportional_effects_H3.csv; ",
+    "check IQR / baseline convention."
+  )
+}
 recheck <- vapply(seq_len(4L), function(i) {
   pct_gap_change_from_slope(
     h2_car_slopes$fp_slope[i],
@@ -479,78 +524,116 @@ for (i in seq_len(nrow(ref_h2))) {
     r$fp_slope, fmt_p(r$full_sample_p), yn(r$full_sample_sig)
   ))
 }
-
-# ---------------------------------------------------------------------------
-# Benchmark
-# ---------------------------------------------------------------------------
-logmsg("")
-logmsg("## Benchmark")
-set.seed(SEED)
-keep_bench <- sample(all_rects, size = as.integer(round(length(all_rects) * 0.80)), replace = FALSE)
-adj_b <- adjMatrix[keep_bench, keep_bench, drop = FALSE]
-dat_b <- dat[as.character(dat$stat_rec) %in% keep_bench, , drop = FALSE]
-dat_b$stat_rec <- factor(as.character(dat_b$stat_rec), levels = keep_bench)
-t_bench0 <- proc.time()[[3]]
-fit_b <- spaMM::fitme(form, data = dat_b, adjMatrix = adj_b, method = "REML")
-t_bench <- proc.time()[[3]] - t_bench0
-# also probe 40%
-set.seed(SEED + 200000L + 1L)
-keep40 <- sample(all_rects, size = as.integer(round(length(all_rects) * 0.40)), replace = FALSE)
-adj40 <- adjMatrix[keep40, keep40, drop = FALSE]
-dat40 <- dat[as.character(dat$stat_rec) %in% keep40, , drop = FALSE]
-dat40$stat_rec <- factor(as.character(dat40$stat_rec), levels = keep40)
-t40_0 <- proc.time()[[3]]
-fit40 <- spaMM::fitme(form, data = dat40, adjMatrix = adj40, method = "REML")
-t40 <- proc.time()[[3]] - t40_0
-logmsg(sprintf(
-  "Single-fit 80%%: %.3f sec (isolates=%d); 40%%: %.3f sec (isolates=%d)",
-  t_bench, sum(rowSums(adj_b) == 0), t40, sum(rowSums(adj40) == 0)
-))
-logmsg(sprintf(
-  "Projected %d fits ≈ %.1f min sequential (using 80%% time)",
-  length(RETENTION) * N_ITER, length(RETENTION) * N_ITER * t_bench / 60
-))
-rm(fit_b, dat_b, adj_b, keep_bench, fit40, dat40, adj40, keep40)
-
-# ---------------------------------------------------------------------------
-# Batch (same seed blocks as RE Part B)
-# ---------------------------------------------------------------------------
-logmsg("")
-logmsg("## Batch")
-seed_blocks <- lapply(seq_along(RETENTION), function(j) {
-  SEED + (j - 1L) * 100000L + seq_len(N_ITER)
-})
-names(seed_blocks) <- sprintf("%.2f", RETENTION)
-
-t_batch0 <- proc.time()[[3]]
-iter_list <- list()
-
-for (j in seq_along(RETENTION)) {
-  kf <- RETENTION[[j]]
-  seeds <- seed_blocks[[j]]
-  logmsg(sprintf("### Retention %.0f%% (%d iterations)", 100 * kf, N_ITER))
-  level_list <- vector("list", N_ITER)
-  for (i in seq_len(N_ITER)) {
-    if (i == 1L || i %% 100L == 0L || i == N_ITER) {
-      logmsg(sprintf("  iteration %d / %d ...", i, N_ITER))
-    }
-    level_list[[i]] <- one_iteration_car(
-      dat, form, all_rects, adjMatrix, PHASE_V2, kf, seeds[[i]],
-      iqr_between, phase_baseline
-    )
-  }
-  iter_list[[as.character(kf)]] <- dplyr::bind_rows(level_list)
+logmsg("H3 reference: wb_car_v2 from phase_v2_proportional_effects_H3.csv")
+for (i in seq_len(nrow(ref_h3))) {
+  r <- ref_h3[i, ]
+  logmsg(sprintf(
+    "  H3 %s: contrast=%+.2f%% (%s) slope=%+.4f p=%s sig=%s",
+    r$phase, r$full_sample_contrast, r$full_sample_gap_direction,
+    r$fp_slope, fmt_p(r$full_sample_p), yn(r$full_sample_sig)
+  ))
 }
 
-iter_df <- dplyr::bind_rows(iter_list)
-runtime_sec <- proc.time()[[3]] - t_batch0
-logmsg(sprintf(
-  "Batch runtime: %.1f sec (%.2f min; %.2f sec/fit average)",
-  runtime_sec, runtime_sec / 60, runtime_sec / (length(RETENTION) * N_ITER)
-))
+# ---------------------------------------------------------------------------
+# Benchmark + batch, or reuse existing iterations
+# ---------------------------------------------------------------------------
+if (SKIP_REFIT) {
+  if (!file.exists(path_out_iter)) {
+    stop("SKIP_REFIT=1 but missing ", path_out_iter)
+  }
+  logmsg("")
+  logmsg("## SKIP_REFIT=1: loading existing iterations (no new CAR fits)")
+  iter_df <- read_csv(path_out_iter, show_col_types = FALSE)
+  prev <- if (file.exists(path_out_rds)) readRDS(path_out_rds) else NULL
+  t_bench <- if (!is.null(prev$settings$single_fit_benchmark_sec_80)) {
+    prev$settings$single_fit_benchmark_sec_80
+  } else {
+    NA_real_
+  }
+  t40 <- if (!is.null(prev$settings$single_fit_benchmark_sec_40)) {
+    prev$settings$single_fit_benchmark_sec_40
+  } else {
+    NA_real_
+  }
+  runtime_sec <- if (!is.null(prev$runtime_sec)) prev$runtime_sec else NA_real_
+  n_ok_h3 <- iter_df %>%
+    filter(hypothesis == "H3") %>%
+    distinct(keep_frac, seed) %>%
+    nrow()
+  N_ITER <- iter_df %>%
+    filter(abs(keep_frac - 0.80) < 1e-9) %>%
+    distinct(seed) %>%
+    nrow()
+  logmsg(sprintf(
+    "Loaded %d iteration rows (%d H3 seed×retention cells; N_ITER=%d) from %s",
+    nrow(iter_df), n_ok_h3, N_ITER, path_out_iter
+  ))
+} else {
+  logmsg("")
+  logmsg("## Benchmark")
+  set.seed(SEED)
+  keep_bench <- sample(all_rects, size = as.integer(round(length(all_rects) * 0.80)), replace = FALSE)
+  adj_b <- adjMatrix[keep_bench, keep_bench, drop = FALSE]
+  dat_b <- dat[as.character(dat$stat_rec) %in% keep_bench, , drop = FALSE]
+  dat_b$stat_rec <- factor(as.character(dat_b$stat_rec), levels = keep_bench)
+  t_bench0 <- proc.time()[[3]]
+  fit_b <- spaMM::fitme(form, data = dat_b, adjMatrix = adj_b, method = "REML")
+  t_bench <- proc.time()[[3]] - t_bench0
+  set.seed(SEED + 200000L + 1L)
+  keep40 <- sample(all_rects, size = as.integer(round(length(all_rects) * 0.40)), replace = FALSE)
+  adj40 <- adjMatrix[keep40, keep40, drop = FALSE]
+  dat40 <- dat[as.character(dat$stat_rec) %in% keep40, , drop = FALSE]
+  dat40$stat_rec <- factor(as.character(dat40$stat_rec), levels = keep40)
+  t40_0 <- proc.time()[[3]]
+  fit40 <- spaMM::fitme(form, data = dat40, adjMatrix = adj40, method = "REML")
+  t40 <- proc.time()[[3]] - t40_0
+  logmsg(sprintf(
+    "Single-fit 80%%: %.3f sec (isolates=%d); 40%%: %.3f sec (isolates=%d)",
+    t_bench, sum(rowSums(adj_b) == 0), t40, sum(rowSums(adj40) == 0)
+  ))
+  logmsg(sprintf(
+    "Projected %d fits ≈ %.1f min sequential (using 80%% time)",
+    length(RETENTION) * N_ITER, length(RETENTION) * N_ITER * t_bench / 60
+  ))
+  rm(fit_b, dat_b, adj_b, keep_bench, fit40, dat40, adj40, keep40)
 
-write_csv(iter_df, path_out_iter)
-logmsg("Saved: ", path_out_iter)
+  logmsg("")
+  logmsg("## Batch")
+  seed_blocks <- lapply(seq_along(RETENTION), function(j) {
+    SEED + (j - 1L) * 100000L + seq_len(N_ITER)
+  })
+  names(seed_blocks) <- sprintf("%.2f", RETENTION)
+
+  t_batch0 <- proc.time()[[3]]
+  iter_list <- list()
+
+  for (j in seq_along(RETENTION)) {
+    kf <- RETENTION[[j]]
+    seeds <- seed_blocks[[j]]
+    logmsg(sprintf("### Retention %.0f%% (%d iterations)", 100 * kf, N_ITER))
+    level_list <- vector("list", N_ITER)
+    for (i in seq_len(N_ITER)) {
+      if (i == 1L || i %% 100L == 0L || i == N_ITER) {
+        logmsg(sprintf("  iteration %d / %d ...", i, N_ITER))
+      }
+      level_list[[i]] <- one_iteration_car(
+        dat, form, all_rects, adjMatrix, PHASE_V2, kf, seeds[[i]],
+        iqr_between, phase_baseline
+      )
+    }
+    iter_list[[as.character(kf)]] <- dplyr::bind_rows(level_list)
+  }
+
+  iter_df <- dplyr::bind_rows(iter_list)
+  runtime_sec <- proc.time()[[3]] - t_batch0
+  logmsg(sprintf(
+    "Batch runtime: %.1f sec (%.2f min; %.2f sec/fit average)",
+    runtime_sec, runtime_sec / 60, runtime_sec / (length(RETENTION) * N_ITER)
+  ))
+
+  write_csv(iter_df, path_out_iter)
+  logmsg("Saved: ", path_out_iter)
+}
 
 # Convergence summary (one row per iteration seed) — isolates logged separately
 conv_by_seed <- iter_df %>%
@@ -645,90 +728,150 @@ for (i in seq_len(nrow(sum_h2_out))) {
   ))
 }
 
-# ---------------------------------------------------------------------------
-# H2 figure only
-# ---------------------------------------------------------------------------
-ok_plot <- iter_df %>%
-  filter(hypothesis == "H2", converged, is.finite(contrast)) %>%
-  mutate(
-    phase = factor(as.character(phase), levels = PHASE_V2),
-    retention = factor(
-      sprintf("%.0f%%", 100 * keep_frac),
-      levels = sprintf("%.0f%%", 100 * RETENTION)
+sum_h3_list <- list()
+for (kf in RETENTION) {
+  level <- iter_df %>% filter(abs(keep_frac - kf) < 1e-9)
+  n_att <- N_ITER
+  n_conv <- level %>%
+    distinct(seed, converged) %>%
+    summarise(n = sum(converged)) %>%
+    pull(n)
+  ok_h3 <- level %>%
+    filter(
+      hypothesis == "H3", converged,
+      is.finite(contrast), is.finite(p_value)
     )
+  sum_h3_list[[as.character(kf)]] <- summarise_h2(
+    ok_h3, ref_h3, PHASE_V2, kf, n_att, n_conv
   )
-obs <- ref_h2 %>%
-  transmute(
-    phase = factor(phase, levels = PHASE_V2),
-    contrast = full_sample_contrast
-  )
+}
+sum_h3_out <- bind_rows(sum_h3_list) %>%
+  mutate(phase = factor(phase, levels = PHASE_V2)) %>%
+  arrange(phase, desc(retention))
 
-p <- ggplot(ok_plot, aes(x = contrast, colour = retention, fill = retention)) +
-  geom_density(alpha = 0.18, linewidth = 0.7) +
-  geom_vline(
-    data = obs, aes(xintercept = contrast),
-    colour = "#b2182b", linetype = "dashed", linewidth = 0.7,
-    inherit.aes = FALSE
-  ) +
-  geom_vline(xintercept = 0, colour = "grey40", linewidth = 0.3) +
-  facet_wrap(~phase, ncol = 2, scales = "free_y") +
-  scale_colour_manual(values = c("80%" = "#2166ac", "60%" = "#67a9cf", "40%" = "#d1e5f0")) +
-  scale_fill_manual(values = c("80%" = "#2166ac", "60%" = "#67a9cf", "40%" = "#d1e5f0")) +
-  labs(
-    title = "H2 CAR rectangle sub-sampling: IQR gap-change by phase",
-    subtitle = sprintf(
-      "spaMM adjacency CAR refits; dashed red = canonical wb_car_v2 full-sample contrast; seed = %d (paired with RE Part B)",
-      SEED
-    ),
-    x = "IQR contrast (% gap change; + = closed, − = widened)",
-    y = "Density",
-    colour = "Retention",
-    fill = "Retention"
-  ) +
-  theme_bw(base_size = 11) +
-  theme(plot.title = element_text(face = "bold"))
-ggsave(path_out_fig_h2, p, width = 9, height = 7, dpi = 150)
-logmsg("Saved: ", path_out_fig_h2)
+write_csv(sum_h3_out, path_out_sum_h3)
+logmsg("Saved: ", path_out_sum_h3)
 
-# ---------------------------------------------------------------------------
-# Markdown (H2 only)
-# ---------------------------------------------------------------------------
-md_table <- c(
-  "| Phase | Retention | Full-sample GLMM contrast | Subsample median [2.5, 97.5] | % sign match | % sign+sig match | % converged |",
-  "|---|---|---|---|---|---|---|",
-  vapply(seq_len(nrow(sum_h2_out)), function(i) {
-    r <- sum_h2_out[i, ]
-    sprintf(
-      "| %s | %.0f%% | %+.2f%% | %+.2f%% [%+.2f, %+.2f] | %.1f%% | %.1f%% | %.1f%% |",
-      as.character(r$phase), 100 * r$retention, r$full_sample_contrast,
-      r$subsample_median, r$subsample_p025, r$subsample_p975,
-      r$pct_sign_match, r$pct_sign_and_sig_match, r$pct_converged
-    )
-  }, character(1))
+logmsg("")
+logmsg("### H3 summary")
+logmsg(
+  "| Phase | Retention | Full-sample GLMM contrast | Subsample median [2.5, 97.5] | % sign match | % sign+sig match | % converged |"
 )
+logmsg("|---|---|---|---|---|---|---|")
+for (i in seq_len(nrow(sum_h3_out))) {
+  r <- sum_h3_out[i, ]
+  logmsg(sprintf(
+    "| %s | %.0f%% | %+.2f%% | %+.2f%% [%+.2f, %+.2f] | %.1f%% | %.1f%% | %.1f%% |",
+    as.character(r$phase), 100 * r$retention, r$full_sample_contrast,
+    r$subsample_median, r$subsample_p025, r$subsample_p975,
+    r$pct_sign_match, r$pct_sign_and_sig_match, r$pct_converged
+  ))
+}
+
+# ---------------------------------------------------------------------------
+# Figures
+# ---------------------------------------------------------------------------
+make_car_hist <- function(hyp, ref_df, title, outfile) {
+  ok_plot <- iter_df %>%
+    filter(hypothesis == hyp, converged, is.finite(contrast)) %>%
+    mutate(
+      phase = factor(as.character(phase), levels = PHASE_V2),
+      retention = factor(
+        sprintf("%.0f%%", 100 * keep_frac),
+        levels = sprintf("%.0f%%", 100 * RETENTION)
+      )
+    )
+  obs <- ref_df %>%
+    transmute(
+      phase = factor(phase, levels = PHASE_V2),
+      contrast = full_sample_contrast
+    )
+  p <- ggplot(ok_plot, aes(x = contrast, colour = retention, fill = retention)) +
+    geom_density(alpha = 0.18, linewidth = 0.7) +
+    geom_vline(
+      data = obs, aes(xintercept = contrast),
+      colour = "#b2182b", linetype = "dashed", linewidth = 0.7,
+      inherit.aes = FALSE
+    ) +
+    geom_vline(xintercept = 0, colour = "grey40", linewidth = 0.3) +
+    facet_wrap(~phase, ncol = 2, scales = "free_y") +
+    scale_colour_manual(values = c("80%" = "#2166ac", "60%" = "#67a9cf", "40%" = "#d1e5f0")) +
+    scale_fill_manual(values = c("80%" = "#2166ac", "60%" = "#67a9cf", "40%" = "#d1e5f0")) +
+    labs(
+      title = title,
+      subtitle = sprintf(
+        "spaMM adjacency CAR refits; dashed red = canonical wb_car_v2 full-sample contrast; seed = %d",
+        SEED
+      ),
+      x = "IQR contrast (% gap change; + = closed, − = widened)",
+      y = "Density",
+      colour = "Retention",
+      fill = "Retention"
+    ) +
+    theme_bw(base_size = 11) +
+    theme(plot.title = element_text(face = "bold"))
+  ggsave(outfile, p, width = 9, height = 7, dpi = 150)
+}
+
+make_car_hist("H2", ref_h2, "H2 CAR rectangle sub-sampling: IQR gap-change by phase", path_out_fig_h2)
+logmsg("Saved: ", path_out_fig_h2)
+make_car_hist("H3", ref_h3, "H3 CAR rectangle sub-sampling: IQR gap-change by phase", path_out_fig_h3)
+logmsg("Saved: ", path_out_fig_h3)
+
+fmt_md_table <- function(sum_out) {
+  c(
+    "| Phase | Retention | Full-sample GLMM contrast | Subsample median [2.5, 97.5] | % sign match | % sign+sig match | % converged |",
+    "|---|---|---|---|---|---|---|",
+    vapply(seq_len(nrow(sum_out)), function(i) {
+      r <- sum_out[i, ]
+      sprintf(
+        "| %s | %.0f%% | %+.2f%% | %+.2f%% [%+.2f, %+.2f] | %.1f%% | %.1f%% | %.1f%% |",
+        as.character(r$phase), 100 * r$retention, r$full_sample_contrast,
+        r$subsample_median, r$subsample_p025, r$subsample_p975,
+        r$pct_sign_match, r$pct_sign_and_sig_match, r$pct_converged
+      )
+    }, character(1))
+  )
+}
+
+fmt_sec <- function(x) {
+  if (!is.finite(x)) "NA (reused existing batch)" else sprintf("%.3f", x)
+}
+fmt_runtime <- function(sec) {
+  if (!is.finite(sec)) {
+    "NA (reused existing batch)"
+  } else {
+    sprintf("%.1f sec (%.2f min)", sec, sec / 60)
+  }
+}
 
 sub_md <- c(
-  "# H2 CAR rectangle sub-sampling sensitivity",
+  "# H2/H3 CAR rectangle sub-sampling sensitivity",
   "",
-  "Refit of the canonical H2 CAR model",
+  "Refit of the canonical shared CAR model",
   "`residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)`",
   "on global rectangle subsamples (adjacency matrix subset to retained rectangles).",
   "Full-sample reference = `wb_car_v2` IQR gap-change from",
-  "`phase_v2_proportional_effects_H2.csv` (matches GitHub H2 table).",
+  "`phase_v2_proportional_effects_H{2,3}.csv`.",
   "",
-  "**H3 is out of scope for this deliverable.** RE Part B remains the write-up",
-  "source for H3 robustness. H3 CAR slopes are present in the iterations CSV",
-  "with `h3_car_diagnostic_only = TRUE` only.",
+  if (SKIP_REFIT) {
+    paste0(
+      "This run used `SKIP_REFIT=1`: H2 and H3 summaries were built from ",
+      "existing `h2h3_car_subsampling_iterations.csv` (no new CAR fits)."
+    )
+  } else {
+    "H2 and H3 slopes are extracted from the same CAR refit on each subsample."
+  },
   "",
   "## Batch header",
   "",
-  sprintf("- Seed: %d (paired with RE Part B seed blocks)", SEED),
+  sprintf("- Seed: %d (paired with RE companion seed blocks)", SEED),
   sprintf("- Iterations per retention level: %d", N_ITER),
   sprintf("- Retention levels: %s", paste(sprintf("%.0f%%", 100 * RETENTION), collapse = ", ")),
-  sprintf("- Single-fit benchmark (80%%): %.3f sec", t_bench),
-  sprintf("- Total batch runtime: %.1f sec (%.2f min)", runtime_sec, runtime_sec / 60),
+  paste0("- Single-fit benchmark (80%): ", if (is.finite(t_bench)) sprintf("%.3f sec", t_bench) else "NA (reused existing batch)"),
+  paste0("- Total batch runtime: ", fmt_runtime(runtime_sec)),
   sprintf("- Minimum realized thinnest-phase rectangle count at 40%% retention: %d", min_thin_40),
-  "- IQR convention: fixed full-sample `IQR(FP_between)` + fixed phase baselines",
+  "- IQR convention: fixed full-sample `IQR(FP_between)` + phase-specific `IQR(FP_within)` + fixed phase baselines",
   "",
   "### Convergence / exclusions by retention",
   "",
@@ -749,11 +892,16 @@ sub_md <- c(
   "",
   "## H2 (`FP_between`, `wb_car_v2`)",
   "",
-  md_table,
+  fmt_md_table(sum_h2_out),
   "",
-  "## Figure",
+  "## H3 (`FP_within`, `wb_car_v2`)",
   "",
-  paste0("- ", path_out_fig_h2),
+  fmt_md_table(sum_h3_out),
+  "",
+  "## Figures",
+  "",
+  paste0("- H2: ", path_out_fig_h2),
+  paste0("- H3: ", path_out_fig_h3),
   "",
   "### Notes",
   "",
@@ -767,8 +915,10 @@ logmsg("Saved: ", path_out_sum_md)
 saveRDS(
   list(
     ref_h2 = ref_h2,
+    ref_h3 = ref_h3,
     iterations = iter_df,
     summary_h2 = sum_h2_out,
+    summary_h3 = sum_h3_out,
     convergence = conv_summary,
     settings = list(
       n_iter = N_ITER,
@@ -777,8 +927,9 @@ saveRDS(
       alpha = ALPHA,
       phases = PHASE_V2,
       formula = form,
-      method = "spaMM_CAR_refit_global_rectangle_subsample_H2_only",
-      paired_with_re_part_b = TRUE,
+      method = "spaMM_CAR_refit_global_rectangle_subsample",
+      paired_with_re_companion = TRUE,
+      skip_refit = SKIP_REFIT,
       iqr_convention = "fixed_full_sample",
       iqr_between = iqr_between,
       single_fit_benchmark_sec_80 = t_bench,
@@ -793,4 +944,4 @@ logmsg("Saved: ", path_out_rds)
 
 writeLines(run_log, path_out_run_log)
 logmsg("Saved: ", path_out_run_log)
-cat("=== H2 CAR rectangle sub-sampling complete. ===\n")
+cat("=== H2/H3 CAR rectangle sub-sampling complete. ===\n")

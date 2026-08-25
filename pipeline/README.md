@@ -65,12 +65,13 @@ Rscript pipeline/run_h1_null_model.R
 | H2a | `import_couce_fishing_effort.R` | `h2_couce_rectangle_effort.rds` |
 | H2b | `build_h2_rectangle_panel.R` | `h2_rectangle_panel.rds` |
 | WB0 | `run_h2h3_within_between.R` | `h2h3_wb_model_objects.rds` (prerequisite) |
-| P1 | `run_h2h3_phase_v2_refit.R` | `primary_model_v2.rds` (RE / H3) |
-| P2 | `run_h2h3_phase_v2_reporting.R` | CAR / H2 slopes, proportional effects, figs |
+| P1 | `run_h2h3_phase_v2_refit.R` | `primary_model_v2.rds` (companion RE) |
+| P2 | `run_h2h3_phase_v2_reporting.R` | CAR / H2+H3 slopes, proportional effects, figs |
+| P2′ | `run_h2h3_car_reporting_diagnostics.R` | CAR LOO influence, R², signed vs unsigned audit (does not refit primary) |
 | R1 | `run_h2h3_h2_multiplicity_subsampling.R` | H2 + H3 Bonferroni |
 | R2 | `permutation_bootstrap_FP_between_CAR.R` | CAR spatial permutation |
-| R3 | `run_h2h3_rectangle_subsampling_refit.R` | RE subsample (H3) |
-| R3′ | `run_h2h3_rectangle_subsampling_car_refit.R` | CAR subsample (H2) |
+| R3 | `run_h2h3_rectangle_subsampling_refit.R` | RE subsample (companion) |
+| R3′ | `run_h2h3_rectangle_subsampling_car_refit.R` | CAR subsample (H2 + H3) |
 | S1 | `build_knn_spatial_weights.R` | `knn_listw_k4.rds` |
 | S2 | `run_h2h3_spec_a_car_identifiability.R` | `primary_model_v2_spec_a_car.rds` |
 | S3 | `permutation_bootstrap_FP_between_CAR_spec_a.R` | Spec A permutation |
@@ -81,6 +82,7 @@ Rscript pipeline/build_h2_rectangle_panel.R
 Rscript --vanilla pipeline/run_h2h3_within_between.R
 Rscript --vanilla pipeline/run_h2h3_phase_v2_refit.R
 Rscript --vanilla pipeline/run_h2h3_phase_v2_reporting.R
+Rscript --vanilla pipeline/run_h2h3_car_reporting_diagnostics.R
 Rscript --vanilla pipeline/run_h2h3_h2_multiplicity_subsampling.R
 Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR.R
 Rscript --vanilla pipeline/run_h2h3_rectangle_subsampling_refit.R
@@ -93,8 +95,8 @@ Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R
 Use `Rscript --vanilla` for glmmTMB / spaMM scripts.
 
 **Primary formula (`phase_v2`):**
-`residual ~ FP_between * phase_v2 + FP_within * phase_v2 + (1 | stat_rec)` (RE / H3)
-or `+ adjacency(1 | stat_rec)` (CAR / H2). Phases: 1985–1991 / 1992–2001 /
+`residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)`
+(CAR; H2 and H3). Companion RE uses `(1 | stat_rec)`. Phases: 1985–1991 / 1992–2001 /
 2002–2007 / 2008–2015.
 
 ---

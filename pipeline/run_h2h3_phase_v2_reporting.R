@@ -2,11 +2,16 @@
 #
 # PURPOSE: after run_h2h3_phase_v2_refit.R, produce the full reporting stack
 # that the H2/H3 drafts need for policy-anchored phases:
-#   - phase-specific FP_between / FP_within slopes (RE primary + CAR)
-#   - CAR refit with phase_v2 (H2 draft uses CAR between slopes)
+#   - phase-specific FP_between / FP_within slopes (RE companion + CAR)
+#   - CAR fit with phase_v2 (H2 and H3 reported from the same CAR object)
 #   - pooled FP_between CAR contrast (H2 figure dashed overlay)
-#   - proportional / gap-change tables (H2 CAR; H3 primary)
+#   - proportional / gap-change tables (H2 and H3 from CAR)
 #   - presentation figures (H2 + H3) and combined gap-change figure
+#
+# Supplementary CAR diagnostics (LOO influence, CAR R², signed vs unsigned
+# residual audit) do NOT live here — they read the saved fit_car and must not
+# change this signed primary fit:
+#   Rscript --vanilla pipeline/run_h2h3_car_reporting_diagnostics.R
 #
 # Does NOT overwrite original-phase artifacts (h2h3_wb_*). All outputs use
 # the phase_v2_ prefix.
@@ -172,14 +177,20 @@ if (!has_spamm) {
     dat_car <- dat
     dat_car$stat_rec <- factor(as.character(dat_car$stat_rec), levels = rownames(adjMatrix))
     formula_car <- residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)
-    logmsg("Fitting CAR: residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)")
-    time_car <- system.time({
-      fit_car <- spaMM::fitme(
-        formula_car, data = dat_car, adjMatrix = adjMatrix, method = "REML"
-      )
-    })
-    logmsg(sprintf("CAR fit time: %.2f sec.", time_car[["elapsed"]]))
-    car_fitted <- TRUE
+    if (!is.null(v2$fit_wb_car_v2)) {
+      fit_car <- v2$fit_wb_car_v2
+      car_fitted <- TRUE
+      logmsg("Reusing existing fit_wb_car_v2 (no CAR refit).")
+    } else {
+      logmsg("Fitting CAR: residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)")
+      time_car <- system.time({
+        fit_car <- spaMM::fitme(
+          formula_car, data = dat_car, adjMatrix = adjMatrix, method = "REML"
+        )
+      })
+      logmsg(sprintf("CAR fit time: %.2f sec.", time_car[["elapsed"]]))
+      car_fitted <- TRUE
+    }
 
     fe_car <- tidy_fixed_effects_spamm(fit_car, "wb_car_v2") %>%
       annotate_wb_fixed_effects()
@@ -199,14 +210,20 @@ if (!has_spamm) {
     logmsg("")
     logmsg("### Pooled FP_between CAR contrast (H2 figure overlay)")
     formula_pooled <- residual ~ FP_between + FP_within * phase_v2 + adjacency(1 | stat_rec)
-    logmsg("Fitting: residual ~ FP_between + FP_within * phase_v2 + adjacency(1 | stat_rec)")
-    time_pool <- system.time({
-      fit_pooled <- spaMM::fitme(
-        formula_pooled, data = dat_car, adjMatrix = adjMatrix, method = "REML"
-      )
-    })
-    logmsg(sprintf("Pooled CAR fit time: %.2f sec.", time_pool[["elapsed"]]))
-    pooled_fitted <- TRUE
+    if (!is.null(v2$fit_pooled_between_car_v2)) {
+      fit_pooled <- v2$fit_pooled_between_car_v2
+      pooled_fitted <- TRUE
+      logmsg("Reusing existing pooled CAR fit (no pooled refit).")
+    } else {
+      logmsg("Fitting: residual ~ FP_between + FP_within * phase_v2 + adjacency(1 | stat_rec)")
+      time_pool <- system.time({
+        fit_pooled <- spaMM::fitme(
+          formula_pooled, data = dat_car, adjMatrix = adjMatrix, method = "REML"
+        )
+      })
+      logmsg(sprintf("Pooled CAR fit time: %.2f sec.", time_pool[["elapsed"]]))
+      pooled_fitted <- TRUE
+    }
 
     fe_pooled <- tidy_fixed_effects_spamm(fit_pooled, "wb_pooled_between_car_v2")
     pooled_row <- fe_pooled %>% filter(term == "FP_between")
@@ -256,12 +273,13 @@ for (mid in unique(slopes_all$model_id)) {
 }
 
 h2_slope_model <- if (car_fitted) "wb_car_v2" else "wb_primary_v2"
+h3_slope_model <- if (car_fitted) "wb_car_v2" else "wb_primary_v2"
 if (!car_fitted) {
   logmsg("")
   logmsg(
-    "FLAG: CAR unavailable — H2 proportional table / figures will use primary RE ",
-    "(`wb_primary_v2`) FP_between slopes. Install spaMM (+ GSL) and re-run for ",
-    "CAR-based H2 matching the original draft convention."
+    "FLAG: CAR unavailable — H2 and H3 proportional tables / figures will use ",
+    "primary RE (`wb_primary_v2`) slopes. Install spaMM (+ GSL) and re-run for ",
+    "CAR-based H2/H3 matching the presented shared-model convention."
   )
 }
 
@@ -274,23 +292,23 @@ logmsg("## Proportional effect sizes")
 h2_slopes <- slopes_all %>%
   filter(model_id == h2_slope_model, component == "FP_between")
 h3_slopes <- slopes_all %>%
+  filter(model_id == h3_slope_model, component == "FP_within")
+h3_re <- slopes_all %>%
   filter(model_id == "wb_primary_v2", component == "FP_within")
-h3_car <- slopes_all %>%
-  filter(model_id == "wb_car_v2", component == "FP_within")
 
 if (nrow(h2_slopes) != 4L || nrow(h3_slopes) != 4L) {
-  stop("Expected 4 H2 between and 4 H3 (primary within) phase_v2 slopes.")
+  stop("Expected 4 H2 between and 4 H3 within phase_v2 slopes.")
 }
 
 logmsg(sprintf("H2 source: `%s` FP_between phase slopes.", h2_slope_model))
-logmsg("H3 source: primary (`wb_primary_v2`) FP_within phase slopes.")
-if (nrow(h3_car) == 4L) {
+logmsg(sprintf("H3 source: `%s` FP_within phase slopes.", h3_slope_model))
+if (identical(h3_slope_model, "wb_car_v2") && nrow(h3_re) == 4L) {
   cmp_h3 <- h3_slopes %>%
-    select(phase, primary = fp_slope) %>%
-    left_join(h3_car %>% select(phase, car = fp_slope), by = "phase") %>%
-    mutate(abs_diff = abs(primary - car))
+    select(phase, car = fp_slope) %>%
+    left_join(h3_re %>% select(phase, re = fp_slope), by = "phase") %>%
+    mutate(abs_diff = abs(car - re))
   logmsg(sprintf(
-    "Max |primary − CAR| FP_within phase slope = %.5f.",
+    "Max |CAR − RE| FP_within phase slope = %.5f (RE retained as companion).",
     max(cmp_h3$abs_diff, na.rm = TRUE)
   ))
 }
@@ -424,7 +442,7 @@ h3_rows <- lapply(seq_len(nrow(h3_slopes)), function(i) {
   data.frame(
     hypothesis = "H3",
     component = "FP_within",
-    model_id = "wb_primary_v2",
+    model_id = h3_slope_model,
     phase = ph,
     year_start = s$year_start,
     year_end = s$year_end,
@@ -487,24 +505,25 @@ plot_df <- bind_rows(
   h3_out %>%
     transmute(
       phase, year_mid = (year_start + year_end) / 2,
-      series = "H3: FP_within (primary), per IQR of within-deviation",
+      series = sprintf("H3: FP_within (%s), per IQR of within-deviation", h3_slope_model),
       pct_gap = pct_gap_change_iqr,
       pct_gap_lo = pct_gap_change_iqr_lo,
       pct_gap_hi = pct_gap_change_iqr_hi
     )
 )
 h2_series_lab <- sprintf("H2: FP_between (%s), per doubling", h2_slope_model)
+h3_series_lab <- sprintf("H3: FP_within (%s), per IQR of within-deviation", h3_slope_model)
 plot_df <- plot_df %>%
   mutate(
     series = factor(
       series,
-      levels = c(h2_series_lab, "H3: FP_within (primary), per IQR of within-deviation")
+      levels = c(h2_series_lab, h3_series_lab)
     )
   )
 
 col_map <- setNames(
   c("#d73027", "#4575b4"),
-  c(h2_series_lab, "H3: FP_within (primary), per IQR of within-deviation")
+  c(h2_series_lab, h3_series_lab)
 )
 
 p_combined <- ggplot(plot_df, aes(x = year_mid, y = pct_gap, colour = series)) +
@@ -527,7 +546,7 @@ p_combined <- ggplot(plot_df, aes(x = year_mid, y = pct_gap, colour = series)) +
     subtitle = paste0(
       "Policy-anchored phases (1992 / 2002 / 2008). ",
       "H2 = ", h2_slope_model, " between slopes (doubling); ",
-      "H3 = primary within slopes (IQR). Dotted lines = policy breakpoints."
+      "H3 = ", h3_slope_model, " within slopes (IQR). Dotted lines = policy breakpoints."
     )
   ) +
   theme_minimal(base_size = 11) +
@@ -655,7 +674,9 @@ logmsg("Saved: ", path_out_fig_h2)
 p_h3 <- plot_gap_by_phase(
   h3_plot,
   title = "H3: fishing pressure\u2019s temporal effect by policy-anchored phase",
-  subtitle = "Within-rectangle effect (primary RE, phase_v2); phase-specific IQR of FP_within."
+  subtitle = paste0(
+    "Within-rectangle effect (", h3_slope_model, ", phase_v2); phase-specific IQR of FP_within."
+  )
 )
 ggsave(path_out_fig_h3, p_h3, width = 8.5, height = 5.5, dpi = 150)
 logmsg("Saved: ", path_out_fig_h3)
@@ -739,6 +760,13 @@ logmsg("")
 logmsg(
   "display_discussion drafts not rewritten by this script — use these phase_v2_* ",
   "artifacts when updating One page / H2 / H3 drafts."
+)
+logmsg("")
+logmsg(
+  "Supplementary CAR diagnostics (leave-one-rectangle-out, CAR R², signed vs ",
+  "unsigned residual audit) are a separate step that reads this fit_car and ",
+  "does not refit the signed primary model: ",
+  "Rscript --vanilla pipeline/run_h2h3_car_reporting_diagnostics.R"
 )
 
 writeLines(run_log, path_out_run_log)

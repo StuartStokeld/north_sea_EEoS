@@ -4,13 +4,15 @@
 #   Bonferroni family-wise correction on four phase-specific slopes, run as
 #   TWO SEPARATE families (each m = 4; α_adj = 0.05/4 = 0.0125):
 #     - H2: FP_between × phase_v2 from wb_car_v2 (CAR)
-#     - H3: FP_within  × phase_v2 from wb_primary_v2 (RE)
+#     - H3: FP_within  × phase_v2 from wb_car_v2 (CAR)
 #   H2 and H3 are FWER-corrected as separate families because they test
 #   distinct, independently motivated disturbance pathways (spatial fishing
 #   pressure vs temporal fishing pressure), not because of any data-driven
 #   reason to keep them apart. They are NOT pooled into a joint m = 8 family.
 #
-# Part B (GLMM rectangle sub-sampling) lives in:
+# Part B (CAR rectangle sub-sampling) lives in:
+#   pipeline/run_h2h3_rectangle_subsampling_car_refit.R
+# Companion RE rectangle sub-sampling:
 #   pipeline/run_h2h3_rectangle_subsampling_refit.R
 # OLS residual-proxy Part B in this file is superseded.
 #
@@ -185,6 +187,14 @@ resolve_h2_model_id <- function(slopes) {
   }
 }
 
+resolve_h3_model_id <- function(slopes) {
+  if (any(slopes$model_id == "wb_car_v2" & slopes$component == "FP_within")) {
+    "wb_car_v2"
+  } else {
+    "wb_primary_v2"
+  }
+}
+
 build_multiplicity_table <- function(phase_slopes, prop_effects) {
   raw_p <- phase_slopes$p_value
   stopifnot(length(raw_p) == M_FAMILY)
@@ -331,7 +341,7 @@ logmsg("# H2 / H3 multiplicity + H2/H3 residual sub-sampling — run log")
 logmsg("")
 logmsg(
   "Part A: Bonferroni correction on two separate m = 4 families — H2 ",
-  "(`FP_between` from CAR) and H3 (`FP_within` from RE). Families are kept ",
+  "(`FP_between` from CAR) and H3 (`FP_within` from CAR). Families are kept ",
   "apart because they test distinct disturbance pathways (spatial vs temporal), ",
   "not pooled to m = 8. Part B: keep ",
   sprintf("%.0f%%", 100 * KEEP_FRAC),
@@ -377,12 +387,13 @@ prop_h2 <- read_csv(path_prop_h2, show_col_types = FALSE)
 prop_h3 <- read_csv(path_prop_h3, show_col_types = FALSE)
 
 h2_model_id <- resolve_h2_model_id(slopes)
+h3_model_id <- resolve_h3_model_id(slopes)
 h2_slopes <- slopes %>%
   filter(model_id == h2_model_id, component == "FP_between") %>%
   mutate(phase = factor(as.character(phase), levels = PHASE_V2)) %>%
   arrange(phase)
 h3_slopes <- slopes %>%
-  filter(model_id == "wb_primary_v2", component == "FP_within") %>%
+  filter(model_id == h3_model_id, component == "FP_within") %>%
   mutate(phase = factor(as.character(phase), levels = PHASE_V2)) %>%
   arrange(phase)
 if (nrow(h2_slopes) != 4L || nrow(h3_slopes) != 4L) {
@@ -408,7 +419,7 @@ logmsg(sprintf(
   h2_model_id, path_slopes
 ))
 logmsg(
-  "Part A H3 source: `wb_primary_v2` FP_within slopes — own independent ",
+  "Part A H3 source: `", h3_model_id, "` FP_within slopes — own independent ",
   "m = 4 Bonferroni family (spatial vs temporal pathways kept separate; ",
   "not pooled with H2)."
 )
@@ -511,7 +522,7 @@ sig_raw_h3 <- mult_h3$phase[mult_h3$sig_alpha_0.05]
 sig_bonf_h3 <- mult_h3$phase[mult_h3$sig_alpha_adj_0.0125]
 paragraph_h3 <- paste0(
   "Family of four phase-specific H3 (`FP_within`) contrasts from ",
-  "`wb_primary_v2` (α = 0.05; Bonferroni α_adj = 0.0125). ",
+  "`", h3_model_id, "` (α = 0.05; Bonferroni α_adj = 0.0125). ",
   "Uncorrected significant phases: ",
   if (length(sig_raw_h3)) paste(sig_raw_h3, collapse = ", ") else "none",
   ". After Bonferroni: ",
@@ -526,7 +537,7 @@ write_multiplicity_summary_md(
   mult_h3, path_out_mult_h3_md,
   hypothesis_label = "H3",
   component_label = "FP_within",
-  model_id = "wb_primary_v2",
+  model_id = h3_model_id,
   family_note = paste0(
     "H2 is corrected separately as its own m = 4 family ",
     "(`h2_multiplicity_correction_summary.md`); not pooled with H3. ",
@@ -550,7 +561,7 @@ logmsg(
   " without replacement (uniform; no stratification), then recomputes the ",
   "IQR contrast via OLS on haul-level EEoS residuals from those rectangles. ",
   "Full-sample point estimates / significance calls come from the presented ",
-  "model slopes (H2: `", h2_model_id, "`; H3: `wb_primary_v2`) and ",
+  "model slopes (H2: `", h2_model_id, "`; H3: `", h3_model_id, "`) and ",
   "proportional-effects IQR gap-change. Subsample p-values are OLS ",
   "(derived-statistic check, not a mixed-model refit)."
 )
@@ -773,7 +784,7 @@ sub_md <- c(
   "## H3 (`FP_within`)",
   "",
   paste0(
-    "Full-sample reference: `wb_primary_v2` slopes × phase IQR(`FP_within`) ",
+    "Full-sample reference: `", h3_model_id, "` slopes × phase IQR(`FP_within`) ",
     "from `phase_v2_proportional_effects_H3.csv`. Part B match rule uses ",
     "nominal α = 0.05 on raw model slopes (stability check). Part A FWER ",
     "for H3 is in `h3_multiplicity_correction_summary.md` (separate m = 4 family)."

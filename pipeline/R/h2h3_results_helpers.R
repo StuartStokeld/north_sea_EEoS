@@ -65,6 +65,41 @@ nakagawa_r2_glmmtmb <- function(fit) {
   )
 }
 
+#' Nakagawa & Schielzeth (2013) / Nakagawa et al. (2017) observation-level
+#' R^2 for a gaussian spaMM::fitme() model, including CAR `adjacency()`.
+#'
+#' `MuMIn::r.squaredGLMM()` does not support spaMM `HLfit` objects (and MuMIn
+#' is not in this project's library). `spaMM::pseudoR2()` is a Cox–Snell /
+#' Magee likelihood-ratio pseudo-R² against an intercept-only null — not the
+#' marginal / conditional mixed-model partition.
+#'
+#' `var_fixed` = var(population-level fitted values, `re.form = NA`).
+#' `var_random` = var(full fitted − population-level fitted), i.e. the
+#' observation-level contribution of the CAR (or other) random structure.
+#' `var_residual` = gaussian `phi`.
+nakagawa_r2_spamm <- function(fit, data) {
+  if (missing(data) || is.null(data)) {
+    data <- fit$data
+  }
+  fe_pred <- as.numeric(stats::predict(fit, newdata = data, re.form = NA))
+  full_pred <- as.numeric(stats::predict(fit, newdata = data))
+  var_f <- stats::var(fe_pred)
+  var_r <- stats::var(full_pred - fe_pred)
+  var_e <- as.numeric(fit$phi)[[1]]
+  if (!is.finite(var_e) || var_e <= 0) {
+    var_e <- as.numeric(stats::sigma(fit))^2
+  }
+  denom <- var_f + var_r + var_e
+  list(
+    r2_marginal = var_f / denom,
+    r2_conditional = (var_f + var_r) / denom,
+    var_fixed = var_f,
+    var_random = var_r,
+    var_residual = var_e,
+    method = "nakagawa_observation_level_spamm"
+  )
+}
+
 #' Per-phase fishing-pressure slopes from a spaMM CAR fit (same delta-method
 #' construction as extract_phase_fp_slopes() for glmmTMB in the temporal
 #' robustness helpers).

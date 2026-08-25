@@ -1,9 +1,9 @@
 # H2/H3 rectangle sub-sampling sensitivity — GLMM refit (primary Part B)
 #
-# PURPOSE: refit primary_model_v2 on random rectangle subsamples and check
-# whether phase-specific H2 (FP_between) and H3 (FP_within) IQR contrasts are
-# stable. Same model form on subsample and full sample — mismatches are from
-# rectangle removal only.
+# PURPOSE: refit primary_model_v2 on random rectangle subsamples as a
+# companion RE sensitivity (H3 write-up uses the CAR subsample run).
+# Checks whether phase-specific H2 (FP_between) and H3 (FP_within) IQR
+# contrasts are stable under the RE form.
 #
 # Method:
 #   - Global rectangle subsample (one draw per iteration; all phases)
