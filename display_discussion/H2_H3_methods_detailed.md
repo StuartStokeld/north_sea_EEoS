@@ -1,5 +1,11 @@
 ## 1. Overview
 
+> **Haul sample (updated Nov 2026, DataType fix):** the H2/H3 model uses the H1 haul set after effort
+> alignment — valid hauls of exactly 30 min, DataType C counts converted from per hour to per haul — with
+> Couce fishing pressure: **8,670 hauls in 158 rectangles** (26–34 min sensitivity: 9,482; pre-fix: 10,464).
+> Method and sources: `H1_methods_draft.md` §1b. Model structure below is unchanged. Results quoted in
+> Section 4 and elsewhere are pre-fix and superseded pending interpretation; see `outputs/effort_fix_comparison.md`.
+
 H2 and H3 are proposed to share a single model, rather than being tested as two
 separate analyses on two separate pre-aggregated datasets. H2 tests whether fishing
 pressure explains prediction error *across space*; H3 tests whether it explains

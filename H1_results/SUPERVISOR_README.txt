@@ -1,3 +1,8 @@
+[SUPERSEDED PENDING INTERPRETATION AFTER DATATYPE FIX (Nov 2026). This package is a snapshot of the H1
+results before the DATRAS haul-effort fix (DataType C per-hour counts used as raw counts; hauls of any
+duration; 12,069 hauls). Primary analysis is now valid hauls of exactly 30 min (10,128 hauls).
+See outputs/effort_fix_comparison.md in the repo root. Package contents left unchanged.]
+
 H1 — EEoS haul-level biomass prediction: H1_results package
 ============================================================
 

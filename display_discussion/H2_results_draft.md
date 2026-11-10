@@ -1,5 +1,10 @@
 ## H2 — does a rectangle's fishing-pressure level predict its prediction error?
 
+> **Superseded pending interpretation after DataType fix (Nov 2026).** The results below come from the
+> pipeline before the DATRAS haul-effort fix (DataType C per-hour counts used as raw counts; hauls of any
+> duration). Primary analysis is now valid hauls of exactly 30 min (H1 10,128 hauls; H2/H3 8,670 hauls,
+> 158 rectangles). See `outputs/effort_fix_comparison.md`. Text left unchanged until re-interpreted.
+
 | Phase | Effect | Significant? | Gap change (typical low- vs high-fishing rectangle) |
 | --- | --- | --- | --- |
 | 1985–1991 | Negative — persistently higher-fishing rectangles have a *larger* overprediction gap | Yes (p ≈ 8×10⁻⁵) | widened 3.4% [1.8, 5.0] |

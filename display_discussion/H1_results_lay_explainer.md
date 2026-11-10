@@ -1,5 +1,10 @@
 # H1 results — plain-language guide to the statistics
 
+> **Superseded pending interpretation after DataType fix (Nov 2026).** The results below come from the
+> pipeline before the DATRAS haul-effort fix (DataType C per-hour counts used as raw counts; hauls of any
+> duration). Primary analysis is now valid hauls of exactly 30 min (H1 10,128 hauls; H2/H3 8,670 hauls,
+> 158 rectangles). See `outputs/effort_fix_comparison.md`. Text left unchanged until re-interpreted.
+
 **What this is for.** A non-technical walkthrough of the H1 headline numbers: what each statistic means, what the pattern shows, and how that should shape how the results are presented.
 
 **Data in one line.** North Sea IBTS Q1 trawl hauls, 1985–2015, **12,069** hauls after joining survey length data to catch biomass. For each haul we ask: given species richness (S), abundance (N), and metabolic rate (E), does the Ecological Equation of State (EEoS) predict the haul’s biomass?

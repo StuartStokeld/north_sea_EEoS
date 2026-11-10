@@ -28,6 +28,12 @@ EEoS Python implementation: [micbru/equation_of_state](https://github.com/micbru
 
 ## Headline results (presented)
 
+> **Superseded pending interpretation after DataType fix (Nov 2026).** The figures below are from the
+> pipeline before the DATRAS haul-effort fix (branch `fix/haul-effort-datatype`): DataType C counts
+> (per hour) were used as raw counts and hauls of any duration were kept. Old vs exactly-30-min (primary)
+> vs 26–34-min (sensitivity) results: `outputs/effort_fix_comparison.md`. Current sample sizes are under
+> *Key scientific conventions → haul selection* below. The text is kept unchanged until it is re-interpreted.
+
 **H1** (n = 12,069 hauls): EEoS does **not** predict absolute haul biomass.  
 `log_r² = −0.223` (worse than mean) vs productivity 1:1 baseline `0.736`; `cor² = 0.926` with systematic **~3.7–4.1× overprediction** that grows with biomass magnitude. Relative productivity-ratio structure resembles Harte’s “disturbed systems.” Dominance / “big shoals” is a second, smaller failure source.
 
@@ -68,6 +74,8 @@ Canonical live-script list: `outputs/live_pipeline_run_log.md`.
 ### H1
 
 ```bash
+# Rscript pipeline/import_datras_hh.R            # only if outputs/datras_hh_raw.rds is missing
+# Rscript pipeline/validate_haul_effort_alignment.R  # effort-alignment checks (writes outputs/datras_effort_validation/)
 Rscript pipeline/build_datras_state_variables.R
 Rscript pipeline/build_eeos_predictions.R
 Rscript pipeline/run_h1_harte_baseline.R
@@ -111,6 +119,9 @@ Archived (SEM, Spec B, RE Spec A, anisotropy, etc.): `exploratory/`.
 | `E` | normalised metabolic rate `E_raw / m_min^0.75` |
 | Headline productivity baseline | `E_calibrated = E × m_min` (not raw `E_raw`) |
 | Survey | NS-IBTS Q1, years 1985–2015 |
+| Haul selection (effort alignment) | DATRAS HL joined to HH haul records; keep `HaulVal == "V"`, DataType C/R/P/S, and **`HaulDur == 30` exactly (primary)**. Sensitivity: 26–34 min (`EEOS_HAUL_DUR_MIN=26 EEOS_HAUL_DUR_MAX=34`). Constants in `pipeline/R/datras_constants.R` |
+| Count conversion | Raw count per length bin = `HLNoAtLngt × SubFactor × f`, `f = HaulDur/60` for DataType C (counts reported per hour; SubFactor = 1), `f = 1` for R/P/S. No rescaling to a common duration (S cannot be rescaled); `B_obs` (FishGlob raw haul weight) unchanged |
+| Sample sizes (exactly 30 min) | H1 **10,128** hauls (C 8,493 / R 1,543 / P 92); H2/H3 **8,670** hauls, 158 rectangles. 26–34 sensitivity: 11,027 / 9,482. Pre-fix: 12,069 / 10,464 |
 | Fishing pressure | Couce et al. rectangle-year trawling hours |
 | H2 term | `FP_between` — rectangle long-run mean fishing pressure |
 | H3 term | `FP_within` — year deviation from that rectangle’s mean |
@@ -118,6 +129,27 @@ Archived (SEM, Spec B, RE Spec A, anisotropy, etc.): `exploratory/`.
 | Phases (original / `phase`) | Data-driven structural breaks at 1989, 2001, 2008 |
 
 Median `B_pred/B_obs` > 1 means systematic scale offset (EEoS over-predicts), not a unit bug.
+
+### DATRAS haul effort (DataType and duration) — decision and sources
+
+DATRAS HL counts are numbers **per hour** for DataType C but numbers per haul (raise by SubFactor) for
+R/P/S, and NS-IBTS tows are nominally 30 min, with ~60-min Scottish tows to 1998. Before Nov 2026 the
+pipeline used C counts as raw counts (~2× N and E for 30-min tows) against raw FishGlob biomass. The fix
+aligns HL to HH, converts C counts back to the haul, and (supervisor decision, 10 Nov 2026) keeps only
+hauls of exactly 30 min; 26–34 min is the sensitivity run. Sources:
+
+- ICES (2020). *Manual for the North Sea International Bottom Trawl Surveys.* Series of ICES Survey
+  Protocols SISP 10 – IBTS 10, Revision 11. §2.5.4 (tow duration) and Annex 2 (national deviations,
+  incl. 60-min Scottish tows).
+- ICES DATRAS FAQ (https://datras.ices.dk): DataType C = catch per unit effort (numbers per hour);
+  SubFactor = 1 for C.
+- ICES DATRAS NS-IBTS index calculation procedure: CPUE per hour, non-C counts raised × 60/HaulDur.
+- FishGlob `cleaning_codes/get_datras.R` (Maureaud et al. 2024, *Scientific Data* 11, 24): C counts and
+  weights × HaulDur/60 back to the haul — so `B_obs` is the raw haul weight.
+
+Code: `pipeline/R/datras_hh_helpers.R` (`align_hl_to_hh()`), `pipeline/R/datras_constants.R`.
+Validation: `pipeline/validate_haul_effort_alignment.R` → `outputs/datras_effort_validation/`
+(100% HL→HH match; median DATRAS-implied biomass / `B_obs` after conversion C 0.89, R 0.91, P 0.87).
 
 ---
 
@@ -145,7 +177,8 @@ bash local_env_upload_28-7/download_scripts/download_all.sh
 | Dependency | In git? |
 |------------|---------|
 | `outputs/datras_hl_raw.rds` | Yes (~3.8 MB) — H1 can start here |
-| Raw ICES DATRAS HL CSV (~251 MB) | No |
+| `outputs/datras_hh_raw.rds` | Yes — HH haul records (HaulDur, DataType, HaulVal) for effort alignment; rebuilt by `pipeline/import_datras_hh.R` |
+| Raw ICES DATRAS CSV (HH + HL blocks, ~251 MB) | No — never commit |
 | `FishGlob_data/.../NS-IBTS_clean.RData` | No — clone/restore |
 | `equation_of_state/biomass.py` | No — clone/restore |
 | Couce fishing CSV | No (often gitignored) |
@@ -156,13 +189,14 @@ Details: `local_env_upload_28-7/README.md`.
 
 ---
 
-## Analysis status (as of Jul 2026)
+## Analysis status (as of Nov 2026)
 
 | Workstream | Status |
 |------------|--------|
-| H1 haul-level EEoS | Complete |
+| DATRAS DataType / haul-duration fix | Pipeline re-run Nov 2026 (exactly 30 min primary; 26–34 sensitivity); results pending interpretation — `outputs/effort_fix_comparison.md` |
+| H1 haul-level EEoS | Re-run after DataType fix; interpretation pending |
 | H2 rectangle SEM (earlier) | Complete; fishing not robust after spatial correction; biomass confound documented |
-| H2/H3 within-between (primary) | Complete — presented results |
+| H2/H3 within-between (primary) | Re-run after DataType fix; interpretation pending |
 | Zone schemes / blended-term + GAM | Superseded → `exploratory/` |
 
 ---
