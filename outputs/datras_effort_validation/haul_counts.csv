@@ -1,0 +1,10 @@
+"quantity","n","expected","pct_of_previous"
+"HL hauls (Q1 1985-2015)",12389,NA,NA
+"effort-kept HL hauls",10406,NA,NA
+"DATRAS state hauls (valid LW/E), new",10406,NA,NA
+"FishGlob-joined hauls, new",10172,NA,NA
+"H1 hauls passing EEoS input filters, new (pre-EEoS solve)",10128,NA,83.9
+"previous H1 hauls (haul_eeos_predictions.rds)",12069,12069,NA
+"previous H1 hauls kept by effort alignment",10128,10941,83.9
+"previous H2/H3 hauls (primary_model_v2.rds$data)",10464,10464,NA
+"previous H2/H3 hauls kept by effort alignment",8670,9402,82.9

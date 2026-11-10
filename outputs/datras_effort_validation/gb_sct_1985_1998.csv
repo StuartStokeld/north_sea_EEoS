@@ -1,0 +1,5 @@
+"dur_band","effort_reason","n_hauls"
+"30 min","kept",42
+">=55 min","duration",666
+">=55 min","invalid",1
+"other","duration",19
