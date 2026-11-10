@@ -21,12 +21,15 @@ source(file.path(r_dir, "h1_dropout_helpers.R"))
 source(file.path(r_dir, "datras_constants.R"))
 source(file.path(r_dir, "datras_hl_helpers.R"))
 source(file.path(r_dir, "datras_state_helpers.R"))
+source(file.path(r_dir, "datras_csv_import.R"))
+source(file.path(r_dir, "datras_hh_helpers.R"))
 
 path_state <- file.path(project_root, "outputs", "datras_haul_state.rds")
 path_preds <- file.path(project_root, "outputs", "haul_eeos_predictions.rds")
 path_failed <- file.path(project_root, "outputs", "eeos_failed_hauls.rds")
 path_haul_state <- file.path(project_root, "outputs", "haul_state_variables.rds")
 path_hl_raw <- file.path(project_root, "outputs", "datras_hl_raw.rds")
+path_hh_raw <- file.path(project_root, "outputs", "datras_hh_raw.rds")
 path_out <- file.path(project_root, "outputs", "pipeline_audit_results.csv")
 path_dropout_year <- file.path(project_root, "outputs", "h1_dropout_by_year.csv")
 path_dropout_rect <- file.path(project_root, "outputs", "h1_dropout_by_stat_rec.csv")
@@ -62,6 +65,47 @@ results <- bind_rows(
 add_check <- function(id, desc, status, notes = NA_character_) {
   tibble(check_id = id, description = desc, status = status, notes = notes)
 }
+
+# Check E1-E4: haul effort alignment (HH validity / DataType / duration window)
+effort <- NULL
+window <- haul_dur_window()
+if (file.exists(path_hl_raw) && file.exists(path_hh_raw)) {
+  effort <- load_aligned_hl(project_root, window = window)
+}
+has_effort_cols <- all(c("DataType", "HaulDur", "effort_f") %in% names(haul_state))
+results <- bind_rows(
+  results,
+  add_check(
+    "E1_hl_hh_match",
+    sprintf("HL hauls matched to an HH record (>= %.0f%%)", 100 * HH_HL_MIN_MATCH_RATE),
+    if (is.null(effort)) "FAIL" else if (effort$match_rate >= HH_HL_MIN_MATCH_RATE) "PASS" else "FAIL",
+    if (is.null(effort)) "datras_hh_raw.rds missing — run pipeline/import_datras_hh.R" else
+      sprintf("%.2f%% of %d HL hauls", 100 * effort$match_rate, nrow(effort$hauls))
+  ),
+  add_check(
+    "E2_duration_window",
+    sprintf("All state hauls have %g <= HaulDur <= %g min", window[["min"]], window[["max"]]),
+    if (has_effort_cols && all(haul_state$HaulDur >= window[["min"]] &
+                               haul_state$HaulDur <= window[["max"]], na.rm = FALSE)) "PASS" else "FAIL",
+    if (has_effort_cols) sprintf("HaulDur range %g-%g", min(haul_state$HaulDur), max(haul_state$HaulDur)) else
+      "datras_haul_state.rds lacks HaulDur — rebuild with build_datras_state_variables.R"
+  ),
+  add_check(
+    "E3_datatype",
+    paste("All state hauls have DataType in", paste(HH_DATATYPES_KEEP, collapse = "/")),
+    if (has_effort_cols && all(haul_state$DataType %in% HH_DATATYPES_KEEP)) "PASS" else "FAIL",
+    if (has_effort_cols) paste(names(table(haul_state$DataType)), table(haul_state$DataType),
+                               sep = "=", collapse = ", ") else NA_character_
+  ),
+  add_check(
+    "E4_effort_factor",
+    "Counts converted to raw per haul: f = HaulDur/60 for C, 1 otherwise",
+    if (has_effort_cols && all(abs(haul_state$effort_f -
+                                   ifelse(haul_state$DataType == "C", haul_state$HaulDur / 60, 1)) < 1e-12))
+      "PASS" else "FAIL",
+    NA_character_
+  )
+)
 
 # Check 1 & 2: S/N from DATRAS (not FishGlob)
 results <- bind_rows(
@@ -100,7 +144,7 @@ results <- bind_rows(
     "4_m_min_method",
     "m_min from smallest length bin (not species mean length)",
     if (n_fallback == 0L) "PASS" else "WARN",
-    sprintf("%d hauls still on mean_length_fallback — upload full datras_hl_raw.rds", n_fallback)
+    sprintf("%d hauls on mean_length_fallback (hybrid build is disabled; expect 0)", n_fallback)
   )
 )
 
@@ -161,7 +205,7 @@ if (file.exists(path_haul_state) && file.exists(path_preds)) {
 
   if (file.exists(path_hl_raw)) {
     hl <- readRDS(path_hl_raw)
-    funnel <- dropout_funnel_by_year(hl, haul_state, hs, preds)
+    funnel <- dropout_funnel_by_year(hl, haul_state, hs, preds, effort_hauls = effort$hauls)
     spike_verdict <- dropout_diagnosis_verdict(funnel)
     for (i in seq_len(nrow(spike_verdict))) {
       results <- bind_rows(

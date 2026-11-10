@@ -1,4 +1,4 @@
-# DATRAS HH (haul) records: import from the ICES CSV (fallback icesDatras) and standardise.
+# DATRAS HH (haul) records and HL <-> HH effort alignment.
 # Source R/datras_constants.R and R/datras_csv_import.R before this file.
 #
 # Why: DATRAS HL counts for DataType C are catch per HOUR (DATRAS FAQ; SubFactor = 1),
@@ -134,4 +134,164 @@ ensure_datras_hh_raw <- function(project_root, path_hh_raw, force = FALSE) {
   saveRDS(hh, path_hh_raw)
   cat("Saved:", path_hh_raw, "(", nrow(hh), "HH records from", hh$hh_source[[1L]], ")\n")
   invisible(hh)
+}
+
+#' Effort factor converting a DATRAS count to raw fish caught in the haul.
+effort_factor <- function(DataType, HaulDur) {
+  if_else(DataType == "C", HaulDur / 60, 1)
+}
+
+#' Align HL length records to HH haul records and convert counts to raw per haul.
+#'
+#' Each HL haul gets one effort_reason, assigned in this order:
+#'   no_hh            no HH record with this haul key
+#'   ambiguous_hh_key >1 HH record share the key (HL cannot be attributed)
+#'   invalid          HaulVal not in `haulval`
+#'   datatype         DataType missing or not in `datatypes`
+#'   duration         HaulDur missing or outside [dur_min, dur_max]
+#'   kept
+#'
+#' Returned `hl` holds kept hauls only, with HLNoAtLngt replaced by the raw count
+#' (HLNoAtLngt * SubFactor * f) and SubFactor set to 1, so clean_hl_raw() yields
+#' NumberAtLength = raw count. Each row is converted with its own SubFactor, so
+#' species split into categories (DataType P, several SubFactors) sum correctly.
+#' Originals kept as HLNoAtLngt_orig / SubFactor_orig.
+#'
+#' @return list(hl, hauls, summary, raw_count_check, match_rate, window)
+align_hl_to_hh <- function(
+    hl,
+    hh,
+    dur_min = HAUL_DUR_MIN,
+    dur_max = HAUL_DUR_MAX,
+    datatypes = HH_DATATYPES_KEEP,
+    haulval = HH_HAULVAL_KEEP,
+    min_match_rate = HH_HL_MIN_MATCH_RATE,
+    year_min = ANALYSIS_YEAR_MIN,
+    year_max = ANALYSIS_YEAR_MAX,
+    quarter = ANALYSIS_QUARTER) {
+  req_hl <- c("Survey", "Year", "Quarter", "Country", "Ship", "HaulNo", "HLNoAtLngt", "SubFactor")
+  req_hh <- c("haul_key", "HaulDur", "HaulVal", "DataType", "hh_key_n")
+  miss <- c(setdiff(req_hl, names(hl)), setdiff(req_hh, names(hh)))
+  if (length(miss) > 0L) {
+    stop("align_hl_to_hh(): missing columns: ", paste(miss, collapse = ", "))
+  }
+
+  hl <- hl %>%
+    filter(Year >= year_min, Year <= year_max, Quarter == quarter) %>%
+    mutate(haul_key = make_haul_key(Survey, Year, Quarter, Country, Ship, HaulNo))
+
+  hh_one <- hh %>%
+    group_by(haul_key) %>%
+    summarise(
+      hh_key_n = first(hh_key_n),
+      HaulDur = if (n() == 1L) first(HaulDur) else NA_real_,
+      HaulVal = if (n() == 1L) first(HaulVal) else NA_character_,
+      DataType = if (n() == 1L) first(DataType) else NA_character_,
+      .groups = "drop"
+    )
+
+  hauls <- hl %>%
+    distinct(haul_key, Survey, Year, Quarter, Country, Ship, HaulNo) %>%
+    left_join(hh_one, by = "haul_key") %>%
+    mutate(
+      effort_reason = case_when(
+        is.na(hh_key_n) ~ "no_hh",
+        hh_key_n > 1L ~ "ambiguous_hh_key",
+        is.na(HaulVal) | !HaulVal %in% haulval ~ "invalid",
+        is.na(DataType) | !DataType %in% datatypes ~ "datatype",
+        is.na(HaulDur) | HaulDur < dur_min | HaulDur > dur_max ~ "duration",
+        TRUE ~ "kept"
+      ),
+      effort_f = effort_factor(DataType, HaulDur)
+    )
+
+  match_rate <- mean(!is.na(hauls$hh_key_n))
+  cat(sprintf(
+    "HL -> HH match: %.2f%% of %d HL hauls (window %g-%g min)\n",
+    100 * match_rate, nrow(hauls), dur_min, dur_max
+  ))
+  if (match_rate < min_match_rate) {
+    stop(sprintf(
+      "Only %.1f%% of HL hauls match an HH record (< %.0f%%): check Survey/Country/Ship/HaulNo codes.",
+      100 * match_rate, 100 * min_match_rate
+    ))
+  }
+
+  kept_info <- hauls %>%
+    filter(effort_reason == "kept") %>%
+    select(haul_key, DataType, HaulDur, effort_f)
+
+  hl_kept <- hl %>%
+    inner_join(kept_info, by = "haul_key") %>%
+    mutate(
+      HLNoAtLngt_orig = HLNoAtLngt,
+      SubFactor_orig = SubFactor,
+      HLNoAtLngt = HLNoAtLngt * SubFactor * effort_f,
+      SubFactor = 1
+    )
+
+  summary <- hauls %>%
+    mutate(DataType = coalesce(DataType, "(none)")) %>%
+    count(effort_reason, DataType, name = "n_hauls") %>%
+    mutate(
+      dur_min = dur_min,
+      dur_max = dur_max,
+      pct_of_hl_hauls = round(100 * n_hauls / nrow(hauls), 2)
+    ) %>%
+    arrange(factor(effort_reason, levels = c(
+      "kept", "no_hh", "ambiguous_hh_key", "invalid", "datatype", "duration"
+    )), DataType)
+
+  raw_count_check <- summarise_raw_counts(hl_kept)
+
+  list(
+    hl = hl_kept,
+    hauls = hauls,
+    summary = summary,
+    raw_count_check = raw_count_check,
+    match_rate = match_rate,
+    window = c(min = dur_min, max = dur_max)
+  )
+}
+
+#' Share of non-integer raw counts by DataType (and C duration), after alignment.
+summarise_raw_counts <- function(hl_aligned, tol = 1e-6) {
+  is_nonint <- function(x) abs(x - round(x)) > tol
+  hl_aligned %>%
+    mutate(
+      group = if_else(
+        DataType == "C",
+        paste0("C (", if_else(HaulDur == 30, "30 min", "not 30 min"), ")"),
+        DataType
+      ),
+      nonint_raw = is_nonint(HLNoAtLngt),
+      nonint_reported = is_nonint(HLNoAtLngt_orig),
+      subfactor_ne_1 = abs(SubFactor_orig - 1) > tol
+    ) %>%
+    group_by(DataType, group) %>%
+    summarise(
+      n_hauls = n_distinct(haul_key),
+      n_rows = n(),
+      n_rows_subfactor_ne_1 = sum(subfactor_ne_1),
+      pct_rows_nonint_reported = round(100 * mean(nonint_reported), 3),
+      pct_rows_nonint_raw = round(100 * mean(nonint_raw), 3),
+      n_hauls_any_nonint_raw = n_distinct(haul_key[nonint_raw]),
+      .groups = "drop"
+    ) %>%
+    arrange(DataType, group)
+}
+
+#' Load HL + HH RDS and return the effort-aligned HL (see align_hl_to_hh()).
+#'
+#' Every live consumer that computes counts from HL must use this (or
+#' align_hl_to_hh()) rather than outputs/datras_hl_raw.rds directly.
+load_aligned_hl <- function(project_root, window = haul_dur_window(), ...) {
+  path_hl <- file.path(project_root, "outputs", "datras_hl_raw.rds")
+  path_hh <- file.path(project_root, "outputs", "datras_hh_raw.rds")
+  if (!file.exists(path_hl)) stop("Missing ", path_hl)
+  if (!file.exists(path_hh)) stop("Missing ", path_hh, " — run Rscript pipeline/import_datras_hh.R")
+  align_hl_to_hh(
+    readRDS(path_hl), readRDS(path_hh),
+    dur_min = window[["min"]], dur_max = window[["max"]], ...
+  )
 }

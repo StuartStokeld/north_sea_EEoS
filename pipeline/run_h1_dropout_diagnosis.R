@@ -17,9 +17,13 @@ script_dir <- if (length(file_arg) > 0L) {
 r_dir <- file.path(script_dir, "R")
 source(file.path(r_dir, "h1_common.R"))
 source(file.path(r_dir, "h1_dropout_helpers.R"))
+source(file.path(r_dir, "datras_constants.R"))
+source(file.path(r_dir, "datras_csv_import.R"))
+source(file.path(r_dir, "datras_hh_helpers.R"))
 project_root <- get_project_root_from(script_dir)
 
 path_hl <- file.path(project_root, "outputs", "datras_hl_raw.rds")
+path_hh <- file.path(project_root, "outputs", "datras_hh_raw.rds")
 path_datras <- file.path(project_root, "outputs", "datras_haul_state.rds")
 path_hs <- file.path(project_root, "outputs", "haul_state_variables.rds")
 path_preds <- file.path(project_root, "outputs", "haul_eeos_predictions.rds")
@@ -31,6 +35,7 @@ path_out_md <- file.path(project_root, "display_discussion", "H1_dropout_diagnos
 
 stopifnot(
   file.exists(path_hl),
+  file.exists(path_hh),
   file.exists(path_datras),
   file.exists(path_hs),
   file.exists(path_preds)
@@ -41,7 +46,11 @@ datras <- readRDS(path_datras)
 hs <- readRDS(path_hs)
 preds <- readRDS(path_preds)
 
-funnel <- dropout_funnel_by_year(hl, datras, hs, preds)
+# Same effort alignment (HH validity / DataType / duration window) as the state build
+effort <- load_aligned_hl(project_root)
+effort_reasons <- effort_dropout_reason_table(effort$hauls)
+
+funnel <- dropout_funnel_by_year(hl, datras, hs, preds, effort_hauls = effort$hauls)
 spike <- diagnose_spike_years(funnel)
 verdict <- dropout_diagnosis_verdict(funnel)
 
@@ -54,7 +63,18 @@ if (file.exists(path_out_filter_excl)) {
 }
 write.csv(funnel, path_out_funnel, row.names = FALSE)
 write.csv(spike, path_out_spike, row.names = FALSE)
-write.csv(reasons, path_out_reasons, row.names = FALSE)
+write.csv(
+  bind_rows(
+    effort_reasons %>%
+      group_by(exclusion_reason = effort_reason) %>%
+      summarise(n_hauls = sum(n_hauls), .groups = "drop") %>%
+      mutate(stage = "effort_alignment"),
+    reasons %>% mutate(stage = "eeos_filter")
+  ) %>%
+    select(stage, exclusion_reason, n_hauls),
+  path_out_reasons,
+  row.names = FALSE
+)
 
 # Largest year-level filter drop (expected: 1991 zero-biomass hauls)
 top_filter_year <- funnel %>%
@@ -75,8 +95,8 @@ md_lines <- c(
   "",
   "## Spike-year check (1998, 2013, 2014)",
   "",
-  "| Year | HL hauls | DATRAS state | FishGlob joined | EEoS predictions | HL→DATRAS drop | DATRAS→join drop | Join→pred drop | Status |",
-  "|------|----------|--------------|-----------------|------------------|----------------|------------------|----------------|--------|"
+  "| Year | HL hauls | Effort-kept | DATRAS state | FishGlob joined | EEoS predictions | HL→effort drop | Effort→DATRAS drop | DATRAS→join drop | Join→pred drop | Status |",
+  "|------|----------|-------------|--------------|-----------------|------------------|----------------|--------------------|------------------|----------------|--------|"
 )
 
 for (i in seq_len(nrow(spike))) {
@@ -84,9 +104,9 @@ for (i in seq_len(nrow(spike))) {
   md_lines <- c(
     md_lines,
     sprintf(
-      "| %d | %d | %d | %d | %d | %d | %d | %d | %s |",
-      row$Year, row$n_hl_hauls, row$n_datras_state, row$n_fishglob_joined,
-      row$n_eeos_predictions, row$hl_to_datras_drop, row$datras_to_join_drop,
+      "| %d | %d | %d | %d | %d | %d | %d | %d | %d | %d | %s |",
+      row$Year, row$n_hl_hauls, row$n_effort_kept, row$n_datras_state, row$n_fishglob_joined,
+      row$n_eeos_predictions, row$hl_to_effort_drop, row$hl_to_datras_drop, row$datras_to_join_drop,
       row$join_to_pred_drop, row$spike_status
     )
   )
@@ -107,7 +127,19 @@ md_lines <- c(
   "",
   "The dominant exclusion reason is **`bad_B_obs`** (FishGlob `sum(wgt) == 0`), concentrated in **1991** (40 hauls). This is intentional: `B_obs > 0` is required for log-scale comparison.",
   "",
-  "## Filter exclusions (all years)",
+  "## Effort-alignment exclusions (HH record, before state build)",
+  "",
+  sprintf(
+    "HL hauls are kept only if HaulVal == \"V\", DataType in {%s}, and %g ≤ HaulDur ≤ %g min; DataType C counts are converted from per-hour to per-haul (× HaulDur/60). HL→HH match rate: %.2f%%.",
+    paste(HH_DATATYPES_KEEP, collapse = ", "), effort$window[["min"]], effort$window[["max"]],
+    100 * effort$match_rate
+  ),
+  "",
+  "| Reason | DataType | Hauls |",
+  "|--------|----------|------:|",
+  sprintf("| %s | %s | %d |", effort_reasons$effort_reason, effort_reasons$DataType, effort_reasons$n_hauls),
+  "",
+  "## EEoS filter exclusions (all years)",
   "",
   "| Reason | Hauls |",
   "|--------|------:|"
