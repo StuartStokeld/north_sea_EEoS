@@ -27,6 +27,7 @@ Archived scripts/outputs: [`../exploratory/`](../exploratory/).
 |------|-------------|
 | `FishGlob_data/outputs/Cleaned_data/NS-IBTS_clean.RData` | FishGlob B_obs |
 | `outputs/datras_hl_raw.rds` | DATRAS HL (built from CSV if missing) |
+| `outputs/datras_hh_raw.rds` | DATRAS HH haul records: HaulDur, DataType, HaulVal (`import_datras_hh.R`; from the ICES CSV, fallback `icesDatras`) |
 | `outputs/fishbase_lw_lookup_v2.csv` | Length–weight parameters |
 | `equation_of_state/` | Cloned EEoS repo |
 | `data/external/couce_trawling_effort/...REVIEW_v2.csv` | Couce fishing hours |
@@ -40,14 +41,16 @@ Archived scripts/outputs: [`../exploratory/`](../exploratory/).
 
 | Step | Script | Main outputs |
 |------|--------|--------------|
-| 0 | `build_datras_state_variables.R` | `datras_haul_state.rds`, `datras_haul_E.rds` |
+| −1 | `import_datras_hh.R` (only if HH RDS missing) | `datras_hh_raw.rds` |
+| −1′ | `validate_haul_effort_alignment.R` (optional check) | `datras_effort_validation/` |
+| 0 | `build_datras_state_variables.R` | `datras_haul_state.rds`, `datras_haul_E.rds`, `datras_effort_alignment_summary.csv`, `datras_effort_raw_count_check.csv` |
 | 1 | `build_eeos_predictions.R` | `haul_state_variables.rds`, `haul_eeos_predictions.rds` |
 | 2a | `run_h1_harte_baseline.R` | `h1_harte_baseline_metrics.csv`, `h1_fig2_leverage_hauls.csv` |
-| 2a′ | `run_h1_presentation_figures.R` | `figures/h1_presentation_*.png` |
+| 2a′ | `run_h1_presentation_figures.R` | `figures/h1_presentation_*.png` — **stale** (not re-run after DataType fix) |
 | 2b | `run_h1_lne_reference.R` | `h1_model_comparison.csv`, `h1_lne_coefficients.csv` |
 | 3 | `run_h1_null_model.R` | `null_summary.rds`, `null_distribution_summary.csv` |
-| — | `explore_h1_catchability_scaling.R` | `h1_catchability_*.csv` |
-| — | `explore_h1_haul_dominance.R` / `explore_h1_dominance_partial_r2.R` | `h1_dominance_*.csv` |
+| — | `explore_h1_catchability_scaling.R` | `h1_catchability_*.csv` — **stale** |
+| — | `explore_h1_haul_dominance.R` / `explore_h1_dominance_partial_r2.R` | `h1_dominance_*.csv` — **stale** (`explore_h1_haul_dominance.R` still builds counts from unaligned HL) |
 | — | `run_h1_dropout_diagnosis.R` / `run_pipeline_diagnostics.R` | dropout / audit tables |
 
 ```bash
@@ -67,7 +70,7 @@ Rscript pipeline/run_h1_null_model.R
 | WB0 | `run_h2h3_within_between.R` | `h2h3_wb_model_objects.rds` (prerequisite) |
 | P1 | `run_h2h3_phase_v2_refit.R` | `primary_model_v2.rds` (companion RE) |
 | P2 | `run_h2h3_phase_v2_reporting.R` | CAR / H2+H3 slopes, proportional effects, figs |
-| P2′ | `run_h2h3_car_reporting_diagnostics.R` | CAR LOO influence, R², signed vs unsigned audit (does not refit primary) |
+| P2′ | `run_h2h3_car_reporting_diagnostics.R` | CAR LOO influence, R², signed vs unsigned audit (does not refit primary) — **stale** |
 | R1 | `run_h2h3_h2_multiplicity_subsampling.R` | H2 + H3 Bonferroni |
 | R2 | `permutation_bootstrap_FP_between_CAR.R` | CAR spatial permutation |
 | R3 | `run_h2h3_rectangle_subsampling_refit.R` | RE subsample (companion) |
@@ -94,6 +97,10 @@ Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R
 
 Use `Rscript --vanilla` for glmmTMB / spaMM scripts.
 
+**Stale after the DataType fix:** scripts marked **stale** above (and `fig_state_variable_distributions.R`)
+were not re-run on branch `fix/haul-effort-datatype`; their outputs still describe the pre-fix haul set.
+See `../outputs/live_pipeline_run_log.md`.
+
 **Primary formula (`phase_v2`):**
 `residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)`
 (CAR; H2 and H3). Companion RE uses `(1 | stat_rec)`. Phases: 1985–1991 / 1992–2001 /
@@ -119,6 +126,9 @@ Use `Rscript --vanilla` for glmmTMB / spaMM scripts.
 
 | Variable | Notes |
 |----------|--------|
+| Haul selection | HL aligned to HH: `HaulVal == "V"`, DataType C/R/P/S, `HaulDur == 30` (primary). Sensitivity 26–34 min via `EEOS_HAUL_DUR_MIN` / `EEOS_HAUL_DUR_MAX` |
+| Raw counts | `HLNoAtLngt × SubFactor × f`; `f = HaulDur/60` for DataType C (per-hour counts), 1 for R/P/S. No duration rescaling; `B_obs` unchanged |
+| Hybrid / mean-length build | Disabled (cannot be effort-aligned); the state build stops if HL is incomplete |
 | Primary residual | `log(B_obs) − log(B_pred)` |
 | Primary R² (H1) | `log_r2()` = 1 − SS_res/SS_tot (can be negative) |
 | Productivity baseline | `E × m_min` (unfitted) |
@@ -133,3 +143,11 @@ Use `Rscript --vanilla` for glmmTMB / spaMM scripts.
 Harte, J., Brush, J. M., Newman, E. A., & Umemura, K. (2022). An equation of state
 unifies biodiversity, ecosystem functioning, and biomass in ecosystems.
 *Communications Biology*, 5, 957.
+
+DataType / haul-duration handling: ICES (2020) NS-IBTS manual, SISP 10-IBTS 10 Rev. 11
+(https://doi.org/10.17895/ices.pub.7562; §2.5.4, Annex 2); ICES DATRAS FAQ For Data Users v3, 2014
+(https://www.ices.dk/data/Documents/DATRAS/DATRAS_FAQs.pdf; C = adjusted to one hour, SubFactor = 1);
+ICES DATRAS IBTS index calculation procedure
+(https://www.ices.dk/data/Documents/DATRAS/Indices_Calculation_Steps_IBTS.pdf; non-C × 60/HaulDuration);
+FishGlob `cleaning_codes/get_datras.R` (Maureaud et al. 2024,
+*Scientific Data* 11, 24). Details: `../CLAUDE.md` (Key scientific conventions).

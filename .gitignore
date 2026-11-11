@@ -38,3 +38,8 @@ H1_results/display_discussion/review_h1_talk_track.md
 # === Nested clones (tracked in their own upstream repos) ===
 FishGlob_data/
 equation_of_state/
+
+# Pre-effort-fix results kept locally for old-vs-new comparison (fix/haul-effort-datatype)
+outputs/archive_pre_effort_fix/
+# Effort-fix sensitivity run: 26–34 min window (primary is exactly 30 min; summary in outputs/effort_fix_comparison.md)
+outputs/sensitivity_window_26_34/

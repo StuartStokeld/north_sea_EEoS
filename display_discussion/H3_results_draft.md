@@ -1,5 +1,10 @@
 # H3 results – draft
 
+> **Superseded pending interpretation after DataType fix (Nov 2026).** The results below come from the
+> pipeline before the DATRAS haul-effort fix (DataType C per-hour counts used as raw counts; hauls of any
+> duration). Primary analysis is now valid hauls of exactly 30 min (H1 10,128 hauls; H2/H3 8,670 hauls,
+> 158 rectangles). See `outputs/effort_fix_comparison.md`. Text left unchanged until re-interpreted.
+
 *Updated July 2026: primary H3 narrative below uses the within-between decomposition (within-rectangle year-to-year fishing-pressure deviation, primary model, phase-specific slopes). Table numbers updated Aug 2026 for policy-anchored `phase_v2`.*
 
 ---

@@ -1,3 +1,6 @@
-"exclusion_reason","n_hauls"
-"bad_B_obs",44
-"S_lt_2",4
+"stage","exclusion_reason","n_hauls"
+"effort_alignment","ambiguous_hh_key",9
+"effort_alignment","duration",1941
+"effort_alignment","invalid",33
+"eeos_filter","bad_B_obs",42
+"eeos_filter","S_lt_2",2

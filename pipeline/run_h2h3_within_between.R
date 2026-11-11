@@ -10,7 +10,19 @@
 #   FP_within_it  = log(hours_it + 1) - FP_between_i
 #
 # PRIMARY: residual ~ FP_between * phase + FP_within * phase + (1 | stat_rec)
-# Same data / phase / RE / no biomass as the biomass-free results run.
+# Same phase / RE / no biomass as the biomass-free results run.
+#
+# DATA: rebuilt on every run with build_feasibility_data() (pipeline/R/
+# h2h3_feasibility_helpers.R) from the CURRENT outputs/haul_eeos_predictions.rds,
+# h2_rectangle_panel.rds and h2_couce_year_effort.rds. Until the 2026-11 DATRAS
+# haul-effort fix this script instead reused `data` stored in
+# outputs/h2h3_results_model_objects.rds, which is written only by an exploratory
+# script (exploratory/pipeline/run_h2h3_shared_model_results.R), so re-running the
+# live H1 pipeline did not propagate to H2/H3. Rebuilding from the archived inputs
+# reproduces that stored data exactly (10,464 hauls; residual / FP differences 0).
+# The CAR adjacency matrix is still taken from
+# outputs/h2h3_feasibility_round2_model_objects.rds; the script stops if the
+# analysis rectangles differ from its rows.
 #
 # SENSITIVITY: CAR with the same decomposed FE (if spaMM + Round 2 adjMatrix
 # available). GAM continuous-year version DEFERRED (flagged in run log).
@@ -39,6 +51,12 @@ project_root <- ctx$project_root
 script_dir <- ctx$script_dir
 source(file.path(script_dir, "R", "h2_common.R"))
 
+# Prefer project-local library (e.g. .R_libs/spaMM) when present
+local_lib <- file.path(project_root, ".R_libs")
+if (dir.exists(local_lib)) {
+  .libPaths(c(local_lib, .libPaths()))
+}
+
 if (!requireNamespace("glmmTMB", quietly = TRUE)) {
   stop(
     "Package 'glmmTMB' required. Run with: Rscript --vanilla pipeline/run_h2h3_within_between.R"
@@ -55,10 +73,15 @@ if (has_spamm) suppressPackageStartupMessages(library(spaMM))
 fig_dir <- file.path(project_root, "outputs", "figures")
 dir.create(fig_dir, recursive = TRUE, showWarnings = FALSE)
 
-path_results_models <- file.path(project_root, "outputs", "h2h3_results_model_objects.rds")
+path_haul <- file.path(project_root, "outputs", "haul_eeos_predictions.rds")
+path_panel <- file.path(project_root, "outputs", "h2_rectangle_panel.rds")
+path_couce_year <- file.path(project_root, "outputs", "h2_couce_year_effort.rds")
 path_blended_slopes <- file.path(project_root, "outputs", "h2h3_results_fp_slopes_by_phase.csv")
 path_round2 <- file.path(project_root, "outputs", "h2h3_feasibility_round2_model_objects.rds")
-stopifnot(file.exists(path_results_models), file.exists(path_blended_slopes))
+stopifnot(
+  file.exists(path_haul), file.exists(path_panel), file.exists(path_couce_year),
+  file.exists(path_round2), file.exists(path_blended_slopes)
+)
 
 path_out_fe <- file.path(project_root, "outputs", "h2h3_wb_primary_fixed_effects.csv")
 path_out_slopes <- file.path(project_root, "outputs", "h2h3_wb_fp_slopes_by_phase.csv")
@@ -111,17 +134,34 @@ logmsg(sprintf(
 logmsg("")
 logmsg("## Data and FP within-between transformation")
 
-res <- readRDS(path_results_models)
-dat <- res$data
+panel <- readRDS(path_panel)
+built <- build_feasibility_data(
+  readRDS(path_haul), panel, readRDS(path_couce_year), H2_YEAR_MIN, H2_YEAR_MAX
+)
+dat <- built$data
 if (!"log_hours_total" %in% names(dat) || !"phase" %in% names(dat)) {
-  stop("Results model objects data missing log_hours_total or phase.")
+  stop("build_feasibility_data() output missing log_hours_total or phase.")
 }
-dat$stat_rec <- factor(dat$stat_rec)
+
+# Rectangles must match the CAR adjacency matrix used by all CAR fits downstream
+adj_rects <- rownames(readRDS(path_round2)$adjMatrix)
+dat_rects <- unique(as.character(dat$stat_rec))
+if (is.null(adj_rects) || !setequal(dat_rects, adj_rects)) {
+  stop(
+    "Analysis rectangles (", length(dat_rects), ") do not match the CAR adjacency matrix rows (",
+    length(adj_rects), ") in ", path_round2, ".\n",
+    "  In data, not in adjacency: ", paste(setdiff(dat_rects, adj_rects), collapse = ", "), "\n",
+    "  In adjacency, not in data: ", paste(setdiff(adj_rects, dat_rects), collapse = ", "), "\n",
+    "The adjacency matrix must be rebuilt for a different rectangle set."
+  )
+}
+# Level order as in the stored exploratory data (panel order); CAR fits re-level to adjMatrix rows
+dat$stat_rec <- factor(as.character(dat$stat_rec), levels = as.character(panel$stat_rec))
 dat <- add_fp_within_between(dat)
 
 checks <- fp_within_between_checks(dat)
 logmsg(sprintf(
-  "Analysis data: %d hauls, %d rectangles, years %d–%d (reused from biomass-free results RDS).",
+  "Analysis data: %d hauls, %d rectangles, years %d–%d (rebuilt via build_feasibility_data() from current haul_eeos_predictions.rds; rectangles match CAR adjacency).",
   nrow(dat), n_distinct(dat$stat_rec), min(dat$year), max(dat$year)
 ))
 logmsg(sprintf(

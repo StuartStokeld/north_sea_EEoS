@@ -1,10 +1,18 @@
 # Build DATRAS haul-level state variables (S, N, E_raw, m_min) from HL data.
 #
 # Audit requirement: S, N, and E must come from the same filtered DATRAS HL rows.
-# When outputs/datras_hl_raw.rds covers the full Q1 1985-2015 period, all variables
+# outputs/datras_hl_raw.rds must cover the full Q1 1985-2015 period; all variables
 # are computed from length bins (including m_min from the smallest individual bin).
-# When HL coverage is incomplete, S/N/E_raw are derived from datras_haul_mean_length.rds
-# and m_min uses HL bins where available (mean-length fallback otherwise).
+#
+# Effort alignment (before build_state_from_hl): HL is joined to the HH haul records
+# (outputs/datras_hh_raw.rds, from pipeline/import_datras_hh.R) and restricted to
+# valid hauls (HaulVal == "V"), DataType C/R/P/S, and HaulDur within the window
+# (primary: exactly 30 min; the 26-34 min sensitivity sets EEOS_HAUL_DUR_MIN=26
+# EEOS_HAUL_DUR_MAX=34).
+# DataType C counts are per hour and are converted to raw per-haul counts:
+#   n_raw = HLNoAtLngt * SubFactor * f,  f = HaulDur / 60 (C), 1 (R/P/S)
+# No duration rescaling. The former mean-length hybrid build is disabled: it cannot
+# be effort-aligned.
 
 suppressPackageStartupMessages({
   library(dplyr)
@@ -26,9 +34,10 @@ source(file.path(r_dir, "datras_constants.R"))
 source(file.path(r_dir, "datras_hl_helpers.R"))
 source(file.path(r_dir, "datras_state_helpers.R"))
 source(file.path(r_dir, "datras_csv_import.R"))
+source(file.path(r_dir, "datras_hh_helpers.R"))
 
 path_hl_raw <- file.path(project_root, "outputs", "datras_hl_raw.rds")
-path_mean_length <- file.path(project_root, "outputs", "datras_haul_mean_length.rds")
+path_hh_raw <- file.path(project_root, "outputs", "datras_hh_raw.rds")
 path_lw_lookup <- file.path(project_root, "outputs", "fishbase_lw_lookup_v2.csv")
 path_out_state <- file.path(project_root, "outputs", "datras_haul_state.rds")
 path_out_E <- file.path(project_root, "outputs", "datras_haul_E.rds")
@@ -36,6 +45,8 @@ path_out_mean_length <- file.path(project_root, "outputs", "datras_haul_mean_len
 path_out_lngt_audit <- file.path(project_root, "outputs", "datras_lngt_code_audit.csv")
 path_out_diag <- file.path(project_root, "outputs", "datras_build_diagnostics.csv")
 path_out_excluded <- file.path(project_root, "outputs", "datras_excluded_hauls.csv")
+path_out_effort_summary <- file.path(project_root, "outputs", "datras_effort_alignment_summary.csv")
+path_out_raw_count_check <- file.path(project_root, "outputs", "datras_effort_raw_count_check.csv")
 
 stopifnot(file.exists(path_lw_lookup))
 
@@ -45,48 +56,54 @@ lw_lookup <- read.csv(path_lw_lookup, stringsAsFactors = FALSE)
 
 # Import full HL from ICES CSV when RDS missing or incomplete
 ensure_datras_hl_raw(project_root, path_hl_raw)
+# Import HH (haul duration, validity, DataType) when RDS missing
+ensure_datras_hh_raw(project_root, path_hh_raw)
 
-build_mode <- "mean_length_hybrid"
-haul_state <- NULL
-haul_mean_length_out <- NULL
+if (!file.exists(path_hl_raw)) {
+  stop("Missing ", path_hl_raw, " — place the ICES unaggregated CSV under the project root.")
+}
 
-if (file.exists(path_hl_raw)) {
-  hl <- readRDS(path_hl_raw)
-  coverage <- assess_hl_coverage(hl)
-  lngt_audit <- lngt_code_audit_table(hl)
-  write.csv(lngt_audit, path_out_lngt_audit, row.names = FALSE)
+hl <- readRDS(path_hl_raw)
+coverage <- assess_hl_coverage(hl)
+lngt_audit <- lngt_code_audit_table(hl)
+write.csv(lngt_audit, path_out_lngt_audit, row.names = FALSE)
 
-  cat("=== DATRAS HL coverage ===\n")
-  cat(coverage$message, "\n")
-  cat("LngtCode audit saved:", path_out_lngt_audit, "\n\n")
+cat("=== DATRAS HL coverage ===\n")
+cat(coverage$message, "\n")
+cat("LngtCode audit saved:", path_out_lngt_audit, "\n\n")
 
-  if (coverage$complete) {
-    built <- build_state_from_hl(hl, lw_lookup)
-    haul_state <- built$haul_state
-    haul_mean_length_out <- built$haul_mean_length
-    build_mode <- "hl_bins_full"
-    cat("Using full HL bin pipeline (S, N, E_raw, m_min from length bins).\n\n")
-  } else {
-    cat("HL file incomplete — hybrid mode:\n")
-    cat("  S, N, E_raw from datras_haul_mean_length.rds + LW lookup\n")
-    cat("  m_min from HL bins where available; mean-length fallback otherwise\n\n")
-
-    if (!file.exists(path_mean_length)) {
-      stop("Hybrid mode requires ", path_mean_length, " or a complete datras_hl_raw.rds")
-    }
-    haul_mean_length <- readRDS(path_mean_length)
-    haul_state <- derive_state_from_mean_length(haul_mean_length, lw_lookup)
-    m_min_hl <- derive_m_min_from_hl(hl, lw_lookup)
-    haul_state <- apply_m_min_with_fallback(haul_state, m_min_hl)
-    haul_mean_length_out <- haul_mean_length
-    build_mode <- "mean_length_hybrid"
-  }
-} else {
+if (!coverage$complete) {
   stop(
-    "Missing ", path_hl_raw,
-    " — upload NS-IBTS HL data or run with existing mean-length only via derive_state_from_mean_length."
+    "datras_hl_raw.rds is incomplete (", coverage$message, ").\n",
+    "The mean-length hybrid build is disabled: it cannot be aligned to haul effort ",
+    "(DataType C counts are per hour; HL bins are needed to convert them per haul).\n",
+    "Re-import the full HL: Rscript pipeline/import_datras_hl_from_csv.R --force"
   )
 }
+
+# --- Effort alignment: HL x HH ---------------------------------------------------
+window <- haul_dur_window()
+hh <- readRDS(path_hh_raw)
+aligned <- align_hl_to_hh(hl, hh, dur_min = window[["min"]], dur_max = window[["max"]])
+
+write.csv(aligned$summary, path_out_effort_summary, row.names = FALSE)
+write.csv(aligned$raw_count_check, path_out_raw_count_check, row.names = FALSE)
+
+cat("\n=== Effort alignment (hauls by reason x DataType) ===\n")
+print(as.data.frame(aligned$summary))
+cat("\n=== Raw-count check (after conversion) ===\n")
+print(as.data.frame(aligned$raw_count_check))
+cat("\n")
+
+built <- build_state_from_hl(aligned$hl, lw_lookup)
+haul_state <- built$haul_state %>%
+  left_join(
+    aligned$hauls %>% select(haul_key, DataType, HaulDur, effort_f),
+    by = "haul_key"
+  )
+haul_mean_length_out <- built$haul_mean_length
+build_mode <- "hl_bins_effort_aligned"
+cat("Using effort-aligned HL bin pipeline (S, N, E_raw, m_min from raw per-haul counts).\n\n")
 
 n_hauls_before_filter <- nrow(haul_state)
 excluded_hauls <- haul_state %>%
@@ -131,9 +148,16 @@ saveRDS(haul_state, path_out_state)
 saveRDS(haul_E, path_out_E)
 saveRDS(haul_mean_length_out, path_out_mean_length)
 
+effort_counts <- table(factor(aligned$hauls$effort_reason, levels = c(
+  "kept", "no_hh", "ambiguous_hh_key", "invalid", "datatype", "duration"
+)))
+
 diag <- tibble(
   metric = c(
     "build_mode",
+    "haul_dur_min", "haul_dur_max",
+    "n_hl_hauls", "hl_hh_match_rate",
+    paste0("n_effort_", names(effort_counts)),
     "n_hauls_before_filter",
     "n_hauls_excluded",
     "n_hauls",
@@ -147,6 +171,9 @@ diag <- tibble(
   ),
   value = c(
     build_mode,
+    window[["min"]], window[["max"]],
+    nrow(aligned$hauls), round(aligned$match_rate, 5),
+    as.integer(effort_counts),
     n_hauls_before_filter,
     n_excluded,
     nrow(haul_state),
@@ -164,6 +191,8 @@ write.csv(diag, path_out_diag, row.names = FALSE)
 
 cat("\n=== Summary ===\n")
 cat("Build mode:", build_mode, "\n")
+cat("Haul-duration window:", window[["min"]], "-", window[["max"]], "min\n")
+cat("HL hauls:", nrow(aligned$hauls), " effort-kept:", effort_counts[["kept"]], "\n")
 cat("Hauls:", nrow(haul_state), "\n")
 cat("m_min method — min_length_bin:", sum(haul_state$m_min_method == "min_length_bin"),
     " mean_length_fallback:", sum(haul_state$m_min_method == "mean_length_fallback"), "\n")
@@ -174,3 +203,5 @@ cat(" ", path_out_state, "\n")
 cat(" ", path_out_E, "\n")
 cat(" ", path_out_mean_length, "\n")
 cat(" ", path_out_diag, "\n")
+cat(" ", path_out_effort_summary, "\n")
+cat(" ", path_out_raw_count_check, "\n")

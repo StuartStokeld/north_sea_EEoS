@@ -1,12 +1,23 @@
 # H1 methods – draft
 
+> **Updated Nov 2026 for the DATRAS DataType / haul-duration fix** (§1b; counts in §1 and §4).
+> Numerical results quoted in the "Why" paragraphs (§5, §9, §10, §13: log_r2, cor², ~4× overprediction,
+> quartile ratios, partial R²) are **pre-fix values, superseded pending interpretation after the DataType fix**;
+> see `outputs/effort_fix_comparison.md`.
+
 ## H1: Does the Ecological Equation of State predict haul-level community biomass?
 
 ### 1. Study design and variables
 
-**Implemented:** Haul-level analysis of NS-IBTS Q1 trawls, 1985–2015 (N = 12,069 hauls after filtering). For each haul, three state variables — species richness (S), abundance (N), and normalised community metabolic rate (E) — are derived from DATRAS length-frequency (HL) data and passed to the parameter-free Ecological Equation of State (EEoS) solver to generate predicted biomass (B_pred). This is compared against observed catch biomass (B_obs) from FishGlob, an independently processed data source, for the same hauls.
+**Implemented:** Haul-level analysis of NS-IBTS Q1 trawls, 1985–2015 (N = 10,128 valid 30-min hauls after filtering; 11,027 in the 26–34 min sensitivity run). For each haul, three state variables — species richness (S), abundance (N), and normalised community metabolic rate (E) — are derived from DATRAS length-frequency (HL) data and passed to the parameter-free Ecological Equation of State (EEoS) solver to generate predicted biomass (B_pred). This is compared against observed catch biomass (B_obs) from FishGlob, an independently processed data source, for the same hauls.
 
 **Why:** Predictor (S, N, E) and outcome (B_obs) are deliberately built from two separately-aggregated sources rather than one, so the test is not circular. Haul level (rather than rectangle- or year-aggregated) is the finest resolution at which EEoS makes a prediction, and matches the resolution at which Harte et al. (2022) validated the theory.
+
+### 1b. Haul selection and effort alignment (DataType, haul duration)
+
+**Implemented:** DATRAS length-frequency (HL) records are joined to the survey's haul (HH) records on survey, year, quarter, country, ship and haul number (100% of HL hauls matched). Hauls are kept if the haul is valid (HaulVal = V), the DataType is C, R, P or S, and the recorded tow duration is **exactly 30 min** (primary analysis); a 26–34 min window (30 ± 4 min) is run as a sensitivity analysis. For DataType C, DATRAS reports numbers at length per hour of fishing (with SubFactor = 1), so counts are converted back to the haul: n = HLNoAtLngt × SubFactor × HaulDur/60; for R, P and S, n = HLNoAtLngt × SubFactor. No haul is rescaled to a common duration. Primary sample: 10,128 H1 hauls (DataType C 8,493; R 1,543; P 92).
+
+**Why:** S, N, E and B_obs must describe the same tow. FishGlob's observed biomass is the raw haul weight (its `get_datras.R` converts DataType C back to the haul with HaulDur/60), so leaving C counts per hour would roughly double N and E for a 30-min tow relative to B_obs; after conversion, DATRAS-implied biomass sits at a consistent ~0.87–0.91 of B_obs for every DataType. Duration is restricted rather than rescaled because S cannot be rescaled: a 60-min tow (Scottish tows to 1998) roughly doubles N, E and biomass but raises S much less, so it is a different sampling unit, confounded with country and period. The NS-IBTS standard tow is 30 min, and exactly 30 min is the unit agreed for the primary analysis (supervisor decision, 10 Nov 2026). The current FishGlob `get_datras.R` excludes DataType P, but our local FishGlob build includes the 92 P hauls (likely predating their resubmission as P), and their biomass ratio (0.87) is consistent with raw haul weight, so they are kept. Sources: ICES (2020) *Manual for the North Sea International Bottom Trawl Surveys*, Series of ICES Survey Protocols SISP 10-IBTS 10, Revision 11, https://doi.org/10.17895/ices.pub.7562 (§2.5.4 tow duration; Annex 2 survey history); ICES DATRAS FAQ For Data Users, version 3 (2014), https://www.ices.dk/data/Documents/DATRAS/DATRAS_FAQs.pdf (for DataType C, HLNoAtLngt is adjusted to one hour of catching and SubFactor = 1); ICES DATRAS IBTS index calculation procedure, https://www.ices.dk/data/Documents/DATRAS/Indices_Calculation_Steps_IBTS.pdf (non-C counts × 60/HaulDuration); FishGlob `cleaning_codes/get_datras.R` (Maureaud et al., 2024).
 
 ### 2. Length–weight parameterisation and mass-at-length
 
@@ -16,7 +27,7 @@
 
 ### 3. Haul-level state variables (S, N, E)
 
-**Implemented:** For each haul, S = number of distinct species, N = summed raised abundance, E_raw = Σ(abundance × mass^0.75), and E = E_raw normalised by the metabolic rate of the smallest individual in the haul (m_min^0.75), so the minimum individual's metabolic rate equals 1. Hauls are retained only if N ≥ S and E_raw, m_min are finite and positive.
+**Implemented:** For each haul, S = number of distinct species, N = summed raw abundance (per-haul counts after the effort alignment in §1b), E_raw = Σ(abundance × mass^0.75), and E = E_raw normalised by the metabolic rate of the smallest individual in the haul (m_min^0.75), so the minimum individual's metabolic rate equals 1. Hauls are retained only if N ≥ S and E_raw, m_min are finite and positive.
 
 **Why:** The normalisation sets the boundary condition required by the METE partition function that EEoS is built on; without it, E is not on the scale the solver expects. The N ≥ S and positivity checks remove internally inconsistent hauls before they can produce a numerically meaningless B_pred.
 
@@ -24,7 +35,7 @@
 
 **Implemented:** B_pred is generated by calling the reference Python implementation of the EEoS solver (biomass.py, from the original authors' codebase) via reticulate, one haul at a time, then rescaled to grams using the same m_min used to normalise E. Hauls failing structural requirements of the partition function (S < 2, E ≤ N, missing/non-finite inputs, B_obs ≤ 0) are excluded and logged with a specific exclusion reason before the solver is called.
 
-**Why:** Using the original authors' solver, rather than a re-implementation, removes numerical-coding error as a possible confound when comparing against their published results. Logging exclusions by reason (rather than a single dropped-row count) makes the sample funnel from raw hauls to final N = 12,069 fully auditable.
+**Why:** Using the original authors' solver, rather than a re-implementation, removes numerical-coding error as a possible confound when comparing against their published results. Logging exclusions by reason (rather than a single dropped-row count) makes the sample funnel from raw hauls to final N = 10,128 fully auditable (the funnel now includes an effort-alignment stage: invalid, wrong DataType, or duration ≠ 30 min).
 
 ### 5. Primary evaluation metric
 

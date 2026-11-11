@@ -16,3 +16,46 @@ ANALYSIS_YEAR_MAX <- 2015L
 ANALYSIS_QUARTER <- 1L
 
 KNOWN_LNGT_CODES <- c("0", "1", "5", ".")
+
+# --- Haul effort alignment (HH record) ------------------------------------------
+# DATRAS HL counts are per haul for DataType R/P/S but per hour for DataType C
+# (DATRAS FAQ; for C, SubFactor = 1). Hauls are aligned to HH before S, N, E are
+# built: valid hauls only, standard 30-min tows (NS-IBTS manual, ICES 2020 SISP 10
+# Rev. 11, s2.5.4 and Annex 2), C converted back to raw counts with HaulDur / 60.
+# No rescaling to a common duration (S cannot be rescaled).
+#
+# Duration window: PRIMARY analysis = hauls of EXACTLY 30 min (HaulDur == 30;
+# supervisor decision, 10 Nov 2026). SENSITIVITY = 26-34 min (30 +/- 4), run with
+# EEOS_HAUL_DUR_MIN=26 EEOS_HAUL_DUR_MAX=34 (outputs in outputs/sensitivity_window_26_34/).
+
+HAUL_DUR_MIN <- 30
+HAUL_DUR_MAX <- 30
+HH_DATATYPES_KEEP <- c("C", "R", "P", "S")
+HH_HAULVAL_KEEP <- "V"
+
+#' Minimum share of HL hauls that must match an HH record (code-mismatch guard).
+HH_HL_MIN_MATCH_RATE <- 0.95
+
+#' Haul-duration window in minutes, overridable for sensitivity runs via
+#' environment variables EEOS_HAUL_DUR_MIN / EEOS_HAUL_DUR_MAX
+#' (e.g. the 26-34 sensitivity: EEOS_HAUL_DUR_MIN=26 EEOS_HAUL_DUR_MAX=34 Rscript ...).
+#' Defaults: HAUL_DUR_MIN / HAUL_DUR_MAX (exactly 30 min, primary).
+haul_dur_window <- function() {
+  read_env <- function(var, default) {
+    val <- Sys.getenv(var, unset = "")
+    if (!nzchar(val)) {
+      return(default)
+    }
+    num <- suppressWarnings(as.numeric(val))
+    if (length(num) != 1L || is.na(num) || num < 0) {
+      stop(var, " must be a non-negative number, got: '", val, "'")
+    }
+    num
+  }
+  dur_min <- read_env("EEOS_HAUL_DUR_MIN", HAUL_DUR_MIN)
+  dur_max <- read_env("EEOS_HAUL_DUR_MAX", HAUL_DUR_MAX)
+  if (dur_min > dur_max) {
+    stop("Haul-duration window is empty: min ", dur_min, " > max ", dur_max)
+  }
+  c(min = dur_min, max = dur_max)
+}

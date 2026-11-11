@@ -7,7 +7,7 @@ sessionInfo: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_repor
 glmmTMB 1.1.14; spaMM available = TRUE (4.6.65)
 
 ## Inputs
-Loaded /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/primary_model_v2.rds: 10464 hauls, 158 rectangles; formula: residual ~ FP_between * phase_v2 + FP_within * phase_v2 + (1 |      stat_rec)
+Loaded /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/primary_model_v2.rds: 8670 hauls, 158 rectangles; formula: residual ~ FP_between * phase_v2 + FP_within * phase_v2 + (1 |      stat_rec)
 phase_v2 levels: 1985-1991 | 1992-2001 | 2002-2007 | 2008-2015
 
 ## Primary (RE) fixed effects and phase-specific slopes
@@ -15,70 +15,70 @@ Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_primary_fix
 
 ## CAR sensitivity (phase_v2)
 Fitting CAR: residual ~ FP_between * phase_v2 + FP_within * phase_v2 + adjacency(1 | stat_rec)
-CAR fit time: 0.36 sec.
+CAR fit time: 0.30 sec.
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_car_fixed_effects.csv
 
 ### Pooled FP_between CAR contrast (H2 figure overlay)
 Fitting: residual ~ FP_between + FP_within * phase_v2 + adjacency(1 | stat_rec)
-Pooled CAR fit time: 0.27 sec.
-Pooled FP_between = +0.000033 (SE 0.013364; 95% CI [-0.026161, +0.026227]; p = 0.998)
+Pooled CAR fit time: 0.21 sec.
+Pooled FP_between = +0.003750 (SE 0.011985; 95% CI [-0.019740, +0.027240]; p = 0.7544)
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_pooled_between_coef.csv
 
 ## Phase-specific slopes
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_fp_slopes_by_phase.csv
 ### wb_car_v2
-  - [H2_spatial_between] FP_between / 1985-1991: slope=-0.0628 SE=0.0159 CI=[-0.0940, -0.0316] p=7.97e-05
-  - [H2_spatial_between] FP_between / 1992-2001: slope=-0.0244 SE=0.0147 CI=[-0.0532, +0.0045] p=0.098
-  - [H2_spatial_between] FP_between / 2002-2007: slope=+0.0841 SE=0.0159 CI=[+0.0529, +0.1153] p=1.27e-07
-  - [H2_spatial_between] FP_between / 2008-2015: slope=+0.0133 SE=0.0151 CI=[-0.0164, +0.0429] p=0.38
-  - [H3_temporal_within] FP_within / 1985-1991: slope=+0.0273 SE=0.0148 CI=[-0.0017, +0.0562] p=0.0652
-  - [H3_temporal_within] FP_within / 1992-2001: slope=+0.0462 SE=0.0172 CI=[+0.0126, +0.0798] p=0.00707
-  - [H3_temporal_within] FP_within / 2002-2007: slope=-0.0043 SE=0.0174 CI=[-0.0383, +0.0298] p=0.806
-  - [H3_temporal_within] FP_within / 2008-2015: slope=+0.0567 SE=0.0122 CI=[+0.0328, +0.0806] p=3.19e-06
+  - [H2_spatial_between] FP_between / 1985-1991: slope=+0.0042 SE=0.0136 CI=[-0.0225, +0.0309] p=0.758
+  - [H2_spatial_between] FP_between / 1992-2001: slope=+0.0257 SE=0.0128 CI=[+0.0007, +0.0507] p=0.0438
+  - [H2_spatial_between] FP_between / 2002-2007: slope=+0.0129 SE=0.0132 CI=[-0.0131, +0.0388] p=0.331
+  - [H2_spatial_between] FP_between / 2008-2015: slope=-0.0255 SE=0.0129 CI=[-0.0507, -0.0003] p=0.0477
+  - [H3_temporal_within] FP_within / 1985-1991: slope=-0.0114 SE=0.0106 CI=[-0.0321, +0.0094] p=0.283
+  - [H3_temporal_within] FP_within / 1992-2001: slope=+0.0343 SE=0.0123 CI=[+0.0102, +0.0584] p=0.00529
+  - [H3_temporal_within] FP_within / 2002-2007: slope=-0.0316 SE=0.0124 CI=[-0.0558, -0.0073] p=0.0107
+  - [H3_temporal_within] FP_within / 2008-2015: slope=+0.0321 SE=0.0089 CI=[+0.0146, +0.0496] p=0.000312
 ### wb_primary_v2
-  - [H2_spatial_between] FP_between / 1985-1991: slope=-0.0247 SE=0.0155 CI=[-0.0551, +0.0057] p=0.111
-  - [H2_spatial_between] FP_between / 1992-2001: slope=+0.0142 SE=0.0141 CI=[-0.0135, +0.0419] p=0.316
-  - [H2_spatial_between] FP_between / 2002-2007: slope=+0.1223 SE=0.0155 CI=[+0.0920, +0.1526] p=2.57e-15
-  - [H2_spatial_between] FP_between / 2008-2015: slope=+0.0519 SE=0.0146 CI=[+0.0232, +0.0806] p=0.000392
-  - [H3_temporal_within] FP_within / 1985-1991: slope=+0.0269 SE=0.0148 CI=[-0.0022, +0.0560] p=0.0702
-  - [H3_temporal_within] FP_within / 1992-2001: slope=+0.0437 SE=0.0172 CI=[+0.0100, +0.0774] p=0.011
-  - [H3_temporal_within] FP_within / 2002-2007: slope=-0.0018 SE=0.0174 CI=[-0.0360, +0.0324] p=0.919
-  - [H3_temporal_within] FP_within / 2008-2015: slope=+0.0577 SE=0.0122 CI=[+0.0337, +0.0816] p=2.4e-06
+  - [H2_spatial_between] FP_between / 1985-1991: slope=+0.0245 SE=0.0126 CI=[-0.0002, +0.0493] p=0.0519
+  - [H2_spatial_between] FP_between / 1992-2001: slope=+0.0467 SE=0.0116 CI=[+0.0239, +0.0694] p=5.78e-05
+  - [H2_spatial_between] FP_between / 2002-2007: slope=+0.0339 SE=0.0122 CI=[+0.0100, +0.0577] p=0.00536
+  - [H2_spatial_between] FP_between / 2008-2015: slope=-0.0042 SE=0.0118 CI=[-0.0272, +0.0189] p=0.723
+  - [H3_temporal_within] FP_within / 1985-1991: slope=-0.0126 SE=0.0106 CI=[-0.0334, +0.0082] p=0.235
+  - [H3_temporal_within] FP_within / 1992-2001: slope=+0.0316 SE=0.0123 CI=[+0.0074, +0.0557] p=0.0104
+  - [H3_temporal_within] FP_within / 2002-2007: slope=-0.0297 SE=0.0124 CI=[-0.0540, -0.0054] p=0.0166
+  - [H3_temporal_within] FP_within / 2008-2015: slope=+0.0333 SE=0.0089 CI=[+0.0158, +0.0508] p=0.000187
 
 ## Proportional effect sizes
 H2 source: `wb_car_v2` FP_between phase slopes.
-H3 source: primary (`wb_primary_v2`) FP_within phase slopes.
-Max |primary − CAR| FP_within phase slope = 0.00249.
+H3 source: `wb_car_v2` FP_within phase slopes.
+Max |CAR − RE| FP_within phase slope = 0.00274 (RE retained as companion).
 Baselines (phase_v2 median residual → ratio):
-  - 1985-1991: median residual=-1.4030; ratio=0.2459 (24.6%); IQR(FP_within)=0.967
-  - 1992-2001: median residual=-1.4799; ratio=0.2277 (22.8%); IQR(FP_within)=0.476
-  - 2002-2007: median residual=-1.3630; ratio=0.2559 (25.6%); IQR(FP_within)=0.793
-  - 2008-2015: median residual=-1.2747; ratio=0.2795 (28.0%); IQR(FP_within)=0.890
-H2 IQR(FP_between) across 158 rectangles = 1.7546.
+  - 1985-1991: median residual=-0.6359; ratio=0.5295 (52.9%); IQR(FP_within)=0.950
+  - 1992-2001: median residual=-0.7154; ratio=0.4890 (48.9%); IQR(FP_within)=0.481
+  - 2002-2007: median residual=-0.6752; ratio=0.5091 (50.9%); IQR(FP_within)=0.777
+  - 2008-2015: median residual=-0.6441; ratio=0.5251 (52.5%); IQR(FP_within)=0.896
+H2 IQR(FP_between) across 158 rectangles = 1.8156.
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_proportional_effects_H2.csv
-  H2 1985-1991: slope=-0.0628; IQR gap widened by 3.40% [-4.96, -1.76]
-  H2 1992-2001: slope=-0.0244; IQR gap widened by 1.23% [-2.63, 0.23]
-  H2 2002-2007: slope=+0.0841; IQR gap closed by 5.47% [3.35, 7.71]
-  H2 2008-2015: slope=+0.0133; IQR gap closed by 0.91% [-1.10, 3.03]
+  H2 1985-1991: slope=+0.0042; IQR gap closed by 0.86% [-4.51, 6.49]
+  H2 1992-2001: slope=+0.0257; IQR gap closed by 4.58% [0.13, 9.23]
+  H2 2002-2007: slope=+0.0129; IQR gap closed by 2.45% [-2.43, 7.57]
+  H2 2008-2015: slope=-0.0255; IQR gap widened by 5.00% [-9.72, -0.05]
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_proportional_effects_H3.csv
-  H3 1985-1991: slope=+0.0269; IQR gap closed by 0.86% [-0.07, 1.81]
-  H3 1992-2001: slope=+0.0437; IQR gap closed by 0.62% [0.14, 1.11]
-  H3 2002-2007: slope=-0.0018; IQR gap widened by 0.05% [-0.97, 0.90]
-  H3 2008-2015: slope=+0.0577; IQR gap closed by 2.04% [1.18, 2.92]
+  H3 1985-1991: slope=-0.0114; IQR gap widened by 1.21% [-3.38, 1.01]
+  H3 1992-2001: slope=+0.0343; IQR gap closed by 1.59% [0.47, 2.73]
+  H3 2002-2007: slope=-0.0316; IQR gap widened by 2.51% [-4.40, -0.59]
+  H3 2008-2015: slope=+0.0321; IQR gap closed by 3.23% [1.46, 5.02]
 
 ## Figures
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/figures/phase_v2_wb_gap_change_by_phase.png
-H2 pooled overlay (IQR scale): +0.002% [-1.513%, +1.589%]
+H2 pooled overlay (IQR scale): +0.720% [-3.711%, +5.344%]
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/figures/phase_v2_presentation_H2_gap_change_by_phase.png
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/figures/phase_v2_presentation_H3_gap_change_by_phase.png
-  H2 fig 1985-1991: gap -3.40% [-4.96, -1.76]; significant
-  H2 fig 1992-2001: gap -1.23% [-2.63, +0.23]; not significant
-  H2 fig 2002-2007: gap +5.47% [3.35, +7.71]; significant
-  H2 fig 2008-2015: gap +0.91% [-1.10, +3.03]; not significant
-  H3 fig 1985-1991: gap +0.86% [-0.07, +1.81]; not significant
-  H3 fig 1992-2001: gap +0.62% [0.14, +1.11]; significant
-  H3 fig 2002-2007: gap -0.05% [-0.97, +0.90]; not significant
-  H3 fig 2008-2015: gap +2.04% [1.18, +2.92]; significant
+  H2 fig 1985-1991: gap +0.86% [-4.51, +6.49]; not significant
+  H2 fig 1992-2001: gap +4.58% [0.13, +9.23]; significant
+  H2 fig 2002-2007: gap +2.45% [-2.43, +7.57]; not significant
+  H2 fig 2008-2015: gap -5.00% [-9.72, -0.05]; significant
+  H3 fig 1985-1991: gap -1.21% [-3.38, +1.01]; not significant
+  H3 fig 1992-2001: gap +1.59% [0.47, +2.73]; significant
+  H3 fig 2002-2007: gap -2.51% [-4.40, -0.59]; significant
+  H3 fig 2008-2015: gap +3.23% [1.46, +5.02]; significant
 Saved: /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_reporting_model_objects.rds
 Updated /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/primary_model_v2.rds with CAR / pooled fits.
 
@@ -97,3 +97,5 @@ Updated /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/primary_model_v2.rd
 - /Users/stuartstokeld/Projects/north_sea_EEoS/outputs/phase_v2_reporting_run_log.md (this file)
 
 display_discussion drafts not rewritten by this script — use these phase_v2_* artifacts when updating One page / H2 / H3 drafts.
+
+Supplementary CAR diagnostics (leave-one-rectangle-out, CAR R², signed vs unsigned residual audit) are a separate step that reads this fit_car and does not refit the signed primary model: Rscript --vanilla pipeline/run_h2h3_car_reporting_diagnostics.R

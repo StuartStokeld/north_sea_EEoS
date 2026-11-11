@@ -82,12 +82,19 @@ dropout_reason_table <- function(haul_joined, haul_predictions, classify_fn = NU
   )
 }
 
-#' Year-level funnel: HL raw hauls -> DATRAS state -> FishGlob join -> EEoS predictions.
+#' Year-level funnel: HL raw hauls -> effort alignment (HH) -> DATRAS state ->
+#' FishGlob join -> EEoS predictions.
+#'
+#' `effort_hauls` is `align_hl_to_hh()$hauls` (one row per HL haul with
+#' `effort_reason`). When given, `hl_to_effort_drop` counts hauls removed by the
+#' HH validity / DataType / duration filters and `hl_to_datras_drop` counts only
+#' hauls lost at the LW / state build (after effort alignment).
 dropout_funnel_by_year <- function(
     hl_raw,
     datras_state,
     haul_state_variables,
     haul_predictions,
+    effort_hauls = NULL,
     year_min = 1985L,
     year_max = 2015L,
     quarter = 1L) {
@@ -96,6 +103,14 @@ dropout_funnel_by_year <- function(
     mutate(haul_key = paste(Survey, Year, Quarter, Country, Ship, HaulNo, sep = "_")) %>%
     distinct(haul_key, Year) %>%
     count(Year, name = "n_hl_hauls")
+
+  effort_years <- if (is.null(effort_hauls)) {
+    hl_years %>% transmute(Year, n_effort_kept = n_hl_hauls)
+  } else {
+    effort_hauls %>%
+      filter(effort_reason == "kept") %>%
+      count(Year, name = "n_effort_kept")
+  }
 
   datras_years <- datras_state %>%
     count(Year, name = "n_datras_state")
@@ -107,20 +122,32 @@ dropout_funnel_by_year <- function(
     count(year, name = "n_eeos_predictions")
 
   hl_years %>%
+    full_join(effort_years, by = "Year") %>%
     full_join(datras_years, by = c("Year" = "Year")) %>%
     full_join(joined_years, by = c("Year" = "year")) %>%
     full_join(pred_years, by = c("Year" = "year")) %>%
     mutate(
       n_hl_hauls = coalesce(n_hl_hauls, 0L),
+      n_effort_kept = coalesce(n_effort_kept, 0L),
       n_datras_state = coalesce(n_datras_state, 0L),
       n_fishglob_joined = coalesce(n_fishglob_joined, 0L),
       n_eeos_predictions = coalesce(n_eeos_predictions, 0L),
-      hl_to_datras_drop = n_hl_hauls - n_datras_state,
+      hl_to_effort_drop = n_hl_hauls - n_effort_kept,
+      hl_to_datras_drop = n_effort_kept - n_datras_state,
       datras_to_join_drop = n_datras_state - n_fishglob_joined,
       join_to_pred_drop = n_fishglob_joined - n_eeos_predictions,
       pct_pred_of_hl = round(100 * n_eeos_predictions / pmax(n_hl_hauls, 1L), 1)
     ) %>%
     arrange(Year)
+}
+
+#' Effort-alignment exclusions by reason x DataType (from align_hl_to_hh()$hauls).
+effort_dropout_reason_table <- function(effort_hauls) {
+  effort_hauls %>%
+    filter(effort_reason != "kept") %>%
+    mutate(DataType = coalesce(DataType, "(none)")) %>%
+    count(effort_reason, DataType, name = "n_hauls") %>%
+    arrange(desc(n_hauls))
 }
 
 #' Focused diagnosis for years that showed spurious dropout spikes in earlier drafts.

@@ -22,6 +22,14 @@ prerequisite → **policy-anchored `phase_v2` primary** (RE for H3, CAR for H2) 
 Bonferroni / permutation / subsampling / Spec A. Full list:
 [`pipeline/README.md`](pipeline/README.md) and the live pipeline run log above.
 
+**DATRAS DataType / haul-duration fix (Nov 2026).** DataType C length counts in DATRAS are per hour
+of fishing; the pipeline now aligns HL to the HH haul records, converts C counts back to the haul
+(× HaulDur/60), and keeps valid hauls of **exactly 30 min** (primary; 26–34 min as sensitivity). The
+H1 and H2/H3 results drafts are **superseded pending interpretation after DataType fix**: see
+[`outputs/effort_fix_comparison.md`](outputs/effort_fix_comparison.md) (old vs 30 min vs 26–34) and the
+conventions/sources section of [`CLAUDE.md`](CLAUDE.md). Current samples: H1 10,128 hauls; H2/H3 8,670
+hauls in 158 rectangles.
+
 **Exploratory / superseded work** (SEM, Spec B, RE Spec A, blended-term, zones, anisotropy, etc.): [`exploratory/`](exploratory/).
 
 ---
@@ -55,6 +63,8 @@ Run from the workspace root. Details and data prerequisites:
 **H1:**
 
 ```bash
+Rscript pipeline/import_datras_hh.R                  # HH haul records (only if outputs/datras_hh_raw.rds is missing)
+Rscript pipeline/validate_haul_effort_alignment.R    # optional: effort-alignment checks
 Rscript pipeline/build_datras_state_variables.R
 Rscript pipeline/build_eeos_predictions.R
 Rscript pipeline/run_h1_harte_baseline.R
@@ -79,6 +89,9 @@ Rscript --vanilla pipeline/build_knn_spatial_weights.R
 Rscript --vanilla pipeline/run_h2h3_spec_a_car_identifiability.R
 Rscript --vanilla pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R
 ```
+
+Haul-duration window: exactly 30 min by default (`pipeline/R/datras_constants.R`). The 26–34 min
+sensitivity runs the same scripts with `EEOS_HAUL_DUR_MIN=26 EEOS_HAUL_DUR_MAX=34`.
 
 Structural-break discovery and the H2 dose-response GAM check are under
 [`exploratory/`](exploratory/) (historical; not part of the main pipeline).
