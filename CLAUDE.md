@@ -138,14 +138,21 @@ pipeline used C counts as raw counts (~2× N and E for 30-min tows) against raw 
 aligns HL to HH, converts C counts back to the haul, and (supervisor decision, 10 Nov 2026) keeps only
 hauls of exactly 30 min; 26–34 min is the sensitivity run. Sources:
 
-- ICES (2020). *Manual for the North Sea International Bottom Trawl Surveys.* Series of ICES Survey
-  Protocols SISP 10 – IBTS 10, Revision 11. §2.5.4 (tow duration) and Annex 2 (national deviations,
-  incl. 60-min Scottish tows).
-- ICES DATRAS FAQ (https://datras.ices.dk): DataType C = catch per unit effort (numbers per hour);
-  SubFactor = 1 for C.
-- ICES DATRAS NS-IBTS index calculation procedure: CPUE per hour, non-C counts raised × 60/HaulDur.
+- ICES. 2020. *Manual for the North Sea International Bottom Trawl Surveys.* Series of ICES Survey
+  Protocols SISP 10-IBTS 10, Revision 11. 102 pp. https://doi.org/10.17895/ices.pub.7562
+  (§2.5.4 tow duration; Annex 2 survey history, incl. 60-min Scottish tows).
+- ICES DATRAS FAQ For Data Users, version 3 (August 2014).
+  https://www.ices.dk/data/Documents/DATRAS/DATRAS_FAQs.pdf (DataType R/S/C definitions; for C,
+  HLNoAtLngt is adjusted to one hour of catching and SubFactor = 1).
+- ICES DATRAS, IBTS index calculation procedure.
+  https://www.ices.dk/data/Documents/DATRAS/Indices_Calculation_Steps_IBTS.pdf (non-C counts × 60/HaulDuration).
+- DATRAS documentation index: https://www.ices.dk/data/data-portals/Pages/DATRAS-Docs.aspx
 - FishGlob `cleaning_codes/get_datras.R` (Maureaud et al. 2024, *Scientific Data* 11, 24): C counts and
   weights × HaulDur/60 back to the haul — so `B_obs` is the raw haul weight.
+
+DataType P: the current FishGlob `get_datras.R` excludes DataType P, but our local FishGlob build
+includes the 92 P hauls (likely predating their resubmission as P); their biomass ratio (0.87) is
+consistent with raw haul weight, so they are kept.
 
 Code: `pipeline/R/datras_hh_helpers.R` (`align_hl_to_hh()`), `pipeline/R/datras_constants.R`.
 Validation: `pipeline/validate_haul_effort_alignment.R` → `outputs/datras_effort_validation/`

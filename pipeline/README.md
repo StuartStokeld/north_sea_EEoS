@@ -144,7 +144,10 @@ Harte, J., Brush, J. M., Newman, E. A., & Umemura, K. (2022). An equation of sta
 unifies biodiversity, ecosystem functioning, and biomass in ecosystems.
 *Communications Biology*, 5, 957.
 
-DataType / haul-duration handling: ICES (2020) NS-IBTS manual, SISP 10 – IBTS 10 Rev. 11 (§2.5.4,
-Annex 2); ICES DATRAS FAQ (C = numbers per hour, SubFactor = 1); DATRAS NS-IBTS index calculation
-procedure (non-C × 60/HaulDur); FishGlob `cleaning_codes/get_datras.R` (Maureaud et al. 2024,
+DataType / haul-duration handling: ICES (2020) NS-IBTS manual, SISP 10-IBTS 10 Rev. 11
+(https://doi.org/10.17895/ices.pub.7562; §2.5.4, Annex 2); ICES DATRAS FAQ For Data Users v3, 2014
+(https://www.ices.dk/data/Documents/DATRAS/DATRAS_FAQs.pdf; C = adjusted to one hour, SubFactor = 1);
+ICES DATRAS IBTS index calculation procedure
+(https://www.ices.dk/data/Documents/DATRAS/Indices_Calculation_Steps_IBTS.pdf; non-C × 60/HaulDuration);
+FishGlob `cleaning_codes/get_datras.R` (Maureaud et al. 2024,
 *Scientific Data* 11, 24). Details: `../CLAUDE.md` (Key scientific conventions).

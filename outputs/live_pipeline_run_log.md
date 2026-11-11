@@ -16,8 +16,13 @@ records before S, N, E are built: `HaulVal == "V"`, DataType C/R/P/S, **`HaulDur
 (primary; supervisor decision 10 Nov 2026)**; C counts × HaulDur/60, R/P/S × SubFactor; no duration
 rescaling; `B_obs` unchanged. Sensitivity: 26–34 min window (`EEOS_HAUL_DUR_MIN=26
 EEOS_HAUL_DUR_MAX=34`), outputs in `outputs/sensitivity_window_26_34/` (gitignored). Sources: ICES
-(2020) NS-IBTS manual SISP 10 Rev. 11 §2.5.4 and Annex 2; DATRAS FAQ; DATRAS NS-IBTS index
-procedure; FishGlob `get_datras.R` (see `CLAUDE.md`).
+(2020) NS-IBTS manual SISP 10-IBTS 10 Rev. 11 (https://doi.org/10.17895/ices.pub.7562) §2.5.4 and
+Annex 2; ICES DATRAS FAQ For Data Users v3 (2014); ICES DATRAS IBTS index calculation procedure;
+FishGlob `get_datras.R` (full references and URLs in `CLAUDE.md`).
+
+- DataType P: the current FishGlob `get_datras.R` excludes DataType P, but our local FishGlob build
+  includes these hauls (92 at 30 min; likely predating a resubmission as P), and their biomass ratio
+  (0.87) is consistent with raw haul weight, so they are kept.
 
 - Samples (exactly 30 min): H1 10,128 hauls; H2/H3 8,670 hauls, 158 rectangles (pre-fix 12,069 / 10,464).
 - All live scripts in the CLAUDE.md order were re-run at exactly 30 min (19 scripts, exit 0).
