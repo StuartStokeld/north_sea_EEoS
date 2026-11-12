@@ -1,0 +1,213 @@
+accepted_name,aphia_id,total_N,n_hauls,a_final,b_final,Type,fallback_level,worms_name,worms_status,worms_valid_name,worms_rank,fb_name,fb_match,genus_key,family_key,Number,fishbase_version,rfishbase_version
+Clupea harengus,126417,22141797.43299968,9263,0.0042,3.1775,TL,TL_direct,Clupea harengus,accepted,Clupea harengus,Species,Clupea harengus,WoRMS valid name,Clupea,Clupeidae,27423,26.06,5.0.3
+Sprattus sprattus,126425,14651619.443900011,6161,0.0052,3.1474,TL,TL_direct,Sprattus sprattus,accepted,Sprattus sprattus,Species,Sprattus sprattus,WoRMS valid name,Sprattus,Clupeidae,11479,26.06,5.0.3
+Trisopterus esmarkii,126444,11224217.268899985,5193,0.0045,3.1484,TL,TL_direct,Trisopterus esmarkii,accepted,Trisopterus esmarkii,Species,Trisopterus esmarkii,WoRMS valid name,Trisopterus,Gadidae,1051,26.06,5.0.3
+Merlangius merlangus,126438,5866958.027099922,10084,0.0061,3.0671,TL,TL_direct,Merlangius merlangus,accepted,Merlangius merlangus,Species,Merlangius merlangus,WoRMS valid name,Merlangius,Gadidae,14880,26.06,5.0.3
+Melanogrammus aeglefinus,126437,3541546.8412000085,6324,0.005,3.1761,TL,TL_direct,Melanogrammus aeglefinus,accepted,Melanogrammus aeglefinus,Species,Melanogrammus aeglefinus,WoRMS valid name,Melanogrammus,Gadidae,16770,26.06,5.0.3
+Limanda limanda,127139,3136577.9684999725,9490,0.00545,3.23,TL,TL_direct,Limanda limanda,accepted,Limanda limanda,Species,Limanda limanda,WoRMS valid name,Limanda,Pleuronectidae,3778,26.06,5.0.3
+Eutrigla gurnardus,150637,893469.6389000007,7057,0.0062,3.1,TL,TL_direct,Eutrigla gurnardus,accepted,Eutrigla gurnardus,Species,Eutrigla gurnardus,WoRMS valid name,Eutrigla,Triglidae,747,26.06,5.0.3
+Hippoglossoides platessoides,127137,764725.3245999956,7230,0.00291,3.31,TL,TL_direct,Hippoglossoides platessoides,accepted,Hippoglossoides platessoides,Species,Hippoglossoides platessoides,WoRMS valid name,Hippoglossoides,Pleuronectidae,4965,26.06,5.0.3
+Scomber scombrus,127023,535252.2399999991,1749,0.002,3.4011,TL,TL_direct,Scomber scombrus,accepted,Scomber scombrus,Species,Scomber scombrus,WoRMS valid name,Scomber,Scombridae,9832,26.06,5.0.3
+Pleuronectes platessa,127143,295314.4601,7569,0.0059,3.1539,TL,TL_direct,Pleuronectes platessa,accepted,Pleuronectes platessa,Species,Pleuronectes platessa,WoRMS valid name,Pleuronectes,Pleuronectidae,9656,26.06,5.0.3
+Gadus morhua,126436,185719.1430000001,8620,0.00743,3.06,TL,TL_direct,Gadus morhua,accepted,Gadus morhua,Species,Gadus morhua,WoRMS valid name,Gadus,Gadidae,52546,26.06,5.0.3
+Trisopterus minutus,126446,156283.6316999999,3874,0.00586,3.217,TL,TL_direct,Trisopterus minutus,accepted,Trisopterus minutus,Species,Trisopterus minutus,WoRMS valid name,Trisopterus,Gadidae,4519,26.06,5.0.3
+Aphia minuta,126868,137574.135,107,7.1e-4,3.55,TL,TL_direct,Aphia minuta,accepted,Aphia minuta,Species,Aphia minuta,WoRMS valid name,Aphia,Gobiidae,1965,26.06,5.0.3
+Trachurus trachurus,126822,107354.94499999992,2911,0.0076,3.0382,TL,TL_direct,Trachurus trachurus,accepted,Trachurus trachurus,Species,Trachurus trachurus,WoRMS valid name,Trachurus,Carangidae,5175,26.06,5.0.3
+Pollachius virens,126441,80309.92539999979,1755,0.0055,3.1071,TL,TL_direct,Pollachius virens,accepted,Pollachius virens,Species,Pollachius virens,WoRMS valid name,Pollachius,Gadidae,4677,26.06,5.0.3
+Argentina sphyraena,126716,77970.16170000006,1852,0.004,3.124,TL,TL_direct,Argentina sphyraena,accepted,Argentina sphyraena,Species,Argentina sphyraena,WoRMS valid name,Argentina,Argentinidae,1093,26.06,5.0.3
+Syngnathus acus,127387,75950.72499999998,256,2.1e-4,3.54,TL,TL_direct,Syngnathus acus,accepted,Syngnathus acus,Species,Syngnathus acus,WoRMS valid name,Syngnathus,Syngnathidae,570,26.06,5.0.3
+Engraulis encrasicolus,126426,66069.81809999997,1344,0.008,2.86,TL,TL_direct,Engraulis encrasicolus,accepted,Engraulis encrasicolus,Species,Engraulis encrasicolus,WoRMS valid name,Engraulis,Engraulidae,10062,26.06,5.0.3
+Microstomus kitt,127140,54690.551400000026,5610,0.0106,2.9904,TL,TL_direct,Microstomus kitt,accepted,Microstomus kitt,Species,Microstomus kitt,WoRMS valid name,Microstomus,Pleuronectidae,2398,26.06,5.0.3
+Platichthys flesus,127141,53171.85000000004,2435,0.00667,3.18,TL,TL_direct,Platichthys flesus,accepted,Platichthys flesus,Species,Platichthys flesus,WoRMS valid name,Platichthys,Pleuronectidae,22770,26.06,5.0.3
+Ammodytes marinus,126751,47367.87099999997,319,0.001,3.4395,TL,TL_direct,Ammodytes marinus,accepted,Ammodytes marinus,Species,Ammodytes marinus,WoRMS valid name,Ammodytes,Ammodytidae,169,26.06,5.0.3
+Buglossidium luteum,127153,47301.4303,1576,0.00782,3.128,TL,TL_direct,Buglossidium luteum,accepted,Buglossidium luteum,Species,Buglossidium luteum,WoRMS valid name,Buglossidium,Soleidae,3410,26.06,5.0.3
+Ammodytes,125909,40361,344,0.0037054545454545456,3.0717454545454546,NA,genus_mean,Ammodytes,accepted,Ammodytes,Genus,NA,NA,Ammodytes,Ammodytidae,NA,26.06,5.0.3
+Echiichthys vipera,150630,35857.983,960,0.0115,2.9894,TL,TL_direct,Echiichthys vipera,accepted,Echiichthys vipera,Species,Echiichthys vipera,WoRMS valid name,Echiichthys,Trachinidae,380,26.06,5.0.3
+Agonus cataphractus,127190,28863.37200000001,1890,0.0104,2.8669000000000002,TL,TL_direct,Agonus cataphractus,accepted,Agonus cataphractus,Species,Agonus cataphractus,WoRMS valid name,Agonus,Agonidae,458,26.06,5.0.3
+Ammodytes tobianus,126752,28319,209,0.0063,2.6927,TL,TL_direct,Ammodytes tobianus,accepted,Ammodytes tobianus,Species,Ammodytes tobianus,WoRMS valid name,Ammodytes,Ammodytidae,50,26.06,5.0.3
+Callionymus lyra,126792,26991.690000000024,3354,0.0204,2.5784000000000002,TL,TL_direct,Callionymus lyra,accepted,Callionymus lyra,Species,Callionymus lyra,WoRMS valid name,Callionymus,Callionymidae,1234,26.06,5.0.3
+Callionymus maculatus,126793,25171.30359999999,1653,0.0282,2.3129,TL,TL_direct,Callionymus maculatus,accepted,Callionymus maculatus,Species,Callionymus maculatus,WoRMS valid name,Callionymus,Callionymidae,196,26.06,5.0.3
+Arnoglossus laterna,127126,24596.400199999993,1195,0.0074,3.04,TL,TL_direct,Arnoglossus laterna,accepted,Arnoglossus laterna,Species,Arnoglossus laterna,WoRMS valid name,Arnoglossus,Bothidae,2469,26.06,5.0.3
+Enchelyopus cimbrius,126450,23417.962999999985,1707,0.0032,3.1436,TL,TL_direct,Enchelyopus cimbrius,accepted,Enchelyopus cimbrius,Species,Enchelyopus cimbrius,WoRMS valid name,Enchelyopus,Gaidropsaridae,448,26.06,5.0.3
+Gobiidae,125537,21685.623000000003,460,0.008554590163934426,3.135711475409836,NA,family_mean,Gobiidae,accepted,Gobiidae,Family,NA,NA,NA,Gobiidae,NA,26.06,5.0.3
+Amblyraja radiata,105865,19959.802999999985,3193,0.0069,3.0343,TL,TL_direct,Amblyraja radiata,accepted,Amblyraja radiata,Species,Amblyraja radiata,WoRMS valid name,Amblyraja,Rajidae,1156,26.06,5.0.3
+Sardina pilchardus,126421,19106.194,480,0.00357,3.266,TL,TL_direct,Sardina pilchardus,accepted,Sardina pilchardus,Species,Sardina pilchardus,WoRMS valid name,Sardina,Alosidae,9183,26.06,5.0.3
+Pomatoschistus,125999,18825.914999999994,514,0.008567692307692307,3.0368538461538463,NA,genus_mean,Pomatoschistus,accepted,Pomatoschistus,Genus,NA,NA,Pomatoschistus,Gobiidae,NA,26.06,5.0.3
+Merluccius merluccius,126484,18195.06639999998,1793,0.00659,3.017,TL,TL_direct,Merluccius merluccius,accepted,Merluccius merluccius,Species,Merluccius merluccius,WoRMS valid name,Merluccius,Merlucciidae,79159,26.06,5.0.3
+Micromesistius poutassou,126439,17955.105,400,0.0073,2.8926,TL,TL_direct,Micromesistius poutassou,accepted,Micromesistius poutassou,Species,Micromesistius poutassou,WoRMS valid name,Micromesistius,Gadidae,17796,26.06,5.0.3
+Gadiculus argenteus,126435,16673.144999999997,495,0.0034,3.479,TL,TL_direct,Gadiculus argenteus,accepted,Gadiculus argenteus,Species,Gadiculus argenteus,WoRMS valid name,Gadiculus,Gadidae,534,26.06,5.0.3
+Ammodytidae,125516,16068,267,0.0039825,3.03505625,NA,family_mean,Ammodytidae,accepted,Ammodytidae,Family,NA,NA,NA,Ammodytidae,NA,26.06,5.0.3
+Trisopterus luscus,126445,15396.828,833,0.0089,3.085,TL,TL_direct,Trisopterus luscus,accepted,Trisopterus luscus,Species,Trisopterus luscus,WoRMS valid name,Trisopterus,Gadidae,1700,26.06,5.0.3
+Scyliorhinus canicula,105814,14360.400000000007,1238,0.0017,3.1734999999999998,TL,TL_direct,Scyliorhinus canicula,accepted,Scyliorhinus canicula,Species,Scyliorhinus canicula,WoRMS valid name,Scyliorhinus,Scyliorhinidae,1888,26.06,5.0.3
+Gasterosteus aculeatus,126505,14305.638,334,0.0105,3.049,TL,TL_direct,Gasterosteus aculeatus,accepted,Gasterosteus aculeatus,Species,Gasterosteus aculeatus,WoRMS valid name,Gasterosteus,Gasterosteidae,29213,26.06,5.0.3
+Maurolicus muelleri,127312,13861.479999999998,828,0.0069,3.168,TL,TL_direct,Maurolicus muelleri,accepted,Maurolicus muelleri,Species,Maurolicus muelleri,WoRMS valid name,Maurolicus,Sternoptychidae,1437,26.06,5.0.3
+Myoxocephalus scorpius,127203,11002.020999999999,1413,0.00567,3.3626,TL,TL_direct,Myoxocephalus scorpius,accepted,Myoxocephalus scorpius,Species,Myoxocephalus scorpius,WoRMS valid name,Myoxocephalus,Cottidae,1023,26.06,5.0.3
+Glyptocephalus cynoglossus,127136,9337.3939,1735,0.00182,3.33,TL,TL_direct,Glyptocephalus cynoglossus,accepted,Glyptocephalus cynoglossus,Species,Glyptocephalus cynoglossus,WoRMS valid name,Glyptocephalus,Pleuronectidae,2193,26.06,5.0.3
+Hyperoplus lanceolatus,126756,8638.767,740,0.0066,2.6967,TL,TL_direct,Hyperoplus lanceolatus,accepted,Hyperoplus lanceolatus,Species,Hyperoplus lanceolatus,WoRMS valid name,Hyperoplus,Ammodytidae,782,26.06,5.0.3
+Lumpenus lampretaeformis,154675,8324.468,630,0.0164,2.09,TL,TL_direct,Lumpenus lampretaeformis,accepted,Lumpenus lampretaeformis,Species,Lumpenus lampretaeformis,WoRMS valid name,Lumpenus,Lumpenidae,306,26.06,5.0.3
+Argentina silus,126715,7992.207700000003,343,0.0044,3.1665,TL,TL_direct,Argentina silus,accepted,Argentina silus,Species,Argentina silus,WoRMS valid name,Argentina,Argentinidae,1827,26.06,5.0.3
+Trachinus draco,127082,7977,272,0.0042,3.1189999999999998,TL,TL_direct,Trachinus draco,accepted,Trachinus draco,Species,Trachinus draco,WoRMS valid name,Trachinus,Trachinidae,2767,26.06,5.0.3
+Chelidonichthys cuculus,127259,7729.5,558,0.0078,3.0937,TL,TL_direct,Chelidonichthys cuculus,accepted,Chelidonichthys cuculus,Species,Chelidonichthys cuculus,WoRMS valid name,Chelidonichthys,Triglidae,2412,26.06,5.0.3
+Lycodes vahlii,127118,7541.295000000001,427,0.00236,3.179,TL,TL_direct,Lycodes vahlii,accepted,Lycodes vahlii,Species,Lycodes vahlii,WoRMS valid name,Lycodes,Zoarcidae,485,26.06,5.0.3
+Solea solea,127160,7525.0859999999975,1512,0.00482,3.175,TL,TL_direct,Solea solea,accepted,Solea solea,Species,Solea solea,WoRMS valid name,Solea,Soleidae,5804,26.06,5.0.3
+Myxine glutinosa,101170,7070.324999999998,593,0.0022,2.8357,TL,TL_direct,Myxine glutinosa,accepted,Myxine glutinosa,Species,Myxine glutinosa,WoRMS valid name,Myxine,Myxinidae,128,26.06,5.0.3
+Entelurus aequoreus,127379,6655.4619999999995,620,3e-4,2.7807,TL,TL_direct,Entelurus aequoreus,accepted,Entelurus aequoreus,Species,Entelurus aequoreus,WoRMS valid name,Entelurus,Syngnathidae,405,26.06,5.0.3
+Squalus acanthias,105923,6549.5,795,9e-4,3.36,TL,TL_direct,Squalus acanthias,accepted,Squalus acanthias,Species,Squalus acanthias,WoRMS valid name,Squalus,Squalidae,32402,26.06,5.0.3
+Raja clavata,105883,6135.6,496,0.00319,3.194,TL,TL_direct,Raja clavata,accepted,Raja clavata,Species,Raja clavata,WoRMS valid name,Raja,Rajidae,960,26.06,5.0.3
+Pomatoschistus minutus,126928,6048.885,294,0.00622,3.173,TL,TL_direct,Pomatoschistus minutus,accepted,Pomatoschistus minutus,Species,Pomatoschistus minutus,WoRMS valid name,Pomatoschistus,Gobiidae,967,26.06,5.0.3
+Mullus surmuletus,126986,5957.825999999998,846,0.0091,3.1204,TL,TL_direct,Mullus surmuletus,accepted,Mullus surmuletus,Species,Mullus surmuletus,WoRMS valid name,Mullus,Mullidae,3541,26.06,5.0.3
+Hyperoplus immaculatus,126755,5806,61,0.01,2.6710000000000003,TL,TL_direct,Hyperoplus immaculatus,accepted,Hyperoplus immaculatus,Species,Hyperoplus immaculatus,WoRMS valid name,Hyperoplus,Ammodytidae,139,26.06,5.0.3
+Lepidorhombus whiffiagonis,127146,5085.761699999999,923,0.0029,3.215,TL,TL_direct,Lepidorhombus whiffiagonis,accepted,Lepidorhombus whiffiagonis,Species,Lepidorhombus whiffiagonis,WoRMS valid name,Lepidorhombus,Scophthalmidae,4813,26.06,5.0.3
+Taurulus bubalis,127204,5062,164,0.0154,3,TL,TL_direct,Taurulus bubalis,accepted,Taurulus bubalis,Species,Taurulus bubalis,WoRMS valid name,Taurulus,Cottidae,NA,26.06,5.0.3
+Gaidropsarus vulgaris,126458,3763.5,70,0.0172,2.7135,TL,TL_direct,Gaidropsarus vulgaris,accepted,Gaidropsarus vulgaris,Species,Gaidropsarus vulgaris,WoRMS valid name,Gaidropsarus,Gaidropsaridae,49,26.06,5.0.3
+Alosa fallax,126415,3547.2520000000004,345,0.00211,3.239,TL,TL_direct,Alosa fallax,accepted,Alosa fallax,Species,Alosa fallax,WoRMS valid name,Alosa,Alosidae,618,26.06,5.0.3
+Syngnathus rostellatus,127389,3417.5,264,1.5e-4,3.40846,TL,TL_direct,Syngnathus rostellatus,accepted,Syngnathus rostellatus,Species,Syngnathus rostellatus,WoRMS valid name,Syngnathus,Syngnathidae,184,26.06,5.0.3
+Cyclopterus lumpus,127214,2823.875,1362,0.063,2.9405,TL,TL_direct,Cyclopterus lumpus,accepted,Cyclopterus lumpus,Species,Cyclopterus lumpus,WoRMS valid name,Cyclopterus,Cyclopteridae,239,26.06,5.0.3
+Lophius piscatorius,126555,2663.6667,1492,0.0266,2.8568,TL,TL_direct,Lophius piscatorius,accepted,Lophius piscatorius,Species,Lophius piscatorius,WoRMS valid name,Lophius,Lophiidae,1110,26.06,5.0.3
+Pomatoschistus lozanoi,126925,2621,39,0.01024,3,SL,SL_needs_conversion,Pomatoschistus lozanoi,accepted,Pomatoschistus lozanoi,Species,Pomatoschistus lozanoi,WoRMS valid name,Pomatoschistus,Gobiidae,3,26.06,5.0.3
+Liparis liparis,127219,2467.8749999999995,374,0.0237,3,TL,TL_direct,Liparis liparis,accepted,Liparis liparis,Species,Liparis liparis,WoRMS valid name,Liparis,Liparidae,1,26.06,5.0.3
+Atherina presbyter,272030,2369,10,0.0064,3.05,TL,TL_direct,Atherina presbyter,accepted,Atherina presbyter,Species,Atherina presbyter,WoRMS valid name,Atherina,Atherinidae,2829,26.06,5.0.3
+Molva molva,126461,2291,853,0.00386,3.074,TL,TL_direct,Molva molva,accepted,Molva molva,Species,Molva molva,WoRMS valid name,Molva,Lotidae,522,26.06,5.0.3
+Argentina,125885,2139,56,0.0037114285714285713,3.2024357142857145,NA,genus_mean,Argentina,accepted,Argentina,Genus,NA,NA,Argentina,Argentinidae,NA,26.06,5.0.3
+Raja montagui,105887,2123.5,451,0.002,3.263,TL,TL_direct,Raja montagui,accepted,Raja montagui,Species,Raja montagui,WoRMS valid name,Raja,Rajidae,82,26.06,5.0.3
+Dicentrarchus labrax,126975,2081.5,129,0.0123,2.955,TL,TL_direct,Dicentrarchus labrax,accepted,Dicentrarchus labrax,Species,Dicentrarchus labrax,WoRMS valid name,Dicentrarchus,Moronidae,1567,26.06,5.0.3
+Osmerus eperlanus,126736,1989.1269999999997,76,0.0094,2.8535,TL,TL_direct,Osmerus eperlanus,accepted,Osmerus eperlanus,Species,Osmerus eperlanus,WoRMS valid name,Osmerus,Osmeridae,264,26.06,5.0.3
+Pollachius pollachius,126440,1859.5,276,0.00613,3.115,TL,TL_direct,Pollachius pollachius,accepted,Pollachius pollachius,Species,Pollachius pollachius,WoRMS valid name,Pollachius,Gadidae,290,26.06,5.0.3
+Helicolenus dactylopterus,127251,1852,148,0.0195,2.9478999999999997,TL,TL_direct,Helicolenus dactylopterus,accepted,Helicolenus dactylopterus,Species,Helicolenus dactylopterus,WoRMS valid name,Helicolenus,Sebastidae,5069,26.06,5.0.3
+Leucoraja naevus,105876,1827,734,0.0025,3.216,TL,TL_direct,Leucoraja naevus,accepted,Leucoraja naevus,Species,Leucoraja naevus,WoRMS valid name,Leucoraja,Rajidae,390,26.06,5.0.3
+Pholis gunnellus,126996,1591,121,0.0043,3.018,TL,TL_direct,Pholis gunnellus,accepted,Pholis gunnellus,Species,Pholis gunnellus,WoRMS valid name,Pholis,Pholidae,59,26.06,5.0.3
+Mustelus asterias,105821,1510.7000000000003,296,0.002,3.159,TL,TL_direct,Mustelus asterias,accepted,Mustelus asterias,Species,Mustelus asterias,WoRMS valid name,Mustelus,Triakidae,692,26.06,5.0.3
+Ciliata mustela,126448,1415,295,0.0052,3.169,TL,TL_direct,Ciliata mustela,accepted,Ciliata mustela,Species,Ciliata mustela,WoRMS valid name,Ciliata,Gaidropsaridae,307,26.06,5.0.3
+Sebastes viviparus,127255,1279.5040000000004,189,0.0065,3.2124,TL,TL_direct,Sebastes viviparus,accepted,Sebastes viviparus,Species,Sebastes viviparus,WoRMS valid name,Sebastes,Sebastidae,1073,26.06,5.0.3
+Scophthalmus rhombus,127150,1088.98,517,0.0103,3.0937,TL,TL_direct,Scophthalmus rhombus,accepted,Scophthalmus rhombus,Species,Scophthalmus rhombus,WoRMS valid name,Scophthalmus,Scophthalmidae,528,26.06,5.0.3
+Zoarces viviparus,127123,1060,90,0.0047,3.0241,TL,TL_direct,Zoarces viviparus,accepted,Zoarces viviparus,Species,Zoarces viviparus,WoRMS valid name,Zoarces,Zoarcidae,321,26.06,5.0.3
+Triglidae,125598,987.5,18,0.009741363636363637,3.039718181818182,NA,family_mean,Triglidae,accepted,Triglidae,Family,NA,NA,NA,Triglidae,NA,26.06,5.0.3
+Scophthalmus maximus,127149,970.8399999999999,702,0.0179,3.02,TL,TL_direct,Scophthalmus maximus,accepted,Scophthalmus maximus,Species,Scophthalmus maximus,WoRMS valid name,Scophthalmus,Scophthalmidae,2953,26.06,5.0.3
+Phrynorhombus norvegicus,127147,941.5,136,0.0103,3.054,TL,TL_direct,Phrynorhombus norvegicus,accepted,Phrynorhombus norvegicus,Species,Phrynorhombus norvegicus,WoRMS valid name,Phrynorhombus,Scophthalmidae,14,26.06,5.0.3
+Callionymus reticulatus,126795,868,181,0.0159,2.5712,TL,TL_direct,Callionymus reticulatus,accepted,Callionymus reticulatus,Species,Callionymus reticulatus,WoRMS valid name,Callionymus,Callionymidae,186,26.06,5.0.3
+Spondyliosoma cantharus,127066,690,40,0.00982,3.141,TL,TL_direct,Spondyliosoma cantharus,accepted,Spondyliosoma cantharus,Species,Spondyliosoma cantharus,WoRMS valid name,Spondyliosoma,Sparidae,1199,26.06,5.0.3
+Syngnathidae,125606,620.7280000000001,104,3.282758620689655e-4,3.0642641379310347,NA,family_mean,Syngnathidae,accepted,Syngnathidae,Family,NA,NA,NA,Syngnathidae,NA,26.06,5.0.3
+Anarhichas lupus,126758,606,431,0.0078,3.0468,TL,TL_direct,Anarhichas lupus,accepted,Anarhichas lupus,Species,Anarhichas lupus,WoRMS valid name,Anarhichas,Anarhichadidae,675,26.06,5.0.3
+Argentinidae,125508,592,10,0.0037114285714285713,3.2024357142857145,NA,family_mean,Argentinidae,accepted,Argentinidae,Family,NA,NA,NA,Argentinidae,NA,26.06,5.0.3
+Liparis montagui,127220,580,40,0.0131,3.1228,TL,TL_direct,Liparis montagui,accepted,Liparis montagui,Species,Liparis montagui,WoRMS valid name,Liparis,Liparidae,29,26.06,5.0.3
+Chelidonichthys lucerna,127262,571.03,244,0.00595,3.166,TL,TL_direct,Chelidonichthys lucerna,accepted,Chelidonichthys lucerna,Species,Chelidonichthys lucerna,WoRMS valid name,Chelidonichthys,Triglidae,1235,26.06,5.0.3
+Spinachia spinachia,126508,432.425,23,0.0021,3,TL,TL_direct,Spinachia spinachia,accepted,Spinachia spinachia,Species,Spinachia spinachia,WoRMS valid name,Spinachia,Gasterosteidae,NA,26.06,5.0.3
+Microchirus variegatus,274304,425,117,0.018,2.838,TL,TL_direct,Microchirus variegatus,accepted,Microchirus variegatus,Species,Microchirus variegatus,WoRMS valid name,Microchirus,Soleidae,110,26.06,5.0.3
+Zeus faber,127427,376.5,247,0.0264,2.82,TL,TL_direct,Zeus faber,accepted,Zeus faber,Species,Zeus faber,WoRMS valid name,Zeus,Zeidae,584,26.06,5.0.3
+Brosme brosme,126447,283.5,159,0.00496,3.18,TL,TL_direct,Brosme brosme,accepted,Brosme brosme,Species,Brosme brosme,WoRMS valid name,Brosme,Lotidae,186,26.06,5.0.3
+Raja brachyura,367297,278.20000000000005,69,0.0014,3.376,TL,TL_direct,Raja brachyura,accepted,Raja brachyura,Species,Raja brachyura,WoRMS valid name,Raja,Rajidae,930,26.06,5.0.3
+Mustelus mustelus,105822,274,83,0.003,3.0269,TL,TL_direct,Mustelus mustelus,accepted,Mustelus mustelus,Species,Mustelus mustelus,WoRMS valid name,Mustelus,Triakidae,208,26.06,5.0.3
+Pomatoschistus norvegicus,126929,256,1,0.00853,2.919,TL,TL_direct,Pomatoschistus norvegicus,accepted,Pomatoschistus norvegicus,Species,Pomatoschistus norvegicus,WoRMS valid name,Pomatoschistus,Gobiidae,153,26.06,5.0.3
+Lycenchelys sarsii,127101,249,77,0.0043,2.666,TL,TL_direct,Lycenchelys sarsii,accepted,Lycenchelys sarsii,Species,Lycenchelys sarsii,WoRMS valid name,Lycenchelys,Zoarcidae,80,26.06,5.0.3
+Mustelus,105732,219,20,0.002544848484848485,3.1098181818181816,NA,genus_mean,Mustelus,accepted,Mustelus,Genus,NA,NA,Mustelus,Triakidae,NA,26.06,5.0.3
+Zeugopterus punctatus,127151,208.77499999999998,70,0.0139,3.146,TL,TL_direct,Zeugopterus punctatus,accepted,Zeugopterus punctatus,Species,Zeugopterus punctatus,WoRMS valid name,Zeugopterus,Scophthalmidae,28,26.06,5.0.3
+Callionymidae,125522,206.285,37,0.023111562500000002,2.642653125,NA,family_mean,Callionymidae,accepted,Callionymidae,Family,NA,NA,NA,Callionymidae,NA,26.06,5.0.3
+Lesueurigobius friesii,126904,184.5,54,0.04061,2.1457,TL,TL_direct,Lesueurigobius friesii,accepted,Lesueurigobius friesii,Species,Lesueurigobius friesii,WoRMS valid name,Lesueurigobius,Gobiidae,2856,26.06,5.0.3
+Hippoglossus hippoglossus,127138,155,143,0.0026,3.3322,TL,TL_direct,Hippoglossus hippoglossus,accepted,Hippoglossus hippoglossus,Species,Hippoglossus hippoglossus,WoRMS valid name,Hippoglossus,Pleuronectidae,120,26.06,5.0.3
+Chimaera monstrosa,105824,148,40,0.078,2.9566,TL,TL_direct,Chimaera monstrosa,accepted,Chimaera monstrosa,Species,Chimaera monstrosa,WoRMS valid name,Chimaera,Chimaeridae,310,26.06,5.0.3
+Mullus barbatus,126985,145.84799999999996,17,0.0082,3.09,TL,TL_direct,Mullus barbatus,accepted,Mullus barbatus,Species,Mullus barbatus,WoRMS valid name,Mullus,Mullidae,18932,26.06,5.0.3
+Ciliata septentrionalis,126449,129.5,52,0.0089,3.1310000000000002,SL,SL_needs_conversion,Ciliata septentrionalis,accepted,Ciliata septentrionalis,Species,Ciliata septentrionalis,WoRMS valid name,Ciliata,Gaidropsaridae,204,26.06,5.0.3
+Chelidonichthys lastoviza,127261,117,30,0.0134,2.973,TL,TL_direct,Chelidonichthys lastoviza,accepted,Chelidonichthys lastoviza,Species,Chelidonichthys lastoviza,WoRMS valid name,Chelidonichthys,Triglidae,702,26.06,5.0.3
+Alosa alosa,126413,113.5,24,0.00612,3.454,TL,TL_direct,Alosa alosa,accepted,Alosa alosa,Species,Alosa alosa,WoRMS valid name,Alosa,Alosidae,799,26.06,5.0.3
+Sebastes norvegicus,151324,92,5,0.0071,3.18,TL,TL_direct,Sebastes norvegicus,accepted,Sebastes norvegicus,Species,Sebastes norvegicus,WoRMS valid name,Sebastes,Sebastidae,11,26.06,5.0.3
+Liparis,126160,88,4,0.0184,3.0614,NA,genus_mean,Liparis,accepted,Liparis,Genus,NA,NA,Liparis,Liparidae,NA,26.06,5.0.3
+Gobius,125988,83,16,0.010132916666666667,3.1019625,NA,genus_mean,Gobius,accepted,Gobius,Genus,NA,NA,Gobius,Gobiidae,NA,26.06,5.0.3
+Pomatoschistus pictus,126930,77,9,0.00735,3.02,TL,TL_direct,Pomatoschistus pictus,accepted,Pomatoschistus pictus,Species,Pomatoschistus pictus,WoRMS valid name,Pomatoschistus,Gobiidae,34,26.06,5.0.3
+Hyperoplus,125911,75,6,0.00559,2.823925,NA,genus_mean,Hyperoplus,accepted,Hyperoplus,Genus,NA,NA,Hyperoplus,Ammodytidae,NA,26.06,5.0.3
+Squalidae,105716,71,22,0.003966578947368421,3.071063157894737,NA,family_mean,Squalidae,accepted,Squalidae,Family,NA,NA,NA,Squalidae,NA,26.06,5.0.3
+Gobius niger,126892,65,27,0.0065,3.21,TL,TL_direct,Gobius niger,accepted,Gobius niger,Species,Gobius niger,WoRMS valid name,Gobius,Gobiidae,618,26.06,5.0.3
+Anguilla anguilla,126281,64,60,0.0011,3.13,TL,TL_direct,Anguilla anguilla,accepted,Anguilla anguilla,Species,Anguilla anguilla,WoRMS valid name,Anguilla,Anguillidae,17586,26.06,5.0.3
+Soleidae,125581,61,13,0.009002985074626865,3.0810895522388058,NA,family_mean,Soleidae,accepted,Soleidae,Family,NA,NA,NA,Soleidae,NA,26.06,5.0.3
+Pomatoschistus microps,126927,59,10,0.0075,3.18,TL,TL_direct,Pomatoschistus microps,accepted,Pomatoschistus microps,Species,Pomatoschistus microps,WoRMS valid name,Pomatoschistus,Gobiidae,NA,26.06,5.0.3
+Dipturus batis,105869,56,40,0.0074,2.9532,TL,TL_direct,Dipturus batis,accepted,Dipturus batis,Species,Dipturus batis,WoRMS valid name,Dipturus,Rajidae,37,26.06,5.0.3
+Crystallogobius linearis,126878,54,22,0.008554590163934426,3.135711475409836,NA,family_mean,Crystallogobius linearis,accepted,Crystallogobius linearis,Species,Crystallogobius linearis,WoRMS valid name,Crystallogobius,Gobiidae,NA,26.06,5.0.3
+Syngnathus,126227,53,11,3.047619047619048e-4,3.2241885714285714,NA,genus_mean,Syngnathus,accepted,Syngnathus,Genus,NA,NA,Syngnathus,Syngnathidae,NA,26.06,5.0.3
+Alosa agone,416357,52,22,0.0122,2.93,TL,TL_direct,Alosa agone,accepted,Alosa agone,Species,Alosa agone,WoRMS valid name,Alosa,Alosidae,44,26.06,5.0.3
+Capros aper,127419,45,37,0.0246,2.8909000000000002,TL,TL_direct,Capros aper,accepted,Capros aper,Species,Capros aper,WoRMS valid name,Capros,Caproidae,935,26.06,5.0.3
+Raja,105766,43,18,0.0025503125,3.2860015625,NA,genus_mean,Raja,accepted,Raja,Genus,NA,NA,Raja,Rajidae,NA,26.06,5.0.3
+Buglossidium,126127,39,13,0.010125333333333333,3.04652,NA,genus_mean,Buglossidium,accepted,Buglossidium,Genus,NA,NA,Buglossidium,Soleidae,NA,26.06,5.0.3
+Petromyzon marinus,101174,33,32,0.00208,3,TL,TL_direct,Petromyzon marinus,accepted,Petromyzon marinus,Species,Petromyzon marinus,WoRMS valid name,Petromyzon,Petromyzontidae,NA,26.06,5.0.3
+Ctenolabrus rupestris,126964,33,26,0.0123,3,TL,TL_direct,Ctenolabrus rupestris,accepted,Ctenolabrus rupestris,Species,Ctenolabrus rupestris,WoRMS valid name,Ctenolabrus,Labridae,NA,26.06,5.0.3
+Leucoraja fullonica,105874,31,25,0.0065,3.13,TL,TL_direct,Leucoraja fullonica,accepted,Leucoraja fullonica,Species,Leucoraja fullonica,WoRMS valid name,Leucoraja,Rajidae,11,26.06,5.0.3
+Triglops murrayi,127205,29,19,0.0088,3,TL,TL_direct,Triglops murrayi,accepted,Triglops murrayi,Species,Triglops murrayi,WoRMS valid name,Triglops,Cottidae,3,26.06,5.0.3
+Nerophis ophidion,127385,27,17,2e-4,2.749,TL,TL_direct,Nerophis ophidion,accepted,Nerophis ophidion,Species,Nerophis ophidion,WoRMS valid name,Nerophis,Syngnathidae,177,26.06,5.0.3
+Galeorhinus galeus,105820,25,21,0.0188,2.6671,TL,TL_direct,Galeorhinus galeus,accepted,Galeorhinus galeus,Species,Galeorhinus galeus,WoRMS valid name,Galeorhinus,Triakidae,510,26.06,5.0.3
+Lophius budegassa,126554,24.857,18,0.046,2.7039999999999997,TL,TL_direct,Lophius budegassa,accepted,Lophius budegassa,Species,Lophius budegassa,WoRMS valid name,Lophius,Lophiidae,489,26.06,5.0.3
+Phycis blennoides,126501,24,18,0.0048,3.1335,TL,TL_direct,Phycis blennoides,accepted,Phycis blennoides,Species,Phycis blennoides,WoRMS valid name,Phycis,Phycidae,1889,26.06,5.0.3
+Syngnathus typhle,127393,24,20,2e-4,3.196,TL,TL_direct,Syngnathus typhle,accepted,Syngnathus typhle,Species,Syngnathus typhle,WoRMS valid name,Syngnathus,Syngnathidae,375,26.06,5.0.3
+Gadiculus,125731,23.5,1,0.008309166666666666,3.1024833333333333,NA,genus_mean,Gadiculus,accepted,Gadiculus,Genus,NA,NA,Gadiculus,Gadidae,NA,26.06,5.0.3
+Etmopterus spinax,105913,21,9,0.004,3.0076,TL,TL_direct,Etmopterus spinax,accepted,Etmopterus spinax,Species,Etmopterus spinax,WoRMS valid name,Etmopterus,Etmopteridae,1174,26.06,5.0.3
+Raniceps raninus,126442,20,17,0.0062,3.267,TL,TL_direct,Raniceps raninus,accepted,Raniceps raninus,Species,Raniceps raninus,WoRMS valid name,Raniceps,Ranicipitidae,21,26.06,5.0.3
+Gymnammodytes semisquamatus,126754,20,6,6e-4,3.476,NA,type_unknown,Gymnammodytes semisquamatus,accepted,Gymnammodytes semisquamatus,Species,Gymnammodytes semisquamatus,WoRMS valid name,Gymnammodytes,Ammodytidae,23,26.06,5.0.3
+Brama brama,126783,19,14,0.00511,3.185,TL,TL_direct,Brama brama,accepted,Brama brama,Species,Brama brama,WoRMS valid name,Brama,Bramidae,215,26.06,5.0.3
+Dipturus intermedius,711846,18,13,0.0074,2.9532,NA,genus_mean,Dipturus intermedius,accepted,Dipturus intermedius,Species,Dipturus intermedius,WoRMS valid name,Dipturus,Rajidae,NA,26.06,5.0.3
+Rajidae,105711,16.5,6,0.004864634146341464,3.2415646341463416,NA,family_mean,Rajidae,accepted,Rajidae,Family,NA,NA,NA,Rajidae,NA,26.06,5.0.3
+Salmo trutta,127187,16.335,11,0.01127,2.96,TL,TL_direct,Salmo trutta,accepted,Salmo trutta,Species,Salmo trutta,WoRMS valid name,Salmo,Salmonidae,1003,26.06,5.0.3
+Echiodon drummondii,126663,16,8,5.9e-4,3,TL,TL_direct,Echiodon drummondii,accepted,Echiodon drummondii,Species,Echiodon drummondii,WoRMS valid name,Echiodon,Carapidae,1,26.06,5.0.3
+Bothidae,125576,14,5,0.007112903225806452,3.0833451612903224,NA,family_mean,Bothidae,accepted,Bothidae,Family,NA,NA,NA,Bothidae,NA,26.06,5.0.3
+Scyliorhinus stellaris,105815,12.9,9,0.002,3.167,TL,TL_direct,Scyliorhinus stellaris,accepted,Scyliorhinus stellaris,Species,Scyliorhinus stellaris,WoRMS valid name,Scyliorhinus,Scyliorhinidae,250,26.06,5.0.3
+Micrenophrys lilljeborgii,127201,12,10,0.0134975,3.100016666666667,NA,family_mean,Micrenophrys lilljeborgii,accepted,Micrenophrys lilljeborgii,Species,Micrenophrys lilljeborgii,WoRMS valid name,Micrenophrys,Cottidae,NA,26.06,5.0.3
+Labrus bergylta,126965,11,7,0.0119,3.115,TL,TL_direct,Labrus bergylta,accepted,Labrus bergylta,Species,Labrus bergylta,WoRMS valid name,Labrus,Labridae,67,26.06,5.0.3
+Arnoglossus,126109,11,6,0.007112903225806452,3.0833451612903224,NA,genus_mean,Arnoglossus,accepted,Arnoglossus,Genus,NA,NA,Arnoglossus,Bothidae,NA,26.06,5.0.3
+Diplecogaster bimaculata,126513,10.5,5,0.01413,2.737,TL,TL_direct,Diplecogaster bimaculata,accepted,Diplecogaster bimaculata,Species,Diplecogaster bimaculata,WoRMS valid name,Diplecogaster,Gobiesocidae,12,26.06,5.0.3
+Lycodes gracilis,274100,10,2,0.00355,3,SL,SL_needs_conversion,Lycodes gracilis,accepted,Lycodes gracilis,Species,Lycodes gracilis,WoRMS valid name,Lycodes,Zoarcidae,3,26.06,5.0.3
+Dipturus flossada,711847,10,4,0.0074,2.9532,NA,genus_mean,Dipturus flossada,taxon inquirendum,Dipturus flossada,Species,NA,NA,Dipturus,Rajidae,NA,26.06,5.0.3
+Raja undulata,105891,9,8,0.00415,3.124,TL,TL_direct,Raja undulata,accepted,Raja undulata,Species,Raja undulata,WoRMS valid name,Raja,Rajidae,439,26.06,5.0.3
+Blennius ocellaris,126761,9,6,0.0167,2.9699999999999998,TL,TL_direct,Blennius ocellaris,accepted,Blennius ocellaris,Species,Blennius ocellaris,WoRMS valid name,Blennius,Blenniidae,204,26.06,5.0.3
+Symphodus melops,273571,9,6,0.0049,3.22,TL,TL_direct,Symphodus melops,accepted,Symphodus melops,Species,Symphodus melops,WoRMS valid name,Symphodus,Labridae,107,26.06,5.0.3
+Leucoraja circularis,105873,8,6,0.0039,3.08,TL,TL_direct,Leucoraja circularis,accepted,Leucoraja circularis,Species,Leucoraja circularis,WoRMS valid name,Leucoraja,Rajidae,6,26.06,5.0.3
+Conger conger,126285,8,8,6e-4,3.016,TL,TL_direct,Conger conger,accepted,Conger conger,Species,Conger conger,WoRMS valid name,Conger,Congridae,452,26.06,5.0.3
+Leptoclinus maculatus,127072,8,7,0.00115,3.37,TL,TL_direct,Leptoclinus maculatus,accepted,Leptoclinus maculatus,Species,Leptoclinus maculatus,WoRMS valid name,Leptoclinus,Lumpenidae,97,26.06,5.0.3
+Gaidropsarus mediterraneus,126457,7,5,0.00401,3.078,TL,TL_direct,Gaidropsarus mediterraneus,accepted,Gaidropsarus mediterraneus,Species,Gaidropsarus mediterraneus,WoRMS valid name,Gaidropsarus,Gaidropsaridae,266,26.06,5.0.3
+Lesueurigobius,125992,7,4,0.01565333333333333,2.7796777777777777,NA,genus_mean,Lesueurigobius,accepted,Lesueurigobius,Genus,NA,NA,Lesueurigobius,Gobiidae,NA,26.06,5.0.3
+Arnoglossus imperialis,127124,6,5,0.0083,3.024,TL,TL_direct,Arnoglossus imperialis,accepted,Arnoglossus imperialis,Species,Arnoglossus imperialis,WoRMS valid name,Arnoglossus,Bothidae,63,26.06,5.0.3
+Belone belone,126375,5,5,0.008,3.09,TL,TL_direct,Belone belone,accepted,Belone belone,Species,Belone belone,WoRMS valid name,Belone,Belonidae,647,26.06,5.0.3
+Callionymus,125930,5,3,0.023111562500000002,2.642653125,NA,genus_mean,Callionymus,accepted,Callionymus,Genus,NA,NA,Callionymus,Callionymidae,NA,26.06,5.0.3
+Microchirus,126129,5,2,0.01062090909090909,3.082018181818182,NA,genus_mean,Microchirus,accepted,Microchirus,Genus,NA,NA,Microchirus,Soleidae,NA,26.06,5.0.3
+Lampetra fluviatilis,101172,4,4,5e-4,3.3567,TL,TL_direct,Lampetra fluviatilis,accepted,Lampetra fluviatilis,Species,Lampetra fluviatilis,WoRMS valid name,Lampetra,Petromyzontidae,178,26.06,5.0.3
+Pagellus erythrinus,127060,4,3,0.0105,3.0583,TL,TL_direct,Pagellus erythrinus,accepted,Pagellus erythrinus,Species,Pagellus erythrinus,WoRMS valid name,Pagellus,Sparidae,2480,26.06,5.0.3
+Pegusa lascaris,127156,4,2,0.005,3.187,TL,TL_direct,Pegusa lascaris,accepted,Pegusa lascaris,Species,Pegusa lascaris,WoRMS valid name,Pegusa,Soleidae,380,26.06,5.0.3
+Ostrea edulis,140658,4,1,NA,NA,NA,MISSING,Ostrea edulis,accepted,Ostrea edulis,Species,NA,NA,Ostrea,Ostreidae,NA,26.06,5.0.3
+Labrus mixtus,151501,4,4,0.0048,3.318,TL,TL_direct,Labrus mixtus,accepted,Labrus mixtus,Species,Labrus mixtus,WoRMS valid name,Labrus,Labridae,80,26.06,5.0.3
+Coryphaenoides rupestris,158960,4,4,0.00164,3,SL,SL_needs_conversion,Coryphaenoides rupestris,accepted,Coryphaenoides rupestris,Species,Coryphaenoides rupestris,WoRMS valid name,Coryphaenoides,Macrouridae,3,26.06,5.0.3
+Zeidae,125617,4,3,0.025594666666666665,2.8945666666666665,NA,family_mean,Zeidae,accepted,Zeidae,Family,NA,NA,NA,Zeidae,NA,26.06,5.0.3
+Gaidropsarus,125743,4,2,0.007340909090909091,3.016409090909091,NA,genus_mean,Gaidropsarus,accepted,Gaidropsarus,Genus,NA,NA,Gaidropsarus,Gaidropsaridae,NA,26.06,5.0.3
+Chirolophis ascanii,127071,3,3,0.004566666666666667,3.141,NA,genus_mean_fishbase,Chirolophis ascanii,accepted,Chirolophis ascanii,Species,Chirolophis ascanii,WoRMS valid name,Chirolophis,Stichaeidae,NA,26.06,5.0.3
+Caproidae,125613,3,1,0.032844285714285715,2.780685714285714,NA,family_mean,Caproidae,accepted,Caproidae,Family,NA,NA,NA,Caproidae,NA,26.06,5.0.3
+Raja microocellata,105885,2,2,0.00494,3.117,TL,TL_direct,Raja microocellata,accepted,Raja microocellata,Species,Raja microocellata,WoRMS valid name,Raja,Rajidae,97,26.06,5.0.3
+Somniosus microcephalus,105919,2,2,0.00442,3.1346,TL,TL_direct,Somniosus microcephalus,accepted,Somniosus microcephalus,Species,Somniosus microcephalus,WoRMS valid name,Somniosus,Somniosidae,40,26.06,5.0.3
+Lepadogaster lepadogaster,126518,2,1,0.0088,3.262,TL,TL_direct,Lepadogaster lepadogaster,accepted,Lepadogaster lepadogaster,Species,Lepadogaster lepadogaster,WoRMS valid name,Lepadogaster,Gobiesocidae,78,26.06,5.0.3
+Trachipterus arcticus,126527,2,2,0.00183,3,TL,TL_direct,Trachipterus arcticus,accepted,Trachipterus arcticus,Species,Trachipterus arcticus,WoRMS valid name,Trachipterus,Trachipteridae,1,26.06,5.0.3
+Salmo salar,127186,2,2,0.01072,2.99163,TL,TL_direct,Salmo salar,accepted,Salmo salar,Species,Salmo salar,WoRMS valid name,Salmo,Salmonidae,NA,26.06,5.0.3
+Bathyraja brachyurops,271509,2,2,0.002,3.303,TL,TL_direct,Bathyraja brachyurops,accepted,Bathyraja brachyurops,Species,Bathyraja brachyurops,WoRMS valid name,Bathyraja,Arhynchobatidae,45,26.06,5.0.3
+Sparidae,125564,2,1,0.017327362637362637,2.9893098901098902,NA,family_mean,Sparidae,accepted,Sparidae,Family,NA,NA,NA,Sparidae,NA,26.06,5.0.3
+Stichaeidae,125566,2,1,0.017311111111111114,3.0256055555555554,NA,family_mean_fishbase,Stichaeidae,accepted,Stichaeidae,Family,NA,NA,NA,Stichaeidae,NA,26.06,5.0.3
+Zeugopterus,126125,2,1,0.0139,3.146,NA,genus_mean,Zeugopterus,accepted,Zeugopterus,Genus,NA,NA,Zeugopterus,Scophthalmidae,NA,26.06,5.0.3
+Triglops,126154,2,2,0.0088,3,NA,genus_mean,Triglops,accepted,Triglops,Genus,NA,NA,Triglops,Cottidae,NA,26.06,5.0.3
+Scomberesox saurus,126392,1,1,0.0015,3.193,TL,TL_direct,Scomberesox saurus,accepted,Scomberesox saurus,Species,Scomberesox saurus,WoRMS valid name,Scomberesox,Scomberesocidae,22,26.06,5.0.3
+Gaidropsarus macrophthalmus,126456,1,1,0.00634,2.95,TL,TL_direct,Gaidropsarus macrophthalmus,accepted,Gaidropsarus macrophthalmus,Species,Gaidropsarus macrophthalmus,WoRMS valid name,Gaidropsarus,Gaidropsaridae,30,26.06,5.0.3
+Molva dypterygia,126459,1,1,0.00191,3.149,TL,TL_direct,Molva dypterygia,accepted,Molva dypterygia,Species,Molva dypterygia,WoRMS valid name,Molva,Lotidae,280,26.06,5.0.3
+Parablennius gattorugine,126770,1,1,0.0115,3,TL,TL_direct,Parablennius gattorugine,accepted,Parablennius gattorugine,Species,Parablennius gattorugine,WoRMS valid name,Parablennius,Blenniidae,20,26.06,5.0.3
+Gobius cobitis,126886,1,1,0.0113,3.128,TL,TL_direct,Gobius cobitis,accepted,Gobius cobitis,Species,Gobius cobitis,WoRMS valid name,Gobius,Gobiidae,526,26.06,5.0.3
+Centrolabrus exoletus,126961,1,1,0.00646,3.15,TL,TL_direct,Centrolabrus exoletus,accepted,Centrolabrus exoletus,Species,Centrolabrus exoletus,WoRMS valid name,Centrolabrus,Labridae,30,26.06,5.0.3
+Labrus merula,126967,1,1,0.0109,3.12,TL,TL_direct,Labrus merula,accepted,Labrus merula,Species,Labrus merula,WoRMS valid name,Labrus,Labridae,133,26.06,5.0.3
+Thunnus thynnus,127029,1,1,0.02,2.96,TL,TL_direct,Thunnus thynnus,accepted,Thunnus thynnus,Species,Thunnus thynnus,WoRMS valid name,Thunnus,Scombridae,534,26.06,5.0.3
+Leptagonus decagonus,127191,1,1,0.00349,3,TL,TL_direct,Leptagonus decagonus,accepted,Leptagonus decagonus,Species,Leptagonus decagonus,WoRMS valid name,Leptagonus,Agonidae,1,26.06,5.0.3
+Artediellus atlanticus,127193,1,1,0.0763,2.1066,NG,other_review,Artediellus atlanticus,accepted,Artediellus atlanticus,Species,Artediellus atlanticus,WoRMS valid name,Artediellus,Cottidae,32,26.06,5.0.3
+Macroramphosus scolopax,127378,1,1,0.0078,2.908,TL,TL_direct,Macroramphosus scolopax,accepted,Macroramphosus scolopax,Species,Macroramphosus scolopax,WoRMS valid name,Macroramphosus,Centriscidae,1218,26.06,5.0.3
+Nerophis lumbriciformis,127383,1,1,4.2e-4,3,TL,TL_direct,Nerophis lumbriciformis,accepted,Nerophis lumbriciformis,Species,Nerophis lumbriciformis,WoRMS valid name,Nerophis,Syngnathidae,NA,26.06,5.0.3
+Sparus aurata,151523,1,1,0.0132,3.0224,TL,TL_direct,Sparus aurata,accepted,Sparus aurata,Species,Sparus aurata,WoRMS valid name,Sparus,Sparidae,688,26.06,5.0.3
+Zeugopterus regius,236488,1,1,0.0139,3.146,NA,genus_mean,Zeugopterus regius,accepted,Zeugopterus regius,Species,Zeugopterus regius,WoRMS valid name,Zeugopterus,Scophthalmidae,NA,26.06,5.0.3
+Leucoraja lentiginosa,271564,1,1,0.0035954545454545453,3.174981818181818,NA,genus_mean,Leucoraja lentiginosa,accepted,Leucoraja lentiginosa,Species,Leucoraja lentiginosa,WoRMS valid name,Leucoraja,Rajidae,NA,26.06,5.0.3
+Coelorinchus caelorhincus,398381,1,1,0.0032,3.008,TL,TL_direct,Coelorinchus caelorhincus,accepted,Coelorinchus caelorhincus,Species,Coelorinchus caelorhincus,WoRMS valid name,Coelorinchus,Macrouridae,411,26.06,5.0.3
+Chelon ramada,1042830,1,1,0.0173,2.7687,TL,TL_direct,Chelon ramada,accepted,Chelon ramada,Species,Chelon ramada,WoRMS valid name,Chelon,Mugilidae,1920,26.06,5.0.3
+Chelon auratus,1044127,1,1,0.00735,3.185,TL,TL_direct,Chelon auratus,accepted,Chelon auratus,Species,Chelon auratus,WoRMS valid name,Chelon,Mugilidae,2955,26.06,5.0.3
+Phycidae,125475,1,1,0.0044278947368421055,3.2247842105263156,NA,family_mean,Phycidae,accepted,Phycidae,Family,NA,NA,NA,Phycidae,NA,26.06,5.0.3
+Gobiesocidae,125477,1,1,0.015333333333333334,2.9996666666666667,NA,family_mean,Gobiesocidae,accepted,Gobiesocidae,Family,NA,NA,NA,Gobiesocidae,NA,26.06,5.0.3
+Blenniidae,125519,1,1,0.01672764705882353,2.9594529411764707,NA,family_mean,Blenniidae,accepted,Blenniidae,Family,NA,NA,NA,Blenniidae,NA,26.06,5.0.3
+Mugilidae,125546,1,1,0.013269130434782608,2.917941304347826,NA,family_mean,Mugilidae,accepted,Mugilidae,Family,NA,NA,NA,Mugilidae,NA,26.06,5.0.3
+Zoarcidae,125575,1,1,0.00871,2.9382625,NA,family_mean,Zoarcidae,accepted,Zoarcidae,Family,NA,NA,NA,Zoarcidae,NA,26.06,5.0.3
+Anguilla,125620,1,1,0.0021028358208955225,3.0951059701492536,NA,genus_mean,Anguilla,accepted,Anguilla,Genus,NA,NA,Anguilla,Anguillidae,NA,26.06,5.0.3
+Alosa,125715,1,1,0.0123965,3.0416575,NA,genus_mean,Alosa,accepted,Alosa,Genus,NA,NA,Alosa,Alosidae,NA,26.06,5.0.3
+Lepadogaster,125781,1,1,0.015935,3.1310000000000002,NA,genus_mean,Lepadogaster,accepted,Lepadogaster,Genus,NA,NA,Lepadogaster,Gobiesocidae,NA,26.06,5.0.3
+Todarodes,138281,1,1,NA,NA,NA,MISSING,Todarodes,accepted,Todarodes,Genus,NA,NA,Todarodes,Ommastrephidae,NA,26.06,5.0.3

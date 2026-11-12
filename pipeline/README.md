@@ -151,3 +151,25 @@ ICES DATRAS IBTS index calculation procedure
 (https://www.ices.dk/data/Documents/DATRAS/Indices_Calculation_Steps_IBTS.pdf; non-C × 60/HaulDuration);
 FishGlob `cleaning_codes/get_datras.R` (Maureaud et al. 2024,
 *Scientific Data* 11, 24). Details: `../CLAUDE.md` (Key scientific conventions).
+
+## Tests
+
+Run the whole suite from the repo root (needs `testthat`; about 2.5 minutes):
+
+```bash
+Rscript pipeline/tests/run_all.R                     # fast tests
+EEOS_SLOW_TESTS=1 Rscript pipeline/tests/run_all.R   # + slow tests (raw ICES CSV checks, solver check on all hauls)
+```
+
+- **Layout.** Tests live in `pipeline/tests/testthat/`: input contracts (`test-contracts-*.R`), hand-computed
+  units (`test-units-hand.R`), the EEoS solver incl. the 42-community golden test (`test-eeos-solver.R`),
+  pipeline integrity and provenance (`test-integrity.R`) and metamorphic checks (`test-metamorphic.R`).
+- **Inputs.** The suite needs the committed `outputs/`, plus the local FishGlob RData and `equation_of_state/`.
+  Tests skip cleanly when an input is missing.
+- **Expected failures.** Tests tagged `[F-..]` encode findings in `audit/findings.md` and fail until those
+  findings are fixed. `run_all.R` lists any untagged failure separately as a regression. It exits with status 1
+  if anything fails.
+- **Mutation testing:** `Rscript audit/scripts/mutation_test.R` (`audit/mutation_report.md`).
+- **Dependency graph:** `Rscript --vanilla audit/scripts/build_dependency_graph.R` →
+  `audit/dependency_graph.md` / `.csv`.
+

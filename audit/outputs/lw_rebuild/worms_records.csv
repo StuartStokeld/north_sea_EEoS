@@ -1,0 +1,213 @@
+AphiaID,scientificname,rank,status,valid_AphiaID,valid_name,genus,family,class,source
+126417,Clupea harengus,Species,accepted,126417,Clupea harengus,Clupea,Clupeidae,Teleostei,WoRMS REST
+126425,Sprattus sprattus,Species,accepted,126425,Sprattus sprattus,Sprattus,Clupeidae,Teleostei,WoRMS REST
+126444,Trisopterus esmarkii,Species,accepted,126444,Trisopterus esmarkii,Trisopterus,Gadidae,Teleostei,WoRMS REST
+126438,Merlangius merlangus,Species,accepted,126438,Merlangius merlangus,Merlangius,Gadidae,Teleostei,WoRMS REST
+126437,Melanogrammus aeglefinus,Species,accepted,126437,Melanogrammus aeglefinus,Melanogrammus,Gadidae,Teleostei,WoRMS REST
+127139,Limanda limanda,Species,accepted,127139,Limanda limanda,Limanda,Pleuronectidae,Teleostei,WoRMS REST
+150637,Eutrigla gurnardus,Species,accepted,150637,Eutrigla gurnardus,Eutrigla,Triglidae,Teleostei,WoRMS REST
+127137,Hippoglossoides platessoides,Species,accepted,127137,Hippoglossoides platessoides,Hippoglossoides,Pleuronectidae,Teleostei,WoRMS REST
+127023,Scomber scombrus,Species,accepted,127023,Scomber scombrus,Scomber,Scombridae,Teleostei,WoRMS REST
+127143,Pleuronectes platessa,Species,accepted,127143,Pleuronectes platessa,Pleuronectes,Pleuronectidae,Teleostei,WoRMS REST
+126436,Gadus morhua,Species,accepted,126436,Gadus morhua,Gadus,Gadidae,Teleostei,WoRMS REST
+126446,Trisopterus minutus,Species,accepted,126446,Trisopterus minutus,Trisopterus,Gadidae,Teleostei,WoRMS REST
+126868,Aphia minuta,Species,accepted,126868,Aphia minuta,Aphia,Gobiidae,Teleostei,WoRMS REST
+126822,Trachurus trachurus,Species,accepted,126822,Trachurus trachurus,Trachurus,Carangidae,Teleostei,WoRMS REST
+126441,Pollachius virens,Species,accepted,126441,Pollachius virens,Pollachius,Gadidae,Teleostei,WoRMS REST
+126716,Argentina sphyraena,Species,accepted,126716,Argentina sphyraena,Argentina,Argentinidae,Teleostei,WoRMS REST
+127387,Syngnathus acus,Species,accepted,127387,Syngnathus acus,Syngnathus,Syngnathidae,Teleostei,WoRMS REST
+126426,Engraulis encrasicolus,Species,accepted,126426,Engraulis encrasicolus,Engraulis,Engraulidae,Teleostei,WoRMS REST
+127140,Microstomus kitt,Species,accepted,127140,Microstomus kitt,Microstomus,Pleuronectidae,Teleostei,WoRMS REST
+127141,Platichthys flesus,Species,accepted,127141,Platichthys flesus,Platichthys,Pleuronectidae,Teleostei,WoRMS REST
+126751,Ammodytes marinus,Species,accepted,126751,Ammodytes marinus,Ammodytes,Ammodytidae,Teleostei,WoRMS REST
+127153,Buglossidium luteum,Species,accepted,127153,Buglossidium luteum,Buglossidium,Soleidae,Teleostei,WoRMS REST
+125909,Ammodytes,Genus,accepted,125909,Ammodytes,Ammodytes,Ammodytidae,Teleostei,WoRMS REST
+150630,Echiichthys vipera,Species,accepted,150630,Echiichthys vipera,Echiichthys,Trachinidae,Teleostei,WoRMS REST
+127190,Agonus cataphractus,Species,accepted,127190,Agonus cataphractus,Agonus,Agonidae,Teleostei,WoRMS REST
+126752,Ammodytes tobianus,Species,accepted,126752,Ammodytes tobianus,Ammodytes,Ammodytidae,Teleostei,WoRMS REST
+126792,Callionymus lyra,Species,accepted,126792,Callionymus lyra,Callionymus,Callionymidae,Teleostei,WoRMS REST
+126793,Callionymus maculatus,Species,accepted,126793,Callionymus maculatus,Callionymus,Callionymidae,Teleostei,WoRMS REST
+127126,Arnoglossus laterna,Species,accepted,127126,Arnoglossus laterna,Arnoglossus,Bothidae,Teleostei,WoRMS REST
+126450,Enchelyopus cimbrius,Species,accepted,126450,Enchelyopus cimbrius,Enchelyopus,Lotidae,Teleostei,WoRMS REST
+125537,Gobiidae,Family,accepted,125537,Gobiidae,NA,Gobiidae,Teleostei,WoRMS REST
+105865,Amblyraja radiata,Species,accepted,105865,Amblyraja radiata,Amblyraja,Rajidae,Elasmobranchii,WoRMS REST
+126421,Sardina pilchardus,Species,accepted,126421,Sardina pilchardus,Sardina,Alosidae,Teleostei,WoRMS REST
+125999,Pomatoschistus,Genus,accepted,125999,Pomatoschistus,Pomatoschistus,Gobiidae,Teleostei,WoRMS REST
+126484,Merluccius merluccius,Species,accepted,126484,Merluccius merluccius,Merluccius,Merlucciidae,Teleostei,WoRMS REST
+126439,Micromesistius poutassou,Species,accepted,126439,Micromesistius poutassou,Micromesistius,Gadidae,Teleostei,WoRMS REST
+126435,Gadiculus argenteus,Species,accepted,126435,Gadiculus argenteus,Gadiculus,Gadidae,Teleostei,WoRMS REST
+125516,Ammodytidae,Family,accepted,125516,Ammodytidae,NA,Ammodytidae,Teleostei,WoRMS REST
+126445,Trisopterus luscus,Species,accepted,126445,Trisopterus luscus,Trisopterus,Gadidae,Teleostei,WoRMS REST
+105814,Scyliorhinus canicula,Species,accepted,105814,Scyliorhinus canicula,Scyliorhinus,Scyliorhinidae,Elasmobranchii,WoRMS REST
+126505,Gasterosteus aculeatus,Species,accepted,126505,Gasterosteus aculeatus,Gasterosteus,Gasterosteidae,Teleostei,WoRMS REST
+127312,Maurolicus muelleri,Species,accepted,127312,Maurolicus muelleri,Maurolicus,Sternoptychidae,Teleostei,WoRMS REST
+127203,Myoxocephalus scorpius,Species,accepted,127203,Myoxocephalus scorpius,Myoxocephalus,Cottidae,Teleostei,WoRMS REST
+127136,Glyptocephalus cynoglossus,Species,accepted,127136,Glyptocephalus cynoglossus,Glyptocephalus,Pleuronectidae,Teleostei,WoRMS REST
+126756,Hyperoplus lanceolatus,Species,accepted,126756,Hyperoplus lanceolatus,Hyperoplus,Ammodytidae,Teleostei,WoRMS REST
+154675,Lumpenus lampretaeformis,Species,accepted,154675,Lumpenus lampretaeformis,Lumpenus,Lumpenidae,Teleostei,WoRMS REST
+126715,Argentina silus,Species,accepted,126715,Argentina silus,Argentina,Argentinidae,Teleostei,WoRMS REST
+127082,Trachinus draco,Species,accepted,127082,Trachinus draco,Trachinus,Trachinidae,Teleostei,WoRMS REST
+127259,Chelidonichthys cuculus,Species,accepted,127259,Chelidonichthys cuculus,Chelidonichthys,Triglidae,Teleostei,WoRMS REST
+127118,Lycodes vahlii,Species,accepted,127118,Lycodes vahlii,Lycodes,Zoarcidae,Teleostei,WoRMS REST
+127160,Solea solea,Species,accepted,127160,Solea solea,Solea,Soleidae,Teleostei,WoRMS REST
+101170,Myxine glutinosa,Species,accepted,101170,Myxine glutinosa,Myxine,Myxinidae,Myxini,WoRMS REST
+127379,Entelurus aequoreus,Species,accepted,127379,Entelurus aequoreus,Entelurus,Syngnathidae,Teleostei,WoRMS REST
+105923,Squalus acanthias,Species,accepted,105923,Squalus acanthias,Squalus,Squalidae,Elasmobranchii,WoRMS REST
+105883,Raja clavata,Species,accepted,105883,Raja clavata,Raja,Rajidae,Elasmobranchii,WoRMS REST
+126928,Pomatoschistus minutus,Species,accepted,126928,Pomatoschistus minutus,Pomatoschistus,Gobiidae,Teleostei,WoRMS REST
+126986,Mullus surmuletus,Species,accepted,126986,Mullus surmuletus,Mullus,Mullidae,Teleostei,WoRMS REST
+126755,Hyperoplus immaculatus,Species,accepted,126755,Hyperoplus immaculatus,Hyperoplus,Ammodytidae,Teleostei,WoRMS REST
+127146,Lepidorhombus whiffiagonis,Species,accepted,127146,Lepidorhombus whiffiagonis,Lepidorhombus,Scophthalmidae,Teleostei,WoRMS REST
+127204,Taurulus bubalis,Species,accepted,127204,Taurulus bubalis,Taurulus,Cottidae,Teleostei,WoRMS REST
+126458,Gaidropsarus vulgaris,Species,accepted,126458,Gaidropsarus vulgaris,Gaidropsarus,Gaidropsaridae,Teleostei,WoRMS REST
+126415,Alosa fallax,Species,accepted,126415,Alosa fallax,Alosa,Alosidae,Teleostei,WoRMS REST
+127389,Syngnathus rostellatus,Species,accepted,127389,Syngnathus rostellatus,Syngnathus,Syngnathidae,Teleostei,WoRMS REST
+127214,Cyclopterus lumpus,Species,accepted,127214,Cyclopterus lumpus,Cyclopterus,Cyclopteridae,Teleostei,WoRMS REST
+126555,Lophius piscatorius,Species,accepted,126555,Lophius piscatorius,Lophius,Lophiidae,Teleostei,WoRMS REST
+126925,Pomatoschistus lozanoi,Species,accepted,126925,Pomatoschistus lozanoi,Pomatoschistus,Gobiidae,Teleostei,WoRMS REST
+127219,Liparis liparis,Species,accepted,127219,Liparis liparis,Liparis,Liparidae,Teleostei,WoRMS REST
+272030,Atherina presbyter,Species,accepted,272030,Atherina presbyter,Atherina,Atherinidae,Teleostei,WoRMS REST
+126461,Molva molva,Species,accepted,126461,Molva molva,Molva,Lotidae,Teleostei,WoRMS REST
+125885,Argentina,Genus,accepted,125885,Argentina,Argentina,Argentinidae,Teleostei,WoRMS REST
+105887,Raja montagui,Species,accepted,105887,Raja montagui,Raja,Rajidae,Elasmobranchii,WoRMS REST
+126975,Dicentrarchus labrax,Species,accepted,126975,Dicentrarchus labrax,Dicentrarchus,Moronidae,Teleostei,WoRMS REST
+126736,Osmerus eperlanus,Species,accepted,126736,Osmerus eperlanus,Osmerus,Osmeridae,Teleostei,WoRMS REST
+126440,Pollachius pollachius,Species,accepted,126440,Pollachius pollachius,Pollachius,Gadidae,Teleostei,WoRMS REST
+127251,Helicolenus dactylopterus,Species,accepted,127251,Helicolenus dactylopterus,Helicolenus,Sebastidae,Teleostei,WoRMS REST
+105876,Leucoraja naevus,Species,accepted,105876,Leucoraja naevus,Leucoraja,Rajidae,Elasmobranchii,WoRMS REST
+126996,Pholis gunnellus,Species,accepted,126996,Pholis gunnellus,Pholis,Pholidae,Teleostei,WoRMS REST
+105821,Mustelus asterias,Species,accepted,105821,Mustelus asterias,Mustelus,Triakidae,Elasmobranchii,WoRMS REST
+126448,Ciliata mustela,Species,accepted,126448,Ciliata mustela,Ciliata,Lotidae,Teleostei,WoRMS REST
+127255,Sebastes viviparus,Species,accepted,127255,Sebastes viviparus,Sebastes,Sebastidae,Teleostei,WoRMS REST
+127150,Scophthalmus rhombus,Species,accepted,127150,Scophthalmus rhombus,Scophthalmus,Scophthalmidae,Teleostei,WoRMS REST
+127123,Zoarces viviparus,Species,accepted,127123,Zoarces viviparus,Zoarces,Zoarcidae,Teleostei,WoRMS REST
+125598,Triglidae,Family,accepted,125598,Triglidae,NA,Triglidae,Teleostei,WoRMS REST
+127149,Scophthalmus maximus,Species,accepted,127149,Scophthalmus maximus,Scophthalmus,Scophthalmidae,Teleostei,WoRMS REST
+127147,Phrynorhombus norvegicus,Species,accepted,127147,Phrynorhombus norvegicus,Phrynorhombus,Scophthalmidae,Teleostei,WoRMS REST
+126795,Callionymus reticulatus,Species,accepted,126795,Callionymus reticulatus,Callionymus,Callionymidae,Teleostei,WoRMS REST
+127066,Spondyliosoma cantharus,Species,accepted,127066,Spondyliosoma cantharus,Spondyliosoma,Sparidae,Teleostei,WoRMS REST
+125606,Syngnathidae,Family,accepted,125606,Syngnathidae,NA,Syngnathidae,Teleostei,WoRMS REST
+126758,Anarhichas lupus,Species,accepted,126758,Anarhichas lupus,Anarhichas,Anarhichadidae,Teleostei,WoRMS REST
+125508,Argentinidae,Family,accepted,125508,Argentinidae,NA,Argentinidae,Teleostei,WoRMS REST
+127220,Liparis montagui,Species,accepted,127220,Liparis montagui,Liparis,Liparidae,Teleostei,WoRMS REST
+127262,Chelidonichthys lucerna,Species,accepted,127262,Chelidonichthys lucerna,Chelidonichthys,Triglidae,Teleostei,WoRMS REST
+126508,Spinachia spinachia,Species,accepted,126508,Spinachia spinachia,Spinachia,Gasterosteidae,Teleostei,WoRMS REST
+274304,Microchirus variegatus,Species,accepted,274304,Microchirus variegatus,Microchirus,Soleidae,Teleostei,WoRMS REST
+127427,Zeus faber,Species,accepted,127427,Zeus faber,Zeus,Zeidae,Teleostei,WoRMS REST
+126447,Brosme brosme,Species,accepted,126447,Brosme brosme,Brosme,Lotidae,Teleostei,WoRMS REST
+367297,Raja brachyura,Species,accepted,367297,Raja brachyura,Raja,Rajidae,Elasmobranchii,WoRMS REST
+105822,Mustelus mustelus,Species,accepted,105822,Mustelus mustelus,Mustelus,Triakidae,Elasmobranchii,WoRMS REST
+126929,Pomatoschistus norvegicus,Species,accepted,126929,Pomatoschistus norvegicus,Pomatoschistus,Gobiidae,Teleostei,WoRMS REST
+127101,Lycenchelys sarsii,Species,accepted,127101,Lycenchelys sarsii,Lycenchelys,Zoarcidae,Teleostei,WoRMS REST
+105732,Mustelus,Genus,accepted,105732,Mustelus,Mustelus,Triakidae,Elasmobranchii,WoRMS REST
+127151,Zeugopterus punctatus,Species,accepted,127151,Zeugopterus punctatus,Zeugopterus,Scophthalmidae,Teleostei,WoRMS REST
+125522,Callionymidae,Family,accepted,125522,Callionymidae,NA,Callionymidae,Teleostei,WoRMS REST
+126904,Lesueurigobius friesii,Species,accepted,126904,Lesueurigobius friesii,Lesueurigobius,Gobiidae,Teleostei,WoRMS REST
+127138,Hippoglossus hippoglossus,Species,accepted,127138,Hippoglossus hippoglossus,Hippoglossus,Pleuronectidae,Teleostei,WoRMS REST
+105824,Chimaera monstrosa,Species,accepted,105824,Chimaera monstrosa,Chimaera,Chimaeridae,Holocephali,WoRMS REST
+126985,Mullus barbatus,Species,accepted,126985,Mullus barbatus,Mullus,Mullidae,Teleostei,WoRMS REST
+126449,Ciliata septentrionalis,Species,accepted,126449,Ciliata septentrionalis,Ciliata,Lotidae,Teleostei,WoRMS REST
+127261,Chelidonichthys lastoviza,Species,accepted,127261,Chelidonichthys lastoviza,Chelidonichthys,Triglidae,Teleostei,WoRMS REST
+126413,Alosa alosa,Species,accepted,126413,Alosa alosa,Alosa,Alosidae,Teleostei,WoRMS REST
+151324,Sebastes norvegicus,Species,accepted,151324,Sebastes norvegicus,Sebastes,Sebastidae,Teleostei,WoRMS REST
+126160,Liparis,Genus,accepted,126160,Liparis,Liparis,Liparidae,Teleostei,WoRMS REST
+125988,Gobius,Genus,accepted,125988,Gobius,Gobius,Gobiidae,Teleostei,WoRMS REST
+126930,Pomatoschistus pictus,Species,accepted,126930,Pomatoschistus pictus,Pomatoschistus,Gobiidae,Teleostei,WoRMS REST
+125911,Hyperoplus,Genus,accepted,125911,Hyperoplus,Hyperoplus,Ammodytidae,Teleostei,WoRMS REST
+105716,Squalidae,Family,accepted,105716,Squalidae,NA,Squalidae,Elasmobranchii,WoRMS REST
+126892,Gobius niger,Species,accepted,126892,Gobius niger,Gobius,Gobiidae,Teleostei,WoRMS REST
+126281,Anguilla anguilla,Species,accepted,126281,Anguilla anguilla,Anguilla,Anguillidae,Teleostei,WoRMS REST
+125581,Soleidae,Family,accepted,125581,Soleidae,NA,Soleidae,Teleostei,WoRMS REST
+126927,Pomatoschistus microps,Species,accepted,126927,Pomatoschistus microps,Pomatoschistus,Gobiidae,Teleostei,WoRMS REST
+105869,Dipturus batis,Species,accepted,105869,Dipturus batis,Dipturus,Rajidae,Elasmobranchii,WoRMS REST
+126878,Crystallogobius linearis,Species,accepted,126878,Crystallogobius linearis,Crystallogobius,Gobiidae,Teleostei,WoRMS REST
+126227,Syngnathus,Genus,accepted,126227,Syngnathus,Syngnathus,Syngnathidae,Teleostei,WoRMS REST
+416357,Alosa agone,Species,accepted,416357,Alosa agone,Alosa,Alosidae,Teleostei,WoRMS REST
+127419,Capros aper,Species,accepted,127419,Capros aper,Capros,Caproidae,Teleostei,WoRMS REST
+105766,Raja,Genus,accepted,105766,Raja,Raja,Rajidae,Elasmobranchii,WoRMS REST
+126127,Buglossidium,Genus,accepted,126127,Buglossidium,Buglossidium,Soleidae,Teleostei,WoRMS REST
+101174,Petromyzon marinus,Species,accepted,101174,Petromyzon marinus,Petromyzon,Petromyzontidae,Petromyzonti,WoRMS REST
+126964,Ctenolabrus rupestris,Species,accepted,126964,Ctenolabrus rupestris,Ctenolabrus,Labridae,Teleostei,WoRMS REST
+105874,Leucoraja fullonica,Species,accepted,105874,Leucoraja fullonica,Leucoraja,Rajidae,Elasmobranchii,WoRMS REST
+127205,Triglops murrayi,Species,accepted,127205,Triglops murrayi,Triglops,Cottidae,Teleostei,WoRMS REST
+127385,Nerophis ophidion,Species,accepted,127385,Nerophis ophidion,Nerophis,Syngnathidae,Teleostei,WoRMS REST
+105820,Galeorhinus galeus,Species,accepted,105820,Galeorhinus galeus,Galeorhinus,Triakidae,Elasmobranchii,WoRMS REST
+126554,Lophius budegassa,Species,accepted,126554,Lophius budegassa,Lophius,Lophiidae,Teleostei,WoRMS REST
+126501,Phycis blennoides,Species,accepted,126501,Phycis blennoides,Phycis,Phycidae,Teleostei,WoRMS REST
+127393,Syngnathus typhle,Species,accepted,127393,Syngnathus typhle,Syngnathus,Syngnathidae,Teleostei,WoRMS REST
+125731,Gadiculus,Genus,accepted,125731,Gadiculus,Gadiculus,Gadidae,Teleostei,WoRMS REST
+105913,Etmopterus spinax,Species,accepted,105913,Etmopterus spinax,Etmopterus,Etmopteridae,Elasmobranchii,WoRMS REST
+126442,Raniceps raninus,Species,accepted,126442,Raniceps raninus,Raniceps,Ranicipitidae,Teleostei,WoRMS REST
+126754,Gymnammodytes semisquamatus,Species,accepted,126754,Gymnammodytes semisquamatus,Gymnammodytes,Ammodytidae,Teleostei,WoRMS REST
+126783,Brama brama,Species,accepted,126783,Brama brama,Brama,Bramidae,Teleostei,WoRMS REST
+711846,Dipturus intermedius,Species,accepted,711846,Dipturus intermedius,Dipturus,Rajidae,Elasmobranchii,WoRMS REST
+105711,Rajidae,Family,accepted,105711,Rajidae,NA,Rajidae,Elasmobranchii,WoRMS REST
+127187,Salmo trutta,Species,accepted,127187,Salmo trutta,Salmo,Salmonidae,Teleostei,WoRMS REST
+126663,Echiodon drummondii,Species,accepted,126663,Echiodon drummondii,Echiodon,Carapidae,Teleostei,WoRMS REST
+125576,Bothidae,Family,accepted,125576,Bothidae,NA,Bothidae,Teleostei,WoRMS REST
+105815,Scyliorhinus stellaris,Species,accepted,105815,Scyliorhinus stellaris,Scyliorhinus,Scyliorhinidae,Elasmobranchii,WoRMS REST
+127201,Micrenophrys lilljeborgii,Species,accepted,127201,Micrenophrys lilljeborgii,Micrenophrys,Cottidae,Teleostei,WoRMS REST
+126109,Arnoglossus,Genus,accepted,126109,Arnoglossus,Arnoglossus,Bothidae,Teleostei,WoRMS REST
+126965,Labrus bergylta,Species,accepted,126965,Labrus bergylta,Labrus,Labridae,Teleostei,WoRMS REST
+126513,Diplecogaster bimaculata,Species,accepted,126513,Diplecogaster bimaculata,Diplecogaster,Gobiesocidae,Teleostei,WoRMS REST
+274100,Lycodes gracilis,Species,accepted,274100,Lycodes gracilis,Lycodes,Zoarcidae,Teleostei,WoRMS REST
+711847,Dipturus flossada,Species,taxon inquirendum,711847,Dipturus flossada,Dipturus,Rajidae,Elasmobranchii,WoRMS REST
+105891,Raja undulata,Species,accepted,105891,Raja undulata,Raja,Rajidae,Elasmobranchii,WoRMS REST
+126761,Blennius ocellaris,Species,accepted,126761,Blennius ocellaris,Blennius,Blenniidae,Teleostei,WoRMS REST
+273571,Symphodus melops,Species,accepted,273571,Symphodus melops,Symphodus,Labridae,Teleostei,WoRMS REST
+105873,Leucoraja circularis,Species,accepted,105873,Leucoraja circularis,Leucoraja,Rajidae,Elasmobranchii,WoRMS REST
+126285,Conger conger,Species,accepted,126285,Conger conger,Conger,Congridae,Teleostei,WoRMS REST
+127072,Leptoclinus maculatus,Species,accepted,127072,Leptoclinus maculatus,Leptoclinus,Lumpenidae,Teleostei,WoRMS REST
+125992,Lesueurigobius,Genus,accepted,125992,Lesueurigobius,Lesueurigobius,Gobiidae,Teleostei,WoRMS REST
+126457,Gaidropsarus mediterraneus,Species,accepted,126457,Gaidropsarus mediterraneus,Gaidropsarus,Gaidropsaridae,Teleostei,WoRMS REST
+127124,Arnoglossus imperialis,Species,accepted,127124,Arnoglossus imperialis,Arnoglossus,Bothidae,Teleostei,WoRMS REST
+125930,Callionymus,Genus,accepted,125930,Callionymus,Callionymus,Callionymidae,Teleostei,WoRMS REST
+126129,Microchirus,Genus,accepted,126129,Microchirus,Microchirus,Soleidae,Teleostei,WoRMS REST
+126375,Belone belone,Species,accepted,126375,Belone belone,Belone,Belonidae,Teleostei,WoRMS REST
+101172,Lampetra fluviatilis,Species,accepted,101172,Lampetra fluviatilis,Lampetra,Petromyzontidae,Petromyzonti,WoRMS REST
+125617,Zeidae,Family,accepted,125617,Zeidae,NA,Zeidae,Teleostei,WoRMS REST
+125743,Gaidropsarus,Genus,accepted,125743,Gaidropsarus,Gaidropsarus,Gaidropsaridae,Teleostei,WoRMS REST
+127060,Pagellus erythrinus,Species,accepted,127060,Pagellus erythrinus,Pagellus,Sparidae,Teleostei,WoRMS REST
+127156,Pegusa lascaris,Species,accepted,127156,Pegusa lascaris,Pegusa,Soleidae,Teleostei,WoRMS REST
+140658,Ostrea edulis,Species,accepted,140658,Ostrea edulis,Ostrea,Ostreidae,Bivalvia,WoRMS REST
+151501,Labrus mixtus,Species,accepted,151501,Labrus mixtus,Labrus,Labridae,Teleostei,WoRMS REST
+158960,Coryphaenoides rupestris,Species,accepted,158960,Coryphaenoides rupestris,Coryphaenoides,Macrouridae,Teleostei,WoRMS REST
+125613,Caproidae,Family,accepted,125613,Caproidae,NA,Caproidae,Teleostei,WoRMS REST
+127071,Chirolophis ascanii,Species,accepted,127071,Chirolophis ascanii,Chirolophis,Stichaeidae,Teleostei,WoRMS REST
+105885,Raja microocellata,Species,accepted,105885,Raja microocellata,Raja,Rajidae,Elasmobranchii,WoRMS REST
+105919,Somniosus microcephalus,Species,accepted,105919,Somniosus microcephalus,Somniosus,Somniosidae,Elasmobranchii,WoRMS REST
+125564,Sparidae,Family,accepted,125564,Sparidae,NA,Sparidae,Teleostei,WoRMS REST
+125566,Stichaeidae,Family,accepted,125566,Stichaeidae,NA,Stichaeidae,Teleostei,WoRMS REST
+126125,Zeugopterus,Genus,accepted,126125,Zeugopterus,Zeugopterus,Scophthalmidae,Teleostei,WoRMS REST
+126154,Triglops,Genus,accepted,126154,Triglops,Triglops,Cottidae,Teleostei,WoRMS REST
+126518,Lepadogaster lepadogaster,Species,accepted,126518,Lepadogaster lepadogaster,Lepadogaster,Gobiesocidae,Teleostei,WoRMS REST
+126527,Trachipterus arcticus,Species,accepted,126527,Trachipterus arcticus,Trachipterus,Trachipteridae,Teleostei,WoRMS REST
+127186,Salmo salar,Species,accepted,127186,Salmo salar,Salmo,Salmonidae,Teleostei,WoRMS REST
+271509,Bathyraja brachyurops,Species,accepted,271509,Bathyraja brachyurops,Bathyraja,Arhynchobatidae,Elasmobranchii,WoRMS REST
+125475,Phycidae,Family,accepted,125475,Phycidae,NA,Phycidae,Teleostei,WoRMS REST
+125477,Gobiesocidae,Family,accepted,125477,Gobiesocidae,NA,Gobiesocidae,Teleostei,WoRMS REST
+125519,Blenniidae,Family,accepted,125519,Blenniidae,NA,Blenniidae,Teleostei,WoRMS REST
+125546,Mugilidae,Family,accepted,125546,Mugilidae,NA,Mugilidae,Teleostei,WoRMS REST
+125575,Zoarcidae,Family,accepted,125575,Zoarcidae,NA,Zoarcidae,Teleostei,WoRMS REST
+125620,Anguilla,Genus,accepted,125620,Anguilla,Anguilla,Anguillidae,Teleostei,WoRMS REST
+125715,Alosa,Genus,accepted,125715,Alosa,Alosa,Alosidae,Teleostei,WoRMS REST
+125781,Lepadogaster,Genus,accepted,125781,Lepadogaster,Lepadogaster,Gobiesocidae,Teleostei,WoRMS REST
+126392,Scomberesox saurus,Species,accepted,126392,Scomberesox saurus,Scomberesox,Scomberesocidae,Teleostei,WoRMS REST
+126456,Gaidropsarus macrophthalmus,Species,accepted,126456,Gaidropsarus macrophthalmus,Gaidropsarus,Gaidropsaridae,Teleostei,WoRMS REST
+126459,Molva dypterygia,Species,accepted,126459,Molva dypterygia,Molva,Lotidae,Teleostei,WoRMS REST
+126770,Parablennius gattorugine,Species,accepted,126770,Parablennius gattorugine,Parablennius,Blenniidae,Teleostei,WoRMS REST
+126886,Gobius cobitis,Species,accepted,126886,Gobius cobitis,Gobius,Gobiidae,Teleostei,WoRMS REST
+126961,Centrolabrus exoletus,Species,accepted,126961,Centrolabrus exoletus,Centrolabrus,Labridae,Teleostei,WoRMS REST
+126967,Labrus merula,Species,accepted,126967,Labrus merula,Labrus,Labridae,Teleostei,WoRMS REST
+127029,Thunnus thynnus,Species,accepted,127029,Thunnus thynnus,Thunnus,Scombridae,Teleostei,WoRMS REST
+127191,Leptagonus decagonus,Species,accepted,127191,Leptagonus decagonus,Leptagonus,Agonidae,Teleostei,WoRMS REST
+127193,Artediellus atlanticus,Species,accepted,127193,Artediellus atlanticus,Artediellus,Cottidae,Teleostei,WoRMS REST
+127378,Macroramphosus scolopax,Species,accepted,127378,Macroramphosus scolopax,Macroramphosus,Centriscidae,Teleostei,WoRMS REST
+127383,Nerophis lumbriciformis,Species,accepted,127383,Nerophis lumbriciformis,Nerophis,Syngnathidae,Teleostei,WoRMS REST
+138281,Todarodes,Genus,accepted,138281,Todarodes,Todarodes,Ommastrephidae,Cephalopoda,WoRMS REST
+151523,Sparus aurata,Species,accepted,151523,Sparus aurata,Sparus,Sparidae,Teleostei,WoRMS REST
+236488,Zeugopterus regius,Species,accepted,236488,Zeugopterus regius,Zeugopterus,Scophthalmidae,Teleostei,WoRMS REST
+271564,Leucoraja lentiginosa,Species,accepted,271564,Leucoraja lentiginosa,Leucoraja,Rajidae,Elasmobranchii,WoRMS REST
+398381,Coelorinchus caelorhincus,Species,accepted,398381,Coelorinchus caelorhincus,Coelorinchus,Macrouridae,Teleostei,WoRMS REST
+1042830,Chelon ramada,Species,accepted,1042830,Chelon ramada,Chelon,Mugilidae,Teleostei,WoRMS REST
+1044127,Chelon auratus,Species,accepted,1044127,Chelon auratus,Chelon,Mugilidae,Teleostei,WoRMS REST

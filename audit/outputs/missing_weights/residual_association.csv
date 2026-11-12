@@ -1,0 +1,5 @@
+test,estimate,p_value
+"Wilcoxon signed residual, affected vs not",NA,0.4264017306495544
+"Wilcoxon absolute residual, affected vs not",NA,0.2585649230511704
+Spearman share vs signed residual (affected),0.08099382865797872,0.0060149433962088635
+Spearman share vs absolute residual (affected),-0.08475438786298713,0.004040807700048936

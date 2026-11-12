@@ -1,0 +1,6 @@
+mechanism,our_hl,haul_taxon_rows
+M1a FishGlob LW join fails on family/genus/rank (name present),our HL: complete lengths,732
+M1a FishGlob LW join fails on family/genus/rank (name present),species absent from our HL,28
+M1b taxon name absent from FishGlob LW table,our HL: complete lengths,136
+M2 no length counts in FishGlob (num NA),our HL: complete lengths,1
+M2 no length counts in FishGlob (num NA),species absent from our HL,510
