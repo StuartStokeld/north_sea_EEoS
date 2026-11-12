@@ -1,0 +1,158 @@
+aphia_id,accepted_name,a_cur,b_cur,level_cur,a_new,b_new,level_new,fb_name,w30_ratio,identical
+126417,Clupea harengus,0.0042,3.1775,TL_direct,0.0042,3.1775,TL_direct,Clupea harengus,1,TRUE
+126425,Sprattus sprattus,0.0052,3.1474,TL_direct,0.0052,3.1474,TL_direct,Sprattus sprattus,1,TRUE
+126444,Trisopterus esmarkii,0.0045,3.1484,TL_direct,0.0045,3.1484,TL_direct,Trisopterus esmarkii,1,TRUE
+126438,Merlangius merlangus,0.0061,3.0671,TL_direct,0.0061,3.0671,TL_direct,Merlangius merlangus,1,TRUE
+126437,Melanogrammus aeglefinus,0.005,3.1761,TL_direct,0.005,3.1761,TL_direct,Melanogrammus aeglefinus,1,TRUE
+127139,Limanda limanda,0.00545,3.23,TL_direct,0.00545,3.23,TL_direct,Limanda limanda,1,TRUE
+150637,Eutrigla gurnardus,0.0062,3.1,TL_direct,0.0062,3.1,TL_direct,Eutrigla gurnardus,1,TRUE
+127137,Hippoglossoides platessoides,0.0034,3.2851,TL_direct,0.00291,3.31,TL_direct,Hippoglossoides platessoides,0.9315247347321565,FALSE
+127023,Scomber scombrus,0.002,3.4011,TL_direct,0.002,3.4011,TL_direct,Scomber scombrus,1,TRUE
+127143,Pleuronectes platessa,0.0059,3.1539,TL_direct,0.0059,3.1539,TL_direct,Pleuronectes platessa,1,TRUE
+126436,Gadus morhua,0.00743,3.06,TL_direct,0.00743,3.06,TL_direct,Gadus morhua,1,TRUE
+126446,Trisopterus minutus,0.00586,3.217,TL_direct,0.00586,3.217,TL_direct,Trisopterus minutus,1,TRUE
+126868,Aphia minuta,7.1e-4,3.55,TL_direct,7.1e-4,3.55,TL_direct,Aphia minuta,1,TRUE
+126822,Trachurus trachurus,0.0177,2.7566,TL_direct,0.0076,3.0382,TL_direct,Trachurus trachurus,1.1189164821416506,FALSE
+126751,Ammodytes marinus,0.001,3.4395,TL_direct,0.001,3.4395,TL_direct,Ammodytes marinus,1,TRUE
+126441,Pollachius virens,0.0055,3.1071,TL_direct,0.0055,3.1071,TL_direct,Pollachius virens,1,TRUE
+126426,Engraulis encrasicolus,0.0034,3.2503,TL_direct,0.008,2.86,TL_direct,Engraulis encrasicolus,0.6238650325456283,FALSE
+127140,Microstomus kitt,0.0106,2.9904,TL_direct,0.0106,2.9904,TL_direct,Microstomus kitt,1,TRUE
+127141,Platichthys flesus,0.00667,3.18,TL_direct,0.00667,3.18,TL_direct,Platichthys flesus,1,TRUE
+127153,Buglossidium luteum,0.00782,3.128,TL_direct,0.00782,3.128,TL_direct,Buglossidium luteum,1,TRUE
+150630,Echiichthys vipera,0.0115,2.9894,TL_direct,0.0115,2.9894,TL_direct,Echiichthys vipera,1,TRUE
+125909,Ammodytes,0.003096,3.12292,genus_mean,0.00370545454545454,3.0717454545454546,genus_mean,NA,1.0056561859771542,FALSE
+127082,Trachinus draco,0.0042,3.119,TL_direct,0.0042,3.119,TL_direct,Trachinus draco,1,TRUE
+126421,Sardina pilchardus,0.00357,3.266,TL_direct,0.00357,3.266,TL_direct,Sardina pilchardus,1,TRUE
+125930,Callionymus,0.0341028571428571,2.58876428571429,genus_mean,0.0231115625,2.642653125,genus_mean,NA,0.81402715347681,FALSE
+127190,Agonus cataphractus,0.0104,2.8669,TL_direct,0.0104,2.8669,TL_direct,Agonus cataphractus,1,TRUE
+126792,Callionymus lyra,0.0204,2.5784,TL_direct,0.0204,2.5784,TL_direct,Callionymus lyra,1,TRUE
+126752,Ammodytes tobianus,0.0063,2.6927,TL_direct,0.0063,2.6927,TL_direct,Ammodytes tobianus,1,TRUE
+105865,Amblyraja radiata,0.0069,3.0343,TL_direct,0.0069,3.0343,TL_direct,Amblyraja radiata,1,TRUE
+126435,Gadiculus argenteus,0.0034,3.479,TL_direct,0.0034,3.479,TL_direct,Gadiculus argenteus,1,TRUE
+125999,Pomatoschistus,0.00853,2.919,genus_mean,0.0085676923076923,3.0368538461538463,genus_mean,NA,1.4996822497280964,FALSE
+126439,Micromesistius poutassou,0.0073,2.8926,TL_direct,0.0073,2.8926,TL_direct,Micromesistius poutassou,1,TRUE
+126450,Enchelyopus cimbrius,0.0032,3.1436,TL_direct,0.0032,3.1436,TL_direct,Enchelyopus cimbrius,1,TRUE
+105814,Scyliorhinus canicula,3e-4,3.615,TL_direct,0.0017,3.1735,TL_direct,Scyliorhinus canicula,1.262346652450132,FALSE
+127126,Arnoglossus laterna,0.0063,3.084,TL_direct,0.0074,3.04,TL_direct,Arnoglossus laterna,1.011341514811659,FALSE
+126484,Merluccius merluccius,0.00659,3.017,TL_direct,0.00659,3.017,TL_direct,Merluccius merluccius,1,TRUE
+127312,Maurolicus muelleri,0.00164,3.961,TL_direct,0.0069,3.168,TL_direct,Maurolicus muelleri,0.2835620371319438,FALSE
+126445,Trisopterus luscus,0.0089,3.085,TL_direct,0.0089,3.085,TL_direct,Trisopterus luscus,1,TRUE
+126505,Gasterosteus aculeatus,0.0105,3.049,TL_direct,0.0105,3.049,TL_direct,Gasterosteus aculeatus,1,TRUE
+127203,Myoxocephalus scorpius,0.0114,3.1036,TL_direct,0.00567,3.3626,TL_direct,Myoxocephalus scorpius,1.2001972090778883,FALSE
+127136,Glyptocephalus cynoglossus,0.0017,3.39,TL_direct,0.00182,3.33,TL_direct,Glyptocephalus cynoglossus,0.872961702565188,FALSE
+154675,Lumpenus lampretaeformis,0.0164,2.09,TL_direct,0.0164,2.09,TL_direct,Lumpenus lampretaeformis,1,TRUE
+126756,Hyperoplus lanceolatus,0.0066,2.6967,TL_direct,0.0066,2.6967,TL_direct,Hyperoplus lanceolatus,1,TRUE
+127259,Chelidonichthys cuculus,0.008,3.059,TL_direct,0.0078,3.0937,TL_direct,Chelidonichthys cuculus,1.0971366506837428,FALSE
+127160,Solea solea,0.00482,3.175,TL_direct,0.00482,3.175,TL_direct,Solea solea,1,TRUE
+126986,Mullus surmuletus,0.0091,3.1204,TL_direct,0.0091,3.1204,TL_direct,Mullus surmuletus,1,TRUE
+101170,Myxine glutinosa,0.0022,2.8357,TL_direct,0.0022,2.8357,TL_direct,Myxine glutinosa,1,TRUE
+105923,Squalus acanthias,7.7e-4,3.371,TL_direct,9e-4,3.36,TL_direct,Squalus acanthias,1.1259094141974324,FALSE
+127379,Entelurus aequoreus,3e-4,2.7807,TL_direct,3e-4,2.7807,TL_direct,Entelurus aequoreus,1,TRUE
+127118,Lycodes vahlii,0.014575,2.831775,family_mean,0.00236,3.179,TL_direct,Lycodes vahlii,0.5274689107416637,FALSE
+105883,Raja clavata,0.00319,3.194,TL_direct,0.00319,3.194,TL_direct,Raja clavata,1,TRUE
+127146,Lepidorhombus whiffiagonis,0.0029,3.215,TL_direct,0.0029,3.215,TL_direct,Lepidorhombus whiffiagonis,1,TRUE
+126755,Hyperoplus immaculatus,0.01,2.671,TL_direct,0.01,2.6710000000000003,TL_direct,Hyperoplus immaculatus,1.0000000000000016,TRUE
+127204,Taurulus bubalis,0.0154,3,TL_direct,0.0154,3,TL_direct,Taurulus bubalis,1,TRUE
+126555,Lophius piscatorius,0.0266,2.8568,TL_direct,0.0266,2.8568,TL_direct,Lophius piscatorius,1,TRUE
+126458,Gaidropsarus vulgaris,0.0172,2.7135,TL_direct,0.0172,2.7135,TL_direct,Gaidropsarus vulgaris,1,TRUE
+127251,Helicolenus dactylopterus,0.022,2.87,TL_direct,0.0195,2.9478999999999997,TL_direct,Helicolenus dactylopterus,1.1552598398544682,FALSE
+126461,Molva molva,0.00386,3.074,TL_direct,0.00386,3.074,TL_direct,Molva molva,1,TRUE
+127214,Cyclopterus lumpus,0.063,2.9405,TL_direct,0.063,2.9405,TL_direct,Cyclopterus lumpus,1,TRUE
+105876,Leucoraja naevus,0.0025,3.216,TL_direct,0.0025,3.216,TL_direct,Leucoraja naevus,1,TRUE
+105887,Raja montagui,0.002,3.263,TL_direct,0.002,3.263,TL_direct,Raja montagui,1,TRUE
+126925,Pomatoschistus lozanoi,0.00853,2.919,genus_mean,0.01024,3,SL_needs_conversion,Pomatoschistus lozanoi,1.5812398365936937,FALSE
+126975,Dicentrarchus labrax,0.0123,2.955,TL_direct,0.0123,2.955,TL_direct,Dicentrarchus labrax,1,TRUE
+126440,Pollachius pollachius,0.00613,3.115,TL_direct,0.00613,3.115,TL_direct,Pollachius pollachius,1,TRUE
+272030,Atherina presbyter,0.0069,3,TL_direct,0.0064,3.05,TL_direct,Atherina presbyter,1.0994790182579082,FALSE
+127255,Sebastes viviparus,0.0065,3.2124,TL_direct,0.0065,3.2124,TL_direct,Sebastes viviparus,1,TRUE
+126736,Osmerus eperlanus,0.0094,2.8535,TL_direct,0.0094,2.8535,TL_direct,Osmerus eperlanus,1,TRUE
+126996,Pholis gunnellus,0.0043,3.018,TL_direct,0.0043,3.018,TL_direct,Pholis gunnellus,1,TRUE
+127150,Scophthalmus rhombus,0.0103,3.0937,TL_direct,0.0103,3.0937,TL_direct,Scophthalmus rhombus,1,TRUE
+127066,Spondyliosoma cantharus,0.00982,3.141,TL_direct,0.00982,3.141,TL_direct,Spondyliosoma cantharus,1,TRUE
+127149,Scophthalmus maximus,0.0179,3.02,TL_direct,0.0179,3.02,TL_direct,Scophthalmus maximus,1,TRUE
+127262,Chelidonichthys lucerna,0.00595,3.166,TL_direct,0.00595,3.166,TL_direct,Chelidonichthys lucerna,1,TRUE
+127123,Zoarces viviparus,0.0047,3.0241,TL_direct,0.0047,3.0241,TL_direct,Zoarces viviparus,1,TRUE
+126758,Anarhichas lupus,0.0078,3.0468,TL_direct,0.0078,3.0468,TL_direct,Anarhichas lupus,1,TRUE
+274304,Microchirus variegatus,0.018,2.838,TL_direct,0.018,2.838,TL_direct,Microchirus variegatus,1,TRUE
+127427,Zeus faber,0.0264,2.82,TL_direct,0.0264,2.82,TL_direct,Zeus faber,1,TRUE
+274100,Lycodes gracilis,0.0083,2.7474,other_review,0.00355,3,SL_needs_conversion,Lycodes gracilis,1.0098830653735442,FALSE
+126508,Spinachia spinachia,0.0021,3,TL_direct,0.0021,3,TL_direct,Spinachia spinachia,1,TRUE
+367297,Raja brachyura,0.0014,3.376,TL_direct,0.0014,3.376,TL_direct,Raja brachyura,1,TRUE
+105824,Chimaera monstrosa,0.0076,3.066,TL_direct,0.078,2.9566,TL_direct,Chimaera monstrosa,7.074307690747163,FALSE
+126447,Brosme brosme,0.0036,3.2609,TL_direct,0.00496,3.18,TL_direct,Brosme brosme,1.046357438940607,FALSE
+127419,Capros aper,0.0194,2.934,TL_direct,0.0246,2.8909,TL_direct,Capros aper,1.095139518951387,FALSE
+105913,Etmopterus spinax,0.0036,3.063,TL_direct,0.004,3.0076,TL_direct,Etmopterus spinax,0.9202905723580274,FALSE
+127101,Lycenchelys sarsii,0.014575,2.831775,family_mean,0.0043,2.666,TL_direct,Lycenchelys sarsii,0.16787658116443172,FALSE
+126929,Pomatoschistus norvegicus,0.00853,2.919,TL_direct,0.00853,2.919,TL_direct,Pomatoschistus norvegicus,1,TRUE
+127151,Zeugopterus punctatus,0.0139,3.146,TL_direct,0.0139,3.146,TL_direct,Zeugopterus punctatus,1,TRUE
+126904,Lesueurigobius friesii,0.04061,2.1457,TL_direct,0.04061,2.1457,TL_direct,Lesueurigobius friesii,1,TRUE
+127138,Hippoglossus hippoglossus,0.0026,3.3322,TL_direct,0.0026,3.3322,TL_direct,Hippoglossus hippoglossus,1,TRUE
+125988,Gobius,0.01112,3.067,genus_mean,0.01013291666666666,3.1019625,genus_mean,NA,1.0262981254052594,FALSE
+127261,Chelidonichthys lastoviza,0.0134,2.973,TL_direct,0.0134,2.973,TL_direct,Chelidonichthys lastoviza,1,TRUE
+126985,Mullus barbatus,0.0082,3.09,TL_direct,0.0082,3.09,TL_direct,Mullus barbatus,1,TRUE
+126281,Anguilla anguilla,0.0011,3.13,TL_direct,0.0011,3.13,TL_direct,Anguilla anguilla,1,TRUE
+125911,Hyperoplus,0.00559,2.823925,genus_mean,0.00559,2.823925,genus_mean,NA,1,TRUE
+126878,Crystallogobius linearis,0.007716,3.237868,family_mean,0.00855459016393442,3.135711475409836,family_mean,Crystallogobius linearis,0.7832662528565076,FALSE
+127205,Triglops murrayi,0.0088,3,TL_direct,0.0088,3,TL_direct,Triglops murrayi,1,TRUE
+126501,Phycis blennoides,0.01,2.946,TL_direct,0.0048,3.1335,TL_direct,Phycis blennoides,0.908241772983676,FALSE
+126554,Lophius budegassa,0.046,2.704,TL_direct,0.046,2.7039999999999997,TL_direct,Lophius budegassa,0.9999999999999983,TRUE
+126754,Gymnammodytes semisquamatus,6e-4,3.476,type_unknown,6e-4,3.476,type_unknown,Gymnammodytes semisquamatus,1,TRUE
+101174,Petromyzon marinus,0.00208,3,TL_direct,0.00208,3,TL_direct,Petromyzon marinus,1,TRUE
+105766,Raja,0.00308204545454545,3.22895681818182,genus_mean,0.0025503125,3.2860015625,genus_mean,NA,1.0046536452424961,FALSE
+105874,Leucoraja fullonica,0.00252142857142857,3.23068571428571,genus_mean,0.0065,3.13,TL_direct,Leucoraja fullonica,1.8303817557160524,FALSE
+105815,Scyliorhinus stellaris,0.002,3.167,TL_direct,0.002,3.167,TL_direct,Scyliorhinus stellaris,1,TRUE
+126964,Ctenolabrus rupestris,0.0123,3,TL_direct,0.0123,3,TL_direct,Ctenolabrus rupestris,1,TRUE
+126127,Buglossidium,0.0101311111111111,3.06797777777778,genus_mean,0.01012533333333333,3.04652,genus_mean,NA,0.9290872737892564,FALSE
+105891,Raja undulata,0.00415,3.124,TL_direct,0.00415,3.124,TL_direct,Raja undulata,1,TRUE
+105820,Galeorhinus galeus,0.0188,2.6671,TL_direct,0.0188,2.6671,TL_direct,Galeorhinus galeus,1,TRUE
+126663,Echiodon drummondii,5.9e-4,3,TL_direct,5.9e-4,3,TL_direct,Echiodon drummondii,1,TRUE
+126442,Raniceps raninus,0.0062,3.267,TL_direct,0.0062,3.267,TL_direct,Raniceps raninus,1,TRUE
+127072,Leptoclinus maculatus,0.02103,2.16,FL_needs_conversion,0.00115,3.37,TL_direct,Leptoclinus maculatus,3.351006620632816,FALSE
+125731,Gadiculus,0.008087,3.10997,genus_mean,0.00830916666666666,3.1024833333333333,genus_mean,NA,1.0016391998967604,FALSE
+126783,Brama brama,0.00511,3.185,TL_direct,0.00511,3.185,TL_direct,Brama brama,1,TRUE
+126761,Blennius ocellaris,0.0161,2.959,TL_direct,0.0167,2.97,TL_direct,Blennius ocellaris,1.0768096252591375,FALSE
+126375,Belone belone,0.001,3.01,TL_direct,0.008,3.09,TL_direct,Belone belone,10.501701925934112,FALSE
+126965,Labrus bergylta,0.0119,3.115,TL_direct,0.0119,3.115,TL_direct,Labrus bergylta,1,TRUE
+126285,Conger conger,6e-4,3.016,TL_direct,6e-4,3.016,TL_direct,Conger conger,1,TRUE
+273571,Symphodus melops,0.0049,3.22,TL_direct,0.0049,3.22,TL_direct,Symphodus melops,1,TRUE
+126513,Diplecogaster bimaculata,0.01413,2.737,TL_direct,0.01413,2.737,TL_direct,Diplecogaster bimaculata,1,TRUE
+127187,Salmo trutta,0.01127,2.96,TL_direct,0.01127,2.96,TL_direct,Salmo trutta,1,TRUE
+127201,Micrenophrys lilljeborgii,0.0142090909090909,3.07614545454545,family_mean,0.0134975,3.100016666666667,family_mean,Micrenophrys lilljeborgii,1.030262086354234,FALSE
+126109,Arnoglossus,0.0073355,3.083625,genus_mean,0.00711290322580645,3.0833451612903224,genus_mean,NA,0.9687323945161033,FALSE
+126129,Microchirus,0.01017875,3.0936125,genus_mean,0.01062090909090909,3.082018181818182,genus_mean,NA,1.0030926077640656,FALSE
+105873,Leucoraja circularis,0.0039,3.08,TL_direct,0.0039,3.08,TL_direct,Leucoraja circularis,1,TRUE
+127156,Pegusa lascaris,0.007,3.13,TL_direct,0.005,3.187,TL_direct,Pegusa lascaris,0.8670973837313429,FALSE
+105885,Raja microocellata,0.00494,3.117,TL_direct,0.00494,3.117,TL_direct,Raja microocellata,1,TRUE
+127124,Arnoglossus imperialis,0.0083,3.024,TL_direct,0.0083,3.024,TL_direct,Arnoglossus imperialis,1,TRUE
+126457,Gaidropsarus mediterraneus,0.00401,3.078,TL_direct,0.00401,3.078,TL_direct,Gaidropsarus mediterraneus,1,TRUE
+125992,Lesueurigobius,0.021416,2.65682,genus_mean,0.01565333333333333,2.7796777777777777,genus_mean,NA,1.1100545216574602,FALSE
+236488,Zeugopterus regius,0.0139,3.146,genus_mean,0.0139,3.146,genus_mean,Zeugopterus regius,1,TRUE
+101172,Lampetra fluviatilis,5e-4,3.3567,TL_direct,5e-4,3.3567,TL_direct,Lampetra fluviatilis,1,TRUE
+158960,Coryphaenoides rupestris,0.204,2.964,other_review,0.00164,3,SL_needs_conversion,Coryphaenoides rupestris,0.009086362224032328,FALSE
+151501,Labrus mixtus,0.0048,3.318,TL_direct,0.0048,3.318,TL_direct,Labrus mixtus,1,TRUE
+127193,Artediellus atlanticus,0.0554,2.2898,other_review,0.0763,2.1066,other_review,Artediellus atlanticus,0.7385946531317126,FALSE
+127060,Pagellus erythrinus,0.0163,2.92,TL_direct,0.0105,3.0583,TL_direct,Pagellus erythrinus,1.0310686072906237,FALSE
+125743,Gaidropsarus,0.00734090909090909,3.01640909090909,genus_mean,0.00734090909090909,3.016409090909091,genus_mean,NA,1.0000000000000029,TRUE
+271509,Bathyraja brachyurops,0.002,3.303,TL_direct,0.002,3.303,TL_direct,Bathyraja brachyurops,1,TRUE
+126527,Trachipterus arcticus,0.00183,3,TL_direct,0.00183,3,TL_direct,Trachipterus arcticus,1,TRUE
+126459,Molva dypterygia,0.00191,3.149,TL_direct,0.00191,3.149,TL_direct,Molva dypterygia,1,TRUE
+127186,Salmo salar,0.01072,2.99163,TL_direct,0.01072,2.99163,TL_direct,Salmo salar,1,TRUE
+105919,Somniosus microcephalus,0.005,3.13,TL_direct,0.00442,3.1346,TL_direct,Somniosus microcephalus,0.8979393891029698,FALSE
+126518,Lepadogaster lepadogaster,0.02307,3,TL_direct,0.0088,3.262,TL_direct,Lepadogaster lepadogaster,0.9299098465697834,FALSE
+126154,Triglops,0.0088,3,genus_mean,0.0088,3,genus_mean,NA,1,TRUE
+126125,Zeugopterus,0.0139,3.146,genus_mean,0.0139,3.146,genus_mean,NA,1,TRUE
+126961,Centrolabrus exoletus,0.00646,3.15,TL_direct,0.00646,3.15,TL_direct,Centrolabrus exoletus,1,TRUE
+1044127,Chelon auratus,0.00735,3.185,TL_direct,0.00735,3.185,TL_direct,Chelon auratus,1,TRUE
+398381,Coelorinchus caelorhincus,0.0032,3.008,TL_direct,0.0032,3.008,TL_direct,Coelorinchus caelorhincus,1,TRUE
+126456,Gaidropsarus macrophthalmus,0.00634,2.95,TL_direct,0.00634,2.95,TL_direct,Gaidropsarus macrophthalmus,1,TRUE
+126967,Labrus merula,0.0109,3.12,TL_direct,0.0109,3.12,TL_direct,Labrus merula,1,TRUE
+127191,Leptagonus decagonus,0.00349,3,TL_direct,0.00349,3,TL_direct,Leptagonus decagonus,1,TRUE
+127378,Macroramphosus scolopax,0.0078,2.908,TL_direct,0.0078,2.908,TL_direct,Macroramphosus scolopax,1,TRUE
+127383,Nerophis lumbriciformis,4.2e-4,3,TL_direct,4.2e-4,3,TL_direct,Nerophis lumbriciformis,1,TRUE
+126770,Parablennius gattorugine,0.0115,3,TL_direct,0.0115,3,TL_direct,Parablennius gattorugine,1,TRUE
+126392,Scomberesox saurus,0.0015,3.193,TL_direct,0.0015,3.193,TL_direct,Scomberesox saurus,1,TRUE
+151523,Sparus aurata,0.00923,3.28,TL_direct,0.0132,3.0224,TL_direct,Sparus aurata,0.5954781013356952,FALSE
+127029,Thunnus thynnus,0.02,2.96,TL_direct,0.02,2.96,TL_direct,Thunnus thynnus,1,TRUE
+125620,Anguilla,0.00221622950819672,3.08424754098361,genus_mean,0.00210283582089552,3.0951059701492536,genus_mean,NA,0.9845320304619338,FALSE
+125781,Lepadogaster,0.02307,3,genus_mean,0.015935,3.131,genus_mean,NA,1.0784682341501186,FALSE
+271564,Leucoraja lentiginosa,0.00252142857142857,3.23068571428571,genus_mean,0.00359545454545454,3.174981818181818,genus_mean,Leucoraja lentiginosa,1.1798470854922518,FALSE

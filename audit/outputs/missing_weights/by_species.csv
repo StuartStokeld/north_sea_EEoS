@@ -1,0 +1,66 @@
+accepted_name,mechanism,haul_taxon_rows,hauls,hauls_present,pct_of_hauls_present
+Lumpenus lampretaeformis,M1a FishGlob LW join fails on family/genus/rank (name present),630,630,630,100
+Phrynorhombus norvegicus,M1b taxon name absent from FishGlob LW table,136,136,136,100
+Gaidropsarus vulgaris,M1a FishGlob LW join fails on family/genus/rank (name present),98,98,98,100
+Agonus cataphractus,M2 no length counts in FishGlob (num NA),80,80,1957,4.1
+Echiichthys vipera,M2 no length counts in FishGlob (num NA),65,65,1024,6.3
+Buglossidium,M2 no length counts in FishGlob (num NA),51,51,64,79.7
+Raja,M2 no length counts in FishGlob (num NA),34,34,52,65.4
+Taurulus bubalis,M2 no length counts in FishGlob (num NA),33,33,197,16.8
+Liparis,M2 no length counts in FishGlob (num NA),27,27,428,6.3
+Ammodytidae,M2 no length counts in FishGlob (num NA),26,26,283,9.2
+Cyclopterus lumpus,M2 no length counts in FishGlob (num NA),24,24,1377,1.7
+Gobiidae,M2 no length counts in FishGlob (num NA),21,21,481,4.4
+Raniceps raninus,M1a FishGlob LW join fails on family/genus/rank (name present),17,17,17,100
+Arnoglossus,M2 no length counts in FishGlob (num NA),16,16,22,72.7
+Triglidae,M2 no length counts in FishGlob (num NA),11,11,27,40.7
+Pomatoschistus,M2 no length counts in FishGlob (num NA),10,10,826,1.2
+Aphia minuta,M2 no length counts in FishGlob (num NA),8,8,115,7
+Enchelyopus cimbrius,M2 no length counts in FishGlob (num NA),8,8,1705,0.5
+Buglossidium luteum,M2 no length counts in FishGlob (num NA),7,7,1583,0.4
+Leptoclinus maculatus,M1a FishGlob LW join fails on family/genus/rank (name present),7,7,7,100
+Amblyraja radiata,M2 no length counts in FishGlob (num NA),6,6,3186,0.2
+Hippocampus hippocampus,M2 no length counts in FishGlob (num NA),6,6,6,100
+Limanda limanda,M2 no length counts in FishGlob (num NA),6,6,9232,0.1
+Gaidropsarus mediterraneus,M1a FishGlob LW join fails on family/genus/rank (name present),5,5,5,100
+Microstomus kitt,M2 no length counts in FishGlob (num NA),5,5,5496,0.1
+Sprattus sprattus,M2 no length counts in FishGlob (num NA),5,5,6072,0.1
+Hippoglossoides platessoides,M2 no length counts in FishGlob (num NA),4,4,7088,0.1
+Myxine glutinosa,M2 no length counts in FishGlob (num NA),4,4,596,0.7
+Trachinus draco,M2 no length counts in FishGlob (num NA),4,4,275,1.5
+Callionymus lyra,M2 no length counts in FishGlob (num NA),3,3,3335,0.1
+Scyliorhinus canicula,M2 no length counts in FishGlob (num NA),3,3,1237,0.2
+Syngnathidae,M2 no length counts in FishGlob (num NA),3,3,107,2.8
+Syngnathus,M2 no length counts in FishGlob (num NA),3,3,562,0.5
+Eutrigla gurnardus,M2 no length counts in FishGlob (num NA),2,2,6992,0
+Gaidropsarus,M1a FishGlob LW join fails on family/genus/rank (name present),2,2,2,100
+Galeorhinus galeus,M2 no length counts in FishGlob (num NA),2,2,23,8.7
+Gasterosteus aculeatus,M2 no length counts in FishGlob (num NA),2,2,336,0.6
+Pholis gunnellus,M2 no length counts in FishGlob (num NA),2,2,123,1.6
+Pollachius virens,M2 no length counts in FishGlob (num NA),2,2,1723,0.1
+Trachurus trachurus,M2 no length counts in FishGlob (num NA),2,2,2894,0.1
+Trisopterus esmarkii,M2 no length counts in FishGlob (num NA),2,2,5118,0
+Zeugopterus punctatus,M2 no length counts in FishGlob (num NA),2,2,71,2.8
+Ammodytes,M2 no length counts in FishGlob (num NA),1,1,345,0.3
+Ammodytes tobianus,M2 no length counts in FishGlob (num NA),1,1,210,0.5
+Anarhichas lupus,M2 no length counts in FishGlob (num NA),1,1,421,0.2
+Brosme brosme,M2 no length counts in FishGlob (num NA),1,1,159,0.6
+Chelidonichthys cuculus,M2 no length counts in FishGlob (num NA),1,1,554,0.2
+Ciliata,M2 no length counts in FishGlob (num NA),1,1,333,0.3
+Clupea harengus,M2 no length counts in FishGlob (num NA),1,1,9024,0
+Dipturus,M2 no length counts in FishGlob (num NA),1,1,55,1.8
+Engraulis encrasicolus,M2 no length counts in FishGlob (num NA),1,1,1343,0.1
+Gadiculus argenteus,M2 no length counts in FishGlob (num NA),1,1,496,0.2
+Gaidropsarus macrophthalmus,M1a FishGlob LW join fails on family/genus/rank (name present),1,1,1,100
+Maurolicus muelleri,M2 no length counts in FishGlob (num NA),1,1,829,0.1
+Merlangius merlangus,M2 no length counts in FishGlob (num NA),1,1,9814,0
+Osmerus eperlanus,M2 no length counts in FishGlob (num NA),1,1,77,1.3
+Pleuronectes platessa,M2 no length counts in FishGlob (num NA),1,1,7344,0
+Scomber scombrus,M2 no length counts in FishGlob (num NA),1,1,1723,0.1
+Scophthalmus maximus,M2 no length counts in FishGlob (num NA),1,1,684,0.1
+Scophthalmus rhombus,M2 no length counts in FishGlob (num NA),1,1,505,0.2
+Sebastes,M2 no length counts in FishGlob (num NA),1,1,6,16.7
+Solea solea,M2 no length counts in FishGlob (num NA),1,1,1472,0.1
+Spinachia spinachia,M2 no length counts in FishGlob (num NA),1,1,24,4.2
+Trisopterus luscus,M2 no length counts in FishGlob (num NA),1,1,790,0.1
+Trisopterus minutus,M2 no length counts in FishGlob (num NA),1,1,3789,0

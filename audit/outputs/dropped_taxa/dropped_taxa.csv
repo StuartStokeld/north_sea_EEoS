@@ -1,0 +1,54 @@
+aphia_id,individuals,hauls,in_lookup_without_coef,pct_of_N,worms_name,worms_status,worms_valid_name,worms_rank,fb_name,fallback_level,a_final,b_final
+126716,77518.16170000006,1843,FALSE,0.12106549162271682,Argentina sphyraena,accepted,Argentina sphyraena,Species,Argentina sphyraena,TL_direct,0.004,3.124
+127387,75950.72499999998,256,FALSE,0.11861751697379017,Syngnathus acus,accepted,Syngnathus acus,Species,Syngnathus acus,TL_direct,2.1e-4,3.54
+126793,25146.30359999999,1652,FALSE,0.03927272707536472,Callionymus maculatus,accepted,Callionymus maculatus,Species,Callionymus maculatus,TL_direct,0.0282,2.3129
+125537,21685.623000000003,460,TRUE,0.03386794206756703,Gobiidae,accepted,Gobiidae,Family,NA,family_mean,0.00855459016393442,3.135711475409836
+125516,15545,258,TRUE,0.0242777050694061,Ammodytidae,accepted,Ammodytidae,Family,NA,family_mean,0.0039825,3.03505625
+126715,7992.207700000003,343,FALSE,0.012481985293923224,Argentina silus,accepted,Argentina silus,Species,Argentina silus,TL_direct,0.0044,3.1665
+126928,6025.385,291,FALSE,0.009410261817923671,Pomatoschistus minutus,accepted,Pomatoschistus minutus,Species,Pomatoschistus minutus,TL_direct,0.00622,3.173
+126415,3546.2520000000004,344,FALSE,0.005538427800436895,Alosa fallax,accepted,Alosa fallax,Species,Alosa fallax,TL_direct,0.00211,3.239
+127389,3417.5,264,FALSE,0.005337346868748494,Syngnathus rostellatus,accepted,Syngnathus rostellatus,Species,Syngnathus rostellatus,TL_direct,1.5e-4,3.40846
+127219,2462.8749999999995,372,FALSE,0.0038464427708468016,Liparis liparis,accepted,Liparis liparis,Species,Liparis liparis,TL_direct,0.0237,3
+125885,2139,56,TRUE,0.0033406247117053487,Argentina,accepted,Argentina,Genus,NA,genus_mean,0.00371142857142857,3.2024357142857145
+105821,1510.7000000000003,296,FALSE,0.002359365007935143,Mustelus asterias,accepted,Mustelus asterias,Species,Mustelus asterias,TL_direct,0.002,3.159
+126448,1408.5,293,FALSE,0.002199752176922386,Ciliata mustela,accepted,Ciliata mustela,Species,Ciliata mustela,TL_direct,0.0052,3.169
+127147,941.5,136,TRUE,0.0014704058747408068,Phrynorhombus norvegicus,accepted,Phrynorhombus norvegicus,Species,Phrynorhombus norvegicus,TL_direct,0.0103,3.054
+125598,923.5,16,TRUE,0.0014422940258344505,Triglidae,accepted,Triglidae,Family,NA,family_mean,0.00974136363636363,3.039718181818182
+126795,868,181,FALSE,0.0013556158250398517,Callionymus reticulatus,accepted,Callionymus reticulatus,Species,Callionymus reticulatus,TL_direct,0.0159,2.5712
+125606,620.7280000000001,104,TRUE,9.694339859969321e-4,Syngnathidae,accepted,Syngnathidae,Family,NA,family_mean,3.282758620689655e-4,3.0642641379310347
+127220,580,40,FALSE,9.058262425381497e-4,Liparis montagui,accepted,Liparis montagui,Species,Liparis montagui,TL_direct,0.0131,3.1228
+105822,274,83,FALSE,4.279248111300914e-4,Mustelus mustelus,accepted,Mustelus mustelus,Species,Mustelus mustelus,TL_direct,0.003,3.0269
+105732,219,20,TRUE,3.420274950273358e-4,Mustelus,accepted,Mustelus,Genus,NA,genus_mean,0.00254484848484848,3.1098181818181816
+125522,206.285,37,TRUE,3.2216959731376244e-4,Callionymidae,accepted,Callionymidae,Family,NA,family_mean,0.0231115625,2.642653125
+126449,129.5,52,FALSE,2.0224913518739721e-4,Ciliata septentrionalis,accepted,Ciliata septentrionalis,Species,Ciliata septentrionalis,SL_needs_conversion,0.0089,3.131
+126413,113.5,24,FALSE,1.7726082504841378e-4,Alosa alosa,accepted,Alosa alosa,Species,Alosa alosa,TL_direct,0.00612,3.454
+151324,92,5,FALSE,1.4368278329915477e-4,Sebastes norvegicus,accepted,Sebastes norvegicus,Species,Sebastes norvegicus,TL_direct,0.0071,3.18
+126160,88,4,TRUE,1.3743570576440893e-4,Liparis,accepted,Liparis,Genus,NA,genus_mean,0.0184,3.0614
+126930,77,9,FALSE,1.2025624254385781e-4,Pomatoschistus pictus,accepted,Pomatoschistus pictus,Species,Pomatoschistus pictus,TL_direct,0.00735,3.02
+126892,65,27,FALSE,1.0151500993962022e-4,Gobius niger,accepted,Gobius niger,Species,Gobius niger,TL_direct,0.0065,3.21
+125581,61,13,TRUE,9.526793240487436e-5,Soleidae,accepted,Soleidae,Family,NA,family_mean,0.00900298507462686,3.0810895522388058
+126927,59,10,FALSE,9.214439363750144e-5,Pomatoschistus microps,accepted,Pomatoschistus microps,Species,Pomatoschistus microps,TL_direct,0.0075,3.18
+105869,54,39,FALSE,8.433554671906912e-5,Dipturus batis,accepted,Dipturus batis,Species,Dipturus batis,TL_direct,0.0074,2.9532
+126227,53,11,TRUE,8.277377733538264e-5,Syngnathus,accepted,Syngnathus,Genus,NA,genus_mean,3.047619047619048e-4,3.2241885714285714
+416357,52,22,FALSE,8.121200795169618e-5,Alosa agone,accepted,Alosa agone,Species,Alosa agone,TL_direct,0.0122,2.93
+127385,27,17,FALSE,4.216777335953456e-5,Nerophis ophidion,accepted,Nerophis ophidion,Species,Nerophis ophidion,TL_direct,2e-4,2.749
+127393,24,20,FALSE,3.748246520847516e-5,Syngnathus typhle,accepted,Syngnathus typhle,Species,Syngnathus typhle,TL_direct,2e-4,3.196
+711846,18,13,FALSE,2.811184890635637e-5,Dipturus intermedius,accepted,Dipturus intermedius,Species,Dipturus intermedius,genus_mean,0.0074,2.9532
+105711,15.5,5,TRUE,2.420742544714021e-5,Rajidae,accepted,Rajidae,Family,NA,family_mean,0.00486463414634146,3.2415646341463416
+125576,14,5,TRUE,2.186477137161051e-5,Bothidae,accepted,Bothidae,Family,NA,family_mean,0.00711290322580645,3.0833451612903224
+711847,10,4,FALSE,1.561769383686465e-5,Dipturus flossada,taxon inquirendum,Dipturus flossada,Species,NA,genus_mean,0.0074,2.9532
+125617,4,3,TRUE,6.24707753474586e-6,Zeidae,accepted,Zeidae,Family,NA,family_mean,0.02559466666666666,2.8945666666666665
+140658,4,1,FALSE,6.24707753474586e-6,Ostrea edulis,accepted,Ostrea edulis,Species,NA,MISSING,NA,NA
+125613,3,1,TRUE,4.685308151059395e-6,Caproidae,accepted,Caproidae,Family,NA,family_mean,0.03284428571428571,2.780685714285714
+127071,3,3,TRUE,4.685308151059395e-6,Chirolophis ascanii,accepted,Chirolophis ascanii,Species,Chirolophis ascanii,genus_mean_fishbase,0.00456666666666666,3.141
+125564,2,1,TRUE,3.12353876737293e-6,Sparidae,accepted,Sparidae,Family,NA,family_mean,0.01732736263736263,2.9893098901098902
+125566,2,1,TRUE,3.12353876737293e-6,Stichaeidae,accepted,Stichaeidae,Family,NA,family_mean_fishbase,0.01731111111111111,3.025605555555555
+125475,1,1,TRUE,1.561769383686465e-6,Phycidae,accepted,Phycidae,Family,NA,family_mean,0.0044278947368421,3.2247842105263156
+125477,1,1,TRUE,1.561769383686465e-6,Gobiesocidae,accepted,Gobiesocidae,Family,NA,family_mean,0.01533333333333333,2.9996666666666667
+125519,1,1,TRUE,1.561769383686465e-6,Blenniidae,accepted,Blenniidae,Family,NA,family_mean,0.01672764705882353,2.9594529411764707
+125546,1,1,TRUE,1.561769383686465e-6,Mugilidae,accepted,Mugilidae,Family,NA,family_mean,0.0132691304347826,2.917941304347826
+125575,1,1,TRUE,1.561769383686465e-6,Zoarcidae,accepted,Zoarcidae,Family,NA,family_mean,0.00871,2.9382625
+125715,1,1,TRUE,1.561769383686465e-6,Alosa,accepted,Alosa,Genus,NA,genus_mean,0.0123965,3.0416575
+126886,1,1,FALSE,1.561769383686465e-6,Gobius cobitis,accepted,Gobius cobitis,Species,Gobius cobitis,TL_direct,0.0113,3.128
+138281,1,1,FALSE,1.561769383686465e-6,Todarodes,accepted,Todarodes,Genus,NA,MISSING,NA,NA
+1042830,1,1,FALSE,1.561769383686465e-6,Chelon ramada,accepted,Chelon ramada,Species,Chelon ramada,TL_direct,0.0173,2.7687

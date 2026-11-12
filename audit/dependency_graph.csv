@@ -1,0 +1,677 @@
+"script","direction","path","call","script_class","exists","mtime"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","read",NA,"readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write","exploratory/outputs/figures/permutation_bootstrap_FP_between_RE_null.png","ggsave","exploratory",TRUE,"2026-08-03 14:05"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write","exploratory/outputs/permutation_bootstrap_FP_between_RE_objects.rds","saveRDS","exploratory",TRUE,"2026-08-03 14:05"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write","exploratory/outputs/permutation_bootstrap_FP_between_RE_results.csv","write_csv","exploratory",TRUE,"2026-08-03 14:05"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write","exploratory/outputs/permutation_bootstrap_FP_between_RE_run_log.md","writeLines","exploratory",TRUE,"2026-08-12 11:14"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write","exploratory/outputs/permutation_bootstrap_FP_between_RE_sessionInfo.txt","sink","exploratory",TRUE,"2026-08-03 13:59"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write","exploratory/outputs/permutation_bootstrap_FP_between_RE_summary.md","writeLines","exploratory",TRUE,"2026-08-12 11:14"
+"exploratory/pipeline/permutation_bootstrap_FP_between_RE.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/R/h1_join_helpers.R","read",NA,"load","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2_couce_helpers.R","read",NA,"read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2_dominance_missingness_helpers.R","read","gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.shp","st_read","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/R/h2_spatial_helpers.R","read",NA,"st_read","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2_spatial_helpers.R","write",NA,"ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2_spatial_helpers.R","write",NA,"png","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2h3_bathymetry_anisotropy_helpers.R","write",NA,"png","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2h3_gear_helpers.R","read","gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.dbf","read.dbf","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/R/h2h3_knn_spatial_helpers.R","read","gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.dbf","read.dbf","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/R/h2h3_spatial_autocorr_helpers.R","read","gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.dbf","read.dbf","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/R/h2h3_spatial_autocorr_helpers.R","read",NA,"read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/R/h2h3_temporal_robustness_helpers.R","write",NA,"pdf","exploratory",FALSE,NA
+"exploratory/pipeline/R/missing_visuals_helpers.R","read",NA,"read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_lm_tests.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_notes.txt","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_ols.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_panel.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_panel.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_spatial_model.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_pressure_test.R","write","outputs/h2_biomass_fishing_test_summary.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_sar_diagnostics.R","read","outputs/h2_biomass_fishing_test_summary.rds","readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_sar_diagnostics.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_biomass_fishing_sar_diagnostics.R","write","outputs/h2_biomass_fishing_sar_diagnostics_notes.txt","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_sar_diagnostics.R","write","outputs/h2_biomass_fishing_sar_impacts.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_biomass_fishing_sar_diagnostics.R","write","outputs/h2_biomass_fishing_sar_residual_diagnostics.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","read","outputs/h1_dominance_haul_table.csv","read.csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/figures/step0_D_vs_fishing_hours.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/figures/step0_sizeCV_vs_fishing_hours.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/step0_dominance_fishing_pressure_diagnostic.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/step0_dominance_fishing_pressure_diagnostic.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/step0_exclusion_counts.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/step0_rectangle_panel.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_fishing_pressure_diagnostic.R","write","outputs/step0_temporal_by_rectangle.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","read","outputs/step0_rectangle_panel.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/figures/step0_robustness_cooks_distance.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/figures/step0_robustness_linear_vs_loess_overlay.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/step0_robustness_check.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/step0_robustness_cooks_distance.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/step0_robustness_linear_vs_loess.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/step0_robustness_missingness.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/step0_robustness_pearson_spearman.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_check.R","write","outputs/step0_robustness_refit_after_cooks_removal.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","read","outputs/step0_rectangle_panel.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","read","outputs/step0_robustness_linear_vs_loess.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","write","outputs/figures/step0_robustness_missing_rectangles_map.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","write","outputs/step0_robustness_ecoregion_breakdown.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","write","outputs/step0_robustness_followups.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","write","outputs/step0_robustness_haulcount_check.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_dominance_robustness_followups.R","write","outputs/step0_robustness_missing_rectangles_geo.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_models.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_models.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_models.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2_models.R","write",NA,"write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_models.R","write",NA,"saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","read","outputs/h2_rectangle_panel.csv","read.csv","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","read","outputs/h2h3_wb_model_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","read","outputs/h2h3_wb_partial_pooling.csv","read.csv","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/figures/h2_n_hauls_vs_metric_by_phase.png","png","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/figures/h2_n_hauls_vs_metric.png","png","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/figures/h2_n_hauls_wedge_sd.png","png","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/h2_n_hauls_metric_bins.csv","write.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/h2_n_hauls_metric_diagnostics.csv","write.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/h2_n_hauls_metric_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_n_hauls_metric_diagnostics.R","write","outputs/h2_n_hauls_metric_sensitivity.csv","write.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_robustness_checks.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_robustness_checks.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_robustness_checks.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2_robustness_checks.R","write",NA,"saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_robustness_checks.R","write",NA,"write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_sar_lag_models.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2_sar_lag_models.R","write",NA,"saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2_sar_lag_models.R","write",NA,"write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_anisotropy_preregistered_report.R","read","outputs/bathymetry_by_rectangle.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_anisotropy_preregistered_report.R","read","outputs/bearings_by_rectangle.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_anisotropy_preregistered_report.R","write","outputs/anisotropy_preregistered_report_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_anisotropy_preregistered_report.R","write","outputs/anisotropy_results_summary.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","read","outputs/bathymetry_by_rectangle.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","read","outputs/blups_by_rectangle.csv","read.csv","exploratory",TRUE,"2026-08-02 18:07"
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","read","outputs/residuals_by_rectangle.csv","read.csv","exploratory",TRUE,"2026-08-02 18:07"
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/_tmp_panel_stat_rec.txt","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/bathymetry_anisotropy_verdict.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/bathymetry_by_rectangle.csv","write.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/bearing_alignment_test.csv","write.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/bearings_by_rectangle.csv","write.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/directional_variogram_blup_fits.csv","write.csv","exploratory",TRUE,"2026-08-04 10:49"
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/directional_variogram_resid_fits.csv","write.csv","exploratory",TRUE,"2026-08-04 10:49"
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/h2h3_bathymetry_anisotropy_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write","outputs/h2h3_bathymetry_anisotropy_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_bathymetry_anisotropy_check.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","read","outputs/permutation_bootstrap_FP_between_CAR_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 16:29"
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","read","outputs/phase_v2_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","read","outputs/phase_v2_reporting_model_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","read","outputs/primary_model_v2.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write","outputs/car_bym_smoothness_check_fp_slopes.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write","outputs/car_bym_smoothness_check_objects.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write","outputs/car_bym_smoothness_check_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write","outputs/car_bym_smoothness_check_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write","outputs/car_bym_smoothness_check_summary.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write","outputs/car_bym_smoothness_check_vs_car.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_car_bym_smoothness_check.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_design_support.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_design_support.R","read","outputs/h3_pre_rectangle_usability_flags.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_design_support_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designA1_year_fishing_summary.csv","write_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designA2_phase_boundary_changes.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designA3_phase_trends.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designB1_rect_decade_wide.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designB2_rect_decade_change.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designB3_change_classification.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designB4_decade_persistence_correlation.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designC_icc_by_spatial_unit.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write","outputs/h2h3_designD_haul_unevenness.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_design_support.R","write",NA,"ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","read","exploratory/outputs/permutation_bootstrap_FP_between_RE_summary.md","readLines","exploratory",TRUE,"2026-08-12 11:14"
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","read","outputs/knn_listw_k4.rds","readRDS","exploratory",TRUE,"2026-11-10 16:42"
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","read",NA,"readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write","outputs/figures/fp_between_confounding_bootstrap_spec_a_null.png","ggsave","exploratory",TRUE,"2026-08-04 15:56"
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write","outputs/fp_between_confounding_bootstrap_spec_a_objects.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write","outputs/fp_between_confounding_bootstrap_spec_a_results.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write","outputs/fp_between_confounding_bootstrap_spec_a_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write","outputs/fp_between_confounding_bootstrap_spec_a_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write","outputs/fp_between_confounding_bootstrap_spec_a_summary.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_fp_between_confounding_bootstrap_spec_a.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","read","outputs/phase_v2_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","read","outputs/phase_v2_pooled_between_coef.csv","read_csv","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","read","outputs/primary_model_v2.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","read",NA,"readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/figures/h2h3_gear_H2_gap_change_by_phase.png","ggsave","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/figures/h2h3_gear_H2_scatter_by_phase.png","ggsave","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/figures/h2h3_gear_H3_gap_change_by_phase.png","ggsave","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/figures/h2h3_gear_H3_scatter_by_phase.png","ggsave","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/figures/h2h3_gear_hours_map.png","ggsave","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_fixed_effects.csv","write_csv","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_fp_slopes_by_phase.csv","write_csv","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_hours_coverage.csv","write_csv","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_otter_beam_model_objects.rds","saveRDS","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_otter_beam_run_log.md","writeLines","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_otter_beam_sessionInfo.txt","sink","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_otter_beam_summary.md","writeLines","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_pooled_between_coef.csv","write_csv","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_proportional_effects.csv","write_csv","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write","exploratory/outputs/h2h3_gear_slope_comparison.csv","write_csv","exploratory",TRUE,"2026-08-20 18:45"
+"exploratory/pipeline/run_h2h3_gear_otter_beam.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","read","outputs/primary_model_v2.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/figures/h2_dose_response_linearity_by_phase.png","ggsave","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_by_phase.csv","write_csv","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_curves.csv","write_csv","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_model_comparison.csv","write_csv","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_model_objects.rds","saveRDS","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_run_log.md","writeLines","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_sessionInfo.txt","sink","exploratory",TRUE,"2026-08-05 15:42"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write","exploratory/outputs/h2_dose_response_linearity_summary.md","writeLines","exploratory",TRUE,"2026-08-12 11:14"
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_h2_dose_response_linearity.R","write",NA,"ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_haulcount_by_phase_map.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_haulcount_by_phase_map.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_haulcount_by_phase_map.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2h3_haulcount_by_phase_map.R","write","outputs/figures/h2h3_haulcount_by_phase_rectangles.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_presentation_figures.R","read","outputs/h2h3_wb_pooled_between_coef.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_presentation_figures.R","read","outputs/h2h3_wb_proportional_effects_H2.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_presentation_figures.R","read","outputs/h2h3_wb_proportional_effects_H3.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_presentation_figures.R","write","outputs/figures/h2h3_presentation_H2_gap_change_by_phase.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_presentation_figures.R","write","outputs/figures/h2h3_presentation_H3_gap_change_by_phase.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_presentation_figures.R","write","outputs/h2h3_presentation_figures_run_log.md","writeLines","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","read","outputs/h2h3_wb_model_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","read",NA,"read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","write","outputs/blups_by_rectangle.csv","write.csv","exploratory",TRUE,"2026-08-02 18:07"
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","write","outputs/h2h3_primary_spatial_autocorr_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","write","outputs/h2h3_primary_spatial_autocorr_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","write","outputs/residuals_by_rectangle.csv","write.csv","exploratory",TRUE,"2026-08-02 18:07"
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","write","outputs/spatial_diagnostics_comparison.csv","write.csv","exploratory",TRUE,"2026-08-02 18:07"
+"exploratory/pipeline/run_h2h3_primary_spatial_autocorr_check.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_proportional_effects.R","read","outputs/h2h3_results_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_proportional_effects.R","read","outputs/h2h3_results_model_objects.rds","readRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_proportional_effects.R","write","outputs/figures/h2h3_results_gap_closed_by_phase.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_proportional_effects.R","write","outputs/h2h3_results_proportional_effects_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_proportional_effects.R","write","outputs/h2h3_results_proportional_effects.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_raw_correlation_stats.R","read","outputs/h2h3_wb_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_raw_correlation_stats.R","read","outputs/h2h3_wb_model_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_raw_correlation_stats.R","write","outputs/h2h3_raw_correlation_H2.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_raw_correlation_stats.R","write","outputs/h2h3_raw_correlation_H3.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_raw_correlation_stats.R","write","outputs/h2h3_raw_correlation_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","read","outputs/h2_spatial_diagnostics.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","read","outputs/h2h3_feasibility_model_objects.rds","readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","read","outputs/h2h3_feasibility_run_log.md","readLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/figures/h2h3_feasibility_round2_partial_pooling.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/h2h3_feasibility_round2_convergence_diagnostics.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/h2h3_feasibility_round2_fixed_effects.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/h2h3_feasibility_round2_model_objects.rds","saveRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/h2h3_feasibility_round2_partial_pooling.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/h2h3_feasibility_round2_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility_round2.R","write","outputs/h2h3_feasibility_round2_spatial_param.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/figures/h2h3_feasibility_partial_pooling.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/h2h3_feasibility_convergence_diagnostics.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/h2h3_feasibility_fixed_effects.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/h2h3_feasibility_model_objects.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/h2h3_feasibility_partial_pooling.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/h2h3_feasibility_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_feasibility.R","write","outputs/h2h3_feasibility_variance_components.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/h2h3_results_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/h2h3_results_model_fit.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/h2h3_results_primary_fixed_effects.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/figures/h2h3_results_fp_effect_by_phase.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/figures/h2h3_results_partial_pooling.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/figures/h2h3_results_residual_diagnostics.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/figures/h2h3_results_residual_diagnostics.png","png","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_fp_slopes_by_phase.csv","write_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_fp_slopes_by_year.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_influence_flags.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_model_fit.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_model_objects.rds","saveRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_partial_pooling.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_primary_fixed_effects.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_sensitivity_comparison.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write","outputs/h2h3_results_wald_tests.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_shared_model_results.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","read","outputs/knn_listw_k4.rds","readRDS","exploratory",TRUE,"2026-11-10 16:42"
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","read","outputs/primary_model_v2.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/fp_between_lag_rectangle.rds","saveRDS","exploratory",TRUE,"2026-08-04 15:28"
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/primary_model_v2_spec_a.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/spec_a_blup_spatial_diagnostic.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/spec_a_lag_refit_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/spec_a_lag_refit_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/spec_a_vif_fp_between_lag.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write","outputs/spec_a_vif_fp_between_lag.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_a_lag_refit.R","write",NA,"write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","read","outputs/fp_between_lag_rectangle.rds","readRDS","exploratory",TRUE,"2026-08-04 15:28"
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","read","outputs/h2_rectangle_panel.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","read","outputs/knn_listw_k4.rds","readRDS","exploratory",TRUE,"2026-11-10 16:42"
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","read","outputs/primary_model_v2_spec_a.rds","readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","read","outputs/primary_model_v2.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/b_lag_neighbour_rectangle_year.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/primary_model_v2_spec_ab.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/primary_model_v2_spec_b.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_ab_vif.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_b_coefficient_comparison.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_b_lag_refit_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_b_lag_refit_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_b_lag_refit_summary.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_b_spatial_diagnostic.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write","outputs/spec_b_vif.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write",NA,"write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_spec_b_lag_refit.R","write",NA,"writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_structbreak_check.R","read","outputs/h2h3_designA1_year_fishing_summary.csv","read_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_structbreak_check.R","write","exploratory/outputs/figures/h2h3_designA4_structbreak_series.png","ggsave","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_structbreak_check.R","write","exploratory/outputs/h2h3_designA4_structbreak_criterion.csv","write_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_structbreak_check.R","write","exploratory/outputs/h2h3_designA4_structbreak_run_log.md","writeLines","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_structbreak_check.R","write","exploratory/outputs/h2h3_designA4_structbreak_years.csv","write_csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","read","outputs/h2h3_feasibility_model_objects.rds","readRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/figures/h2h3_temporal_robustness_fp_effect_overlay.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/h2h3_temporal_robustness_convergence.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/h2h3_temporal_robustness_effects.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/h2h3_temporal_robustness_fp_slope_by_year.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/h2h3_temporal_robustness_ic_comparison.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/h2h3_temporal_robustness_model_objects.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_temporal_robustness.R","write","outputs/h2h3_temporal_robustness_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","read","outputs/h2h3_wb_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","read","outputs/h2h3_wb_model_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write","outputs/h2h3_wb_pooled_between_coef.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write","outputs/h2h3_wb_pooled_between_comparison.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write","outputs/h2h3_wb_pooled_between_convergence.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write","outputs/h2h3_wb_pooled_between_model_objects.rds","saveRDS","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write","outputs/h2h3_wb_pooled_between_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write","outputs/h2h3_wb_pooled_between_sessionInfo.txt","sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_pooled_between_contrast.R","write",NA,"sink","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_proportional_effects.R","read","outputs/h2h3_wb_fp_slopes_by_phase.csv","read_csv","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_wb_proportional_effects.R","read","outputs/h2h3_wb_model_objects.rds","readRDS","exploratory",TRUE,"2026-11-10 17:04"
+"exploratory/pipeline/run_h2h3_wb_proportional_effects.R","write","outputs/figures/h2h3_wb_gap_change_by_phase.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_proportional_effects.R","write","outputs/h2h3_wb_proportional_effects_H2.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_proportional_effects.R","write","outputs/h2h3_wb_proportional_effects_H3.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h2h3_wb_proportional_effects.R","write","outputs/h2h3_wb_proportional_effects_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h3_policy_zones.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h3_policy_zones.R","read","outputs/h3_pre_rectangle_usability_flags.csv","read_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h3_policy_zones.R","write","outputs/figures/h3_policy_sample_size_sensitivity.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","write","outputs/h3_policy_feasibility_by_threshold.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","write","outputs/h3_policy_feasibility_summary.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","write","outputs/h3_policy_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","write","outputs/h3_policy_sample_size_adequacy.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_policy_zones.R","write",NA,"ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","read","outputs/h2_couce_year_effort.rds","readRDS","exploratory",TRUE,"2026-11-10 16:27"
+"exploratory/pipeline/run_h3_pre_exploration.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_A1_haul_count_per_year.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_A2_haul_year_heatmap.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_B1_biomass_pred_vs_obs_timeseries.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_C1_residual_timeseries.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_C2_residual_maps_by_decade.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_C3_residual_slope_map.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_D1_fishing_pressure_timeseries.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_D2_fishing_pressure_maps_by_decade.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/figures/h3_pre_D3_fishing_pressure_slope_map.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/h3_pre_exploration_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/h3_pre_rectangle_usability_flags.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_h3_pre_exploration.R","write","outputs/h3_pre_variance_decomposition.csv","write_csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_missing_visuals.R","read","outputs/h1_dominance_haul_table.csv","read.csv","exploratory",TRUE,"2026-07-30 10:33"
+"exploratory/pipeline/run_missing_visuals.R","read","outputs/h3_pre_rectangle_usability_flags.csv","read.csv","exploratory",FALSE,NA
+"exploratory/pipeline/run_missing_visuals.R","read","outputs/haul_eeos_predictions.rds","readRDS","exploratory",TRUE,"2026-11-10 16:26"
+"exploratory/pipeline/run_missing_visuals.R","write","outputs/figures/composition_1.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_missing_visuals.R","write","outputs/figures/composition_2.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_missing_visuals.R","write","outputs/figures/composition_3.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_missing_visuals.R","write","outputs/figures/haul_map_1.png","ggsave","exploratory",FALSE,NA
+"exploratory/pipeline/run_missing_visuals.R","write","outputs/missing_visuals_run_log.md","writeLines","exploratory",FALSE,NA
+"exploratory/pipeline/tests/testthat/test-missing_visuals.R","write",NA,"write.csv","exploratory",FALSE,NA
+"pipeline/build_datras_state_variables.R","read","outputs/datras_hh_raw.rds","readRDS","live",TRUE,"2026-11-10 12:02"
+"pipeline/build_datras_state_variables.R","read","outputs/datras_hl_raw.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/build_datras_state_variables.R","read","outputs/fishbase_lw_lookup_v2.csv","read.csv","live",TRUE,"2026-07-30 10:33"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_build_diagnostics.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_effort_alignment_summary.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_effort_raw_count_check.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_excluded_hauls.csv","write.csv","live",FALSE,NA
+"pipeline/build_datras_state_variables.R","write","outputs/datras_haul_E.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_haul_mean_length.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_haul_state.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_datras_state_variables.R","write","outputs/datras_lngt_code_audit.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","read","outputs/datras_haul_state.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","write","outputs/eeos_failed_hauls.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","write","outputs/h1_dropout_summary.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","write","outputs/h1_filter_exclusions.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","write","outputs/h1_join_gaps.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","write","outputs/haul_eeos_predictions.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_eeos_predictions.R","write","outputs/haul_state_variables.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_h2_rectangle_panel.R","read","outputs/h2_couce_rectangle_effort.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/build_h2_rectangle_panel.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/build_h2_rectangle_panel.R","write","outputs/h2_rectangle_panel.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/build_h2_rectangle_panel.R","write","outputs/h2_rectangle_panel.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/build_knn_spatial_weights.R","read","outputs/h2_rectangle_panel.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/build_knn_spatial_weights.R","write","outputs/knn_listw_k4_audit.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/build_knn_spatial_weights.R","write","outputs/knn_listw_k4_run_log.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/build_knn_spatial_weights.R","write","outputs/knn_listw_k4.rds","saveRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/import_couce_fishing_effort.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/import_couce_fishing_effort.R","write","outputs/h2_couce_import_diagnostics.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/import_couce_fishing_effort.R","write","outputs/h2_couce_rectangle_effort.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/import_couce_fishing_effort.R","write","outputs/h2_couce_year_effort.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","read","outputs/knn_listw_k4.rds","readRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","read","outputs/primary_model_v2_spec_a_car.rds","readRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","read","outputs/spec_a_car_identifiability.md","readLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/figures/permutation_bootstrap_FP_between_CAR_spec_a_null.png","ggsave","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/permutation_bootstrap_FP_between_CAR_spec_a_objects.rds","saveRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/permutation_bootstrap_FP_between_CAR_spec_a_results.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/permutation_bootstrap_FP_between_CAR_spec_a_run_log.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/permutation_bootstrap_FP_between_CAR_spec_a_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/permutation_bootstrap_FP_between_CAR_spec_a_summary.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write","outputs/permutation_bootstrap_FP_between_CAR_vs_CAR_spec_a.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/permutation_bootstrap_FP_between_CAR_spec_a.R","write",NA,"sink","live",FALSE,NA
+"pipeline/permutation_bootstrap_FP_between_CAR.R","read","exploratory/outputs/permutation_bootstrap_FP_between_RE_objects.rds","readRDS","live",TRUE,"2026-08-03 14:05"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","read","outputs/phase_v2_reporting_model_objects.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/figures/permutation_bootstrap_FP_between_CAR_null.png","ggsave","live",TRUE,"2026-11-10 16:29"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/permutation_bootstrap_FP_between_CAR_objects.rds","saveRDS","live",TRUE,"2026-11-10 16:29"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/permutation_bootstrap_FP_between_CAR_results.csv","write_csv","live",TRUE,"2026-11-10 16:29"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/permutation_bootstrap_FP_between_CAR_run_log.md","writeLines","live",TRUE,"2026-11-10 16:29"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/permutation_bootstrap_FP_between_CAR_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:27"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/permutation_bootstrap_FP_between_CAR_summary.md","writeLines","live",TRUE,"2026-11-10 16:29"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write","outputs/permutation_bootstrap_FP_between_RE_vs_CAR_null_width.csv","write_csv","live",TRUE,"2026-11-10 16:29"
+"pipeline/permutation_bootstrap_FP_between_CAR.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h1_harte_baseline.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_harte_baseline.R","read","outputs/haul_state_variables.rds","augment_haul_harte_baseline","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_harte_baseline.R","write","outputs/h1_fig2_leverage_hauls.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_harte_baseline.R","write","outputs/h1_harte_baseline_metrics.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_harte_baseline.R","write","outputs/h1_harte_baseline.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","read","outputs/haul_state_variables.rds","augment_haul_harte_baseline","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","write","outputs/figures/lnE_reference_logB_vs_logE.png","png","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","write","outputs/h1_fig2_leverage_hauls.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","write","outputs/h1_lne_coefficients.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","write","outputs/h1_model_comparison.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","write","outputs/h1_model_comparison.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_lne_reference.R","write","outputs/haul_h1_benchmarks.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_null_model.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_null_model.R","write","outputs/null_distribution_summary.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_null_model.R","write","outputs/null_permutations.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_null_model.R","write","outputs/null_sampling_decision.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_null_model.R","write","outputs/null_summary.rds","saveRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","read","outputs/phase_v2_fp_slopes_by_phase.csv","read_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","read","outputs/phase_v2_proportional_effects_H2.csv","read_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","read","outputs/phase_v2_proportional_effects_H3.csv","read_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2_multiplicity_correction_by_phase.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2_multiplicity_subsampling_run_log.md","writeLines","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2_multiplicity_subsampling_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2h3_residual_subsampling_iterations.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2h3_residual_subsampling_objects.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2h3_residual_subsampling_summary_H2.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2h3_residual_subsampling_summary_H3.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h2h3_residual_subsampling_summary.md","writeLines","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write","outputs/h3_multiplicity_correction_by_phase.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write",NA,"writeLines","live",FALSE,NA
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write",NA,"ggsave","live",FALSE,NA
+"pipeline/run_h2h3_h2_multiplicity_subsampling.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h2h3_phase_v2_refit.R","read","outputs/h2_rectangle_panel.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_refit.R","read","outputs/h2h3_wb_model_objects.rds","readRDS","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_phase_v2_refit.R","read","outputs/spatial_diagnostics_comparison.csv","read.csv","live",TRUE,"2026-08-02 18:07"
+"pipeline/run_h2h3_phase_v2_refit.R","write","outputs/phase_v2_blup_diagnostic.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_refit.R","write","outputs/phase_v2_refit_run_log.md","writeLines","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_refit.R","write","outputs/phase_v2_refit_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_refit.R","write","outputs/phase_v2_vs_original_comparison.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_refit.R","write","outputs/primary_model_v2.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_refit.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h2h3_phase_v2_reporting.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_h2h3_phase_v2_reporting.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/figures/phase_v2_presentation_H2_gap_change_by_phase.png","ggsave","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/figures/phase_v2_presentation_H3_gap_change_by_phase.png","ggsave","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/figures/phase_v2_wb_gap_change_by_phase.png","ggsave","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_car_fixed_effects.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_fp_slopes_by_phase.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_pooled_between_coef.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_primary_fixed_effects.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_proportional_effects_H2.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_proportional_effects_H3.csv","write_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_reporting_model_objects.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_reporting_run_log.md","writeLines","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/phase_v2_reporting_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write","outputs/primary_model_v2.rds","saveRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_phase_v2_reporting.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/h2h3_car_subsampling_iterations.csv","read_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/h2h3_car_subsampling_objects.rds","readRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/phase_v2_fp_slopes_by_phase.csv","read_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/phase_v2_proportional_effects_H2.csv","read_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/phase_v2_proportional_effects_H3.csv","read_csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_convergence_by_retention.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_iterations.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_objects.rds","saveRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_run_log.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_summary_H2.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_summary_H3.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write","outputs/h2h3_car_subsampling_summary.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h2h3_rectangle_subsampling_car_refit.R","write",NA,"ggsave","live",FALSE,NA
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_convergence_by_retention.csv","write_csv","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_iterations.csv","write_csv","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_objects.rds","saveRDS","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_run_log.md","writeLines","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:29"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_summary_H2.csv","write_csv","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_summary_H3.csv","write_csv","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write","outputs/h2h3_glmm_subsampling_summary.md","writeLines","live",TRUE,"2026-11-10 16:37"
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h2h3_rectangle_subsampling_refit.R","write",NA,"ggsave","live",FALSE,NA
+"pipeline/run_h2h3_spec_a_car_identifiability.R","read","outputs/fp_between_lag_rectangle.rds","readRDS","live",TRUE,"2026-08-04 15:28"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","read","outputs/primary_model_v2_spec_a.rds","readRDS","live",FALSE,NA
+"pipeline/run_h2h3_spec_a_car_identifiability.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write","outputs/primary_model_v2_spec_a_car.rds","saveRDS","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write","outputs/spec_a_car_identifiability_run_log.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write","outputs/spec_a_car_identifiability_sessionInfo.txt","sink","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write","outputs/spec_a_car_identifiability.csv","write_csv","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write","outputs/spec_a_car_identifiability.md","writeLines","live",TRUE,"2026-11-10 16:42"
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_h2h3_spec_a_car_identifiability.R","write",NA,"write_csv","live",FALSE,NA
+"pipeline/run_h2h3_within_between.R","read","outputs/h2_couce_year_effort.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_within_between.R","read","outputs/h2_rectangle_panel.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_within_between.R","read","outputs/h2h3_feasibility_round2_model_objects.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_h2h3_within_between.R","read","outputs/h2h3_results_fp_slopes_by_phase.csv","read_csv","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_h2h3_within_between.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_h2h3_within_between.R","write","outputs/figures/h2h3_wb_fp_slopes_by_phase.png","ggsave","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/figures/h2h3_wb_partial_pooling.png","ggsave","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_blended_comparison.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_car_fixed_effects.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_fp_slopes_by_phase.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_model_fit.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_model_objects.rds","saveRDS","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_partial_pooling.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_primary_fixed_effects.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_run_log.md","writeLines","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_sessionInfo.txt","sink","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write","outputs/h2h3_wb_wald_tests.csv","write_csv","live",TRUE,"2026-11-10 17:04"
+"pipeline/run_h2h3_within_between.R","write",NA,"sink","live",FALSE,NA
+"pipeline/run_pipeline_diagnostics.R","read","outputs/datras_haul_state.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/datras_hh_raw.rds","load_aligned_hl","live",TRUE,"2026-11-10 12:02"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/datras_hl_raw.rds","load_aligned_hl","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/datras_hl_raw.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/datras_lngt_code_audit.csv","read.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/eeos_failed_hauls.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","read","outputs/haul_state_variables.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","write","outputs/h1_dropout_by_stat_rec.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","write","outputs/h1_dropout_by_year.csv","write.csv","live",TRUE,"2026-11-10 16:26"
+"pipeline/run_pipeline_diagnostics.R","write","outputs/pipeline_audit_results.csv","write.csv","live",TRUE,"2026-11-10 16:27"
+"pipeline/validate_haul_effort_alignment.R","read","outputs/datras_hh_raw.rds","readRDS","live",TRUE,"2026-11-10 12:02"
+"pipeline/validate_haul_effort_alignment.R","read","outputs/datras_hl_raw.rds","readRDS","live",TRUE,"2026-07-30 10:33"
+"pipeline/validate_haul_effort_alignment.R","read","outputs/fishbase_lw_lookup_v2.csv","read.csv","live",TRUE,"2026-07-30 10:33"
+"pipeline/validate_haul_effort_alignment.R","read","outputs/haul_eeos_predictions.rds","readRDS","live",TRUE,"2026-11-10 16:26"
+"pipeline/validate_haul_effort_alignment.R","read","outputs/primary_model_v2.rds","readRDS","live",TRUE,"2026-11-10 16:27"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/alignment_summary.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/biomass_ratio_by_datatype.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/duration_checks.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/gb_sct_1985_1998.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/haul_counts.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/hl_import_fix_check.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/previous_h1_hauls_by_reason.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/previous_h1_kept_but_now_filtered.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/previous_h2h3_hauls_by_reason.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/validate_haul_effort_alignment.R","write","outputs/datras_effort_validation/raw_count_check.csv","write.csv","live",TRUE,"2026-11-10 16:25"
+"pipeline/check_effort_datatype.R","read","outputs/datras_hl_raw.rds","readRDS","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/check_effort_datatype.R","read","outputs/fishbase_lw_lookup_v2.csv","read.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/check_effort_datatype.R","read","outputs/haul_duration_check/hh_standardised.rds","readRDS","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/check_effort_datatype.R","read","outputs/haul_eeos_predictions.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/check_effort_datatype.R","read","outputs/primary_model_v2.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/check_effort_datatype.R","write","outputs/haul_duration_check/analysed_hauls_effort_datatype.rds","saveRDS","pipeline_other",TRUE,"2026-11-09 16:45"
+"pipeline/check_effort_datatype.R","write","outputs/haul_duration_check/summary_datatype_by_country_years.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:45"
+"pipeline/check_effort_datatype.R","write","outputs/haul_duration_check/summary_duration_x_datatype.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:45"
+"pipeline/check_effort_datatype.R","write","outputs/haul_duration_check/summary_overview.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:45"
+"pipeline/check_effort_datatype.R","write","outputs/haul_duration_check/summary_ratio_validation.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:45"
+"pipeline/check_effort_datatype.R","write","outputs/haul_duration_check/SUMMARY.md","writeLines","pipeline_other",TRUE,"2026-11-09 16:45"
+"pipeline/check_haul_duration.R","read","outputs/datras_hl_raw.rds","readRDS","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/check_haul_duration.R","read",NA,"fread","pipeline_other",FALSE,NA
+"pipeline/check_haul_duration.R","read",NA,"read.csv","pipeline_other",FALSE,NA
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/datras_hh_raw_download.rds","saveRDS","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/duration_by_datatype_validity.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/hh_standardised.rds","saveRDS","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/ices_csv_columns.txt","writeLines","pipeline_other",TRUE,"2026-11-09 16:37"
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/pipeline_hauls_breakdown.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/valid_hauls_by_country_year.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/check_haul_duration.R","write","outputs/haul_duration_check/valid_hauls_exact_duration.csv","write.csv","pipeline_other",TRUE,"2026-11-09 16:38"
+"pipeline/compare_effort_fix.R","read","outputs/datras_hh_raw.rds","readRDS","pipeline_other",TRUE,"2026-11-10 12:02"
+"pipeline/compare_effort_fix.R","read","renv.lock","readLines","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/compare_effort_fix.R","read",NA,"readRDS","pipeline_other",FALSE,NA
+"pipeline/compare_effort_fix.R","read",NA,"read.csv","pipeline_other",FALSE,NA
+"pipeline/compare_effort_fix.R","read",NA,"readLines","pipeline_other",FALSE,NA
+"pipeline/compare_effort_fix.R","write",NA,"write.csv","pipeline_other",FALSE,NA
+"pipeline/compare_effort_fix.R","write",NA,"writeLines","pipeline_other",FALSE,NA
+"pipeline/explore_h1_catchability_scaling.R","read","outputs/haul_eeos_predictions.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/explore_h1_catchability_scaling.R","write","display_discussion/H1_catchability_scaling_exploration.md","writeLines","pipeline_other",TRUE,"2026-11-10 17:07"
+"pipeline/explore_h1_catchability_scaling.R","write","outputs/figures/h1_catchability_ratio_vs_bobs.png","ggsave","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_catchability_scaling.R","write","outputs/h1_catchability_by_quartile.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_catchability_scaling.R","write","outputs/h1_catchability_scaling_summary.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_dominance_partial_r2.R","read","outputs/h1_dominance_haul_table.csv","read.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_dominance_partial_r2.R","write","outputs/h1_dominance_partial_r2_anova.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_dominance_partial_r2.R","write","outputs/h1_dominance_partial_r2_coefficients.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_dominance_partial_r2.R","write","outputs/h1_dominance_partial_r2_summary.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","read","outputs/datras_hl_raw.rds","readRDS","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","read","outputs/fishbase_lw_lookup_v2.csv","read.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","read","outputs/h1_dropout_by_stat_rec.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/explore_h1_haul_dominance.R","read","outputs/haul_eeos_predictions.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/explore_h1_haul_dominance.R","read","outputs/haul_state_variables.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/explore_h1_haul_dominance.R","write","display_discussion/H1_dominance_size_homogeneity_exploration.md","writeLines","pipeline_other",TRUE,"2026-11-10 17:07"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/figures/h1_dominance_ratio_vs_D.png","ggsave","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/figures/h1_dominance_ratio_vs_sizeCV.png","ggsave","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_by_D_bins.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_by_D_x_bobs_quartile.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_by_sizeCV_bins.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_by_sizeCV_x_bobs_quartile.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_conditional_correlation.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_correlation_matrix.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_dataquality_by_stat_rec.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_dataquality_by_year.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_dataquality_summary.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_haul_table.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/explore_h1_haul_dominance.R","write","outputs/h1_dominance_taxonomic_breakdown.csv","write.csv","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/fig_state_variable_distributions.R","read","outputs/haul_eeos_predictions.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/fig_state_variable_distributions.R","write","outputs/fig_state_variable_distributions_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-20 18:43"
+"pipeline/fig_state_variable_distributions.R","write","outputs/figures/fig_state_variable_distributions.pdf","ggsave","pipeline_other",TRUE,"2026-08-20 18:43"
+"pipeline/fig_state_variable_distributions.R","write","outputs/figures/fig_state_variable_distributions.png","ggsave","pipeline_other",TRUE,"2026-08-20 18:43"
+"pipeline/fig_state_variable_distributions.R","write","outputs/h1_state_variable_distribution_stats.csv","write_csv","pipeline_other",TRUE,"2026-08-20 18:43"
+"pipeline/import_datras_hl_from_csv.R","read","outputs/datras_hl_raw.rds","readRDS","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/datras_haul_state.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/datras_hh_raw.rds","load_aligned_hl","pipeline_other",TRUE,"2026-11-10 12:02"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/datras_hl_raw.rds","readRDS","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/datras_hl_raw.rds","load_aligned_hl","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/h1_filter_exclusions.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/haul_eeos_predictions.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_dropout_diagnosis.R","read","outputs/haul_state_variables.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_dropout_diagnosis.R","write","display_discussion/H1_dropout_diagnosis.md","writeLines","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h1_dropout_diagnosis.R","write","outputs/h1_dropout_by_reason.csv","write.csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h1_dropout_diagnosis.R","write","outputs/h1_dropout_funnel_by_year.csv","write.csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h1_dropout_diagnosis.R","write","outputs/h1_dropout_spike_years.csv","write.csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h1_presentation_figures.R","read","outputs/h1_fig2_leverage_hauls.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_presentation_figures.R","read","outputs/h1_lne_coefficients.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_presentation_figures.R","read","outputs/h1_model_comparison.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_presentation_figures.R","read","outputs/haul_h1_benchmarks.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_presentation_figures.R","write","outputs/figures/h1_presentation_relative_structure_vs_absolute.png","ggsave","pipeline_other",TRUE,"2026-08-14 14:03"
+"pipeline/run_h1_presentation_figures.R","write","outputs/figures/h1_presentation_test1_eeos_vs_productivity.png","ggsave","pipeline_other",TRUE,"2026-08-14 14:03"
+"pipeline/run_h1_presentation_figures.R","write","outputs/h1_presentation_figures_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-14 14:03"
+"pipeline/run_h1_primary_faceted_figure.R","read","outputs/h1_fig2_leverage_hauls.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_primary_faceted_figure.R","read","outputs/haul_h1_benchmarks.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1_primary_faceted_figure.R","write","outputs/h1_primary_faceted_figure_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-23 20:14"
+"pipeline/run_h1_primary_faceted_figure.R","write","paper_ready_visuals/h1_primary_faceted.pdf","ggsave","pipeline_other",TRUE,"2026-08-23 20:14"
+"pipeline/run_h1_primary_faceted_figure.R","write","paper_ready_visuals/h1_primary_faceted.png","ggsave","pipeline_other",TRUE,"2026-08-23 20:14"
+"pipeline/run_h1b_paper_figure.R","read","outputs/h1_fig2_leverage_hauls.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1b_paper_figure.R","read","outputs/h1_harte_baseline_metrics.csv","read.csv","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1b_paper_figure.R","read","outputs/haul_h1_benchmarks.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:26"
+"pipeline/run_h1b_paper_figure.R","write","outputs/h1b_paper_figure_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-17 15:22"
+"pipeline/run_h1b_paper_figure.R","write","paper_ready_visuals/H1b.png","ggsave","pipeline_other",TRUE,"2026-08-17 15:22"
+"pipeline/run_h2_fishing_pressure_combined_figure.R","read","gis/ICES_rectangles/ICES_Statistical_Rectangles_Eco.dbf","read.dbf","pipeline_other",TRUE,"2026-07-30 10:33"
+"pipeline/run_h2_fishing_pressure_combined_figure.R","read","outputs/h2_couce_year_effort.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_fishing_pressure_combined_figure.R","read","outputs/h2_rectangle_panel.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_fishing_pressure_combined_figure.R","write","outputs/figures/h2_fishing_pressure_time_and_space.png","ggsave","pipeline_other",TRUE,"2026-08-17 10:39"
+"pipeline/run_h2_fishing_pressure_combined_figure.R","write","outputs/h2_fishing_pressure_combined_figure_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-17 10:39"
+"pipeline/run_h2_fishing_pressure_time_figure.R","read","outputs/h2_couce_year_effort.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_fishing_pressure_time_figure.R","read","outputs/h2_rectangle_panel.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_fishing_pressure_time_figure.R","write","outputs/figures/h2_fishing_pressure_over_time.png","ggsave","pipeline_other",TRUE,"2026-08-13 12:01"
+"pipeline/run_h2_fishing_pressure_time_figure.R","write","outputs/h2_fishing_pressure_by_year.csv","write.csv","pipeline_other",TRUE,"2026-08-13 12:01"
+"pipeline/run_h2_fishing_pressure_time_figure.R","write","outputs/h2_fishing_pressure_time_figure_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-13 12:01"
+"pipeline/run_h2_presentation_car_scatter_by_phase.R","read","outputs/h2_multiplicity_correction_by_phase.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_presentation_car_scatter_by_phase.R","read","outputs/phase_v2_proportional_effects_H2.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_presentation_car_scatter_by_phase.R","read","outputs/primary_model_v2.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2_presentation_car_scatter_by_phase.R","write","outputs/figures/h2_presentation_car_scatter_by_phase.png","ggsave","pipeline_other",TRUE,"2026-08-23 19:07"
+"pipeline/run_h2_presentation_car_scatter_by_phase.R","write","outputs/h2_presentation_car_scatter_by_phase_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-23 19:07"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","read","outputs/h2_multiplicity_correction_by_phase.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","read","outputs/phase_v2_fp_slopes_by_phase.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","read","outputs/phase_v2_proportional_effects_H2.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","read","outputs/phase_v2_reporting_model_objects.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","read","outputs/primary_model_v2.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_loo_rectangle_influence.csv","write_csv","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_loo_rectangle_iterations.csv","write_csv","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_loo_rectangle_summary.csv","write_csv","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_phase_fit_statistics.csv","write_csv","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_reporting_diagnostics_objects.rds","saveRDS","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_reporting_diagnostics_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_reporting_diagnostics_sessionInfo.txt","sink","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_reporting_diagnostics.md","writeLines","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write","outputs/h2_car_signed_vs_unsigned_audit.csv","write_csv","pipeline_other",TRUE,"2026-08-16 14:22"
+"pipeline/run_h2h3_car_reporting_diagnostics.R","write",NA,"sink","pipeline_other",FALSE,NA
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","read","outputs/h3_multiplicity_correction_by_phase.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","read","outputs/phase_v2_proportional_effects_H3.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","read","outputs/primary_model_v2.rds","readRDS","pipeline_other",TRUE,"2026-11-10 16:27"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","write","outputs/figures/h3_presentation_car_scatter_by_phase.png","ggsave","pipeline_other",TRUE,"2026-08-23 19:32"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","write","outputs/h3_fp_within_iqr_bounds_by_phase.csv","write_csv","pipeline_other",TRUE,"2026-08-23 19:31"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","write","outputs/h3_presentation_car_scatter_by_phase_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-23 19:32"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","write","outputs/h3_rectangle_year_haulcount_diagnostics.csv","write_csv","pipeline_other",TRUE,"2026-08-23 19:31"
+"pipeline/run_h3_presentation_re_scatter_by_phase.R","write","outputs/h3_rectangle_year_means.csv","write_csv","pipeline_other",TRUE,"2026-08-23 19:31"
+"pipeline/run_h3_subsampling_publication_tables.R","read","outputs/h2h3_car_subsampling_summary_H3.csv","read_csv","pipeline_other",TRUE,"2026-11-10 16:42"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_publication_tables_run_log.md","writeLines","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_publication_tables.md","writeLines","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_table_A_compact_numeric.csv","write_csv","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_table_A_compact.csv","write_csv","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_table_A_compact.md","writeLines","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_table_B_full_numeric.csv","write_csv","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_table_B_full.csv","write_csv","pipeline_other",TRUE,"2026-08-19 15:21"
+"pipeline/run_h3_subsampling_publication_tables.R","write","outputs/h3_subsampling_table_B_full.md","writeLines","pipeline_other",TRUE,"2026-08-19 15:21"

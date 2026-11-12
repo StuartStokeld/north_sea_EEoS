@@ -1,0 +1,5 @@
+"id","mutant","killed","n_killing_tests","killing_tests"
+"M1","remove the C x HaulDur/60 conversion",TRUE,2,"test-integrity.R :: accounting: H1 stage counts 10,406 -> 10,172 -> 10,128 and the outputs match the rebuild | test-metamorphic.R :: a 30-min C haul and the equivalent R haul (counts x 60/HaulDur) give identical state variables"
+"M2","treat LngtCode ""5"" as mm (reference: ICES-correct midpoints)",TRUE,1,"test-units-hand.R :: [F-A2] LngtCode '5' = 5 cm classes reported in cm: midpoint = class + 2.5 cm"
+"M3","signed instead of absolute residual (reference: absolute-residual formulas)",TRUE,1,"test-units-hand.R :: [F-A5] H2 CAR and H3 RE formulas in the live scripts use the absolute residual"
+"M4","FP_within not centred",TRUE,1,"test-units-hand.R :: FP_between is the haul-weighted rectangle mean; FP_within averages to 0 over each rectangle's hauls"
