@@ -5,10 +5,13 @@ test_that("log_r2 is 1 for perfect log prediction", {
   expect_equal(log_r2(x, x), 1)
 })
 
-test_that("log_r2 is negative for constant multiplicative error", {
+test_that("log_r2 for a constant x4 multiplicative error (audit: test was wrong, log_r2 correct)", {
   x <- log(c(100, 1000, 10000))
   y <- x + log(4)
-  expect_lt(log_r2(x, y), 0)
+  # SS_tot = 2 (ln 10)^2, SS_res = 3 (ln 4)^2 -> R2 = 0.456 (positive: the x4 offset is small vs the spread)
+  expect_equal(log_r2(x, y), 1 - 3 * log(4)^2 / (2 * log(10)^2))
+  # a x100 offset is worse than predicting the mean
+  expect_lt(log_r2(x, x + log(100)), 0)
 })
 
 test_that("log_cor2 is 1 for scaled log prediction", {

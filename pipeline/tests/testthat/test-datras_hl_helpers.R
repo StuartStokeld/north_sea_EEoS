@@ -2,11 +2,12 @@ suppressPackageStartupMessages(library(tibble))
 source("../../R/datras_constants.R")
 source("../../R/datras_hl_helpers.R")
 
-test_that("LngtCode conversions match ICES vocabulary", {
+test_that("[F-A1][F-A2] LngtCode conversions match ICES vocabulary", {
   expect_equal(lngt_midpoint_cm("1", 10), 10.5)
-  expect_equal(lngt_midpoint_cm("0", 50), 5.05)
+  # [F-A1] "0" = 0.5 cm classes in mm -> +2.5 mm; [F-A2] "5" = 5 cm classes in cm -> +2.5 cm
+  expect_equal(lngt_midpoint_cm("0", 50), 5.25)
   expect_equal(lngt_midpoint_cm(".", 50), 5.05)
-  expect_equal(lngt_midpoint_cm("5", 50), 5.05)
+  expect_equal(lngt_midpoint_cm("5", 60), 62.5)
   expect_true(is.na(lngt_midpoint_cm("9", 10)))
 })
 
